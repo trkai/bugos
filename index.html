@@ -250,7 +250,6 @@
       <main>
         <div class="section-head">
           <h2>Danh sách ROM</h2>
-          <p>Cập nhật gần nhất: tháng 11/2026</p>
         </div>
 
         <div class="grid" id="grid"></div>
@@ -259,16 +258,6 @@
           Không tìm thấy ROM nào khớp với từ khoá.<br />Thử tìm bằng tên máy hoặc codename khác.
         </div>
 
-        <section class="notes" aria-labelledby="notesTitle">
-          <h2 id="notesTitle">Trước khi cài ROM</h2>
-          <p>Đọc kỹ 3 bước này để tránh mất dữ liệu và lỗi trong quá trình cài.</p>
-          <ol>
-            <li><b>Sao lưu dữ liệu</b> — cài ROM sẽ xoá toàn bộ dữ liệu trên máy, hãy sao lưu ảnh, danh bạ và file quan trọng trước.</li>
-            <li><b>Đúng máy, đúng codename</b> — chỉ cài ROM khớp với tên máy và codename của thiết bị. Cài sai bản có thể khiến máy không khởi động được.</li>
-            <li><b>Sạc đầy pin</b> — đảm bảo pin trên 50% và không rút cáp trong lúc cài.</li>
-          </ol>
-          <p class="warn"><b>Lưu ý:</b> BugOS là ROM mod không chính thức, không thuộc Xiaomi / Redmi. Việc mở khoá bootloader và cài ROM có thể ảnh hưởng đến bảo hành của thiết bị — bạn tự chịu trách nhiệm khi cài đặt.</p>
-        </section>
       </main>
 
       <footer>
@@ -307,8 +296,7 @@
             + (r.codename ? '<span class="codename">' + esc(r.codename) + '</span>' : '')
             + '</div></div>'
             + '<p class="version"><small>Phiên bản ROM</small>' + esc(r.version) + '</p>'
-            + '<div class="meta"><span>Dung lượng&nbsp;<b>' + esc(r.size) + '</b></span>'
-            + '<span>Nền&nbsp;<b>' + esc(r.base || 'HyperOS') + '</b></span></div>'
+            + '<div class="meta"><span>Dung lượng&nbsp;<b>' + esc(r.size) + '</b></span></div>'
             + '<div class="card-actions">' + action + '</div></article>';
         }
         function apply() {
