@@ -296,9 +296,10 @@
           return (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd');
         }
         function cardHtml(r) {
-          var hasLink = r.link && /^https?:\/\//i.test(r.link);
+          var link = String(r.link || '').trim();
+          var hasLink = /^https?:\/\//i.test(link);
           var action = hasLink
-            ? '<a class="btn-download" href="' + esc(r.link) + '" target="_blank" rel="noopener">↓ Tải ROM</a>'
+            ? '<a class="btn-download" href="' + esc(link) + '" target="_blank" rel="noopener">↓ Tải ROM</a>'
             : '<span class="btn-disabled" aria-disabled="true">↓ Chưa có link tải</span>';
           return '<article class="card" data-search="' + esc([r.device, r.codename, r.version].join(' ')) + '">'
             + '<div class="card-top"><div class="device-row">'
@@ -330,7 +331,7 @@
           apply();
         }
         input.addEventListener('input', apply);
-        fetch('roms.json')
+        fetch('roms.json?v=' + Date.now(), { cache: 'no-store' })
           .then(function (res) { if (!res.ok) throw new Error('Không đọc được roms.json'); return res.json(); })
           .then(function (data) { roms = Array.isArray(data) ? data : []; render(); })
           .catch(function () {
