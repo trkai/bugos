@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="description" content="BugOS — ROM mod cho các thiết bị Xiaomi / Redmi. Xem và tải ROM theo tên máy." />
+    <link rel="icon" href="data:," />
+    <title>BugOS ROM Công khai</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@500;600;700;800;900&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet" />
+    <style>
+      button, [role="button"], select, summary, input:not([type="checkbox"], [type="radio"]) { min-height: 2.25rem; }
+
+      :root{
+        --bg:#f4f6fb;
+        --bg-2:#eaf0fa;
+        --surface:#ffffff;
+        --surface-2:#eef2f9;
+        --border:#dbe3f0;
+        --text:#0b1220;
+        --muted:#5b6b84;
+        --blue:#0047ff;
+        --blue-strong:#0039d6;
+        --blue-soft:#e3ebff;
+        --orange:#e85d04;
+        --chip-bg:#eef2f9;
+        --chip-border:#d5deee;
+        --disabled-bg:#e6eaf2;
+        --disabled-text:#8a97ad;
+        --shadow:0 10px 30px rgba(11,25,60,.08);
+        color-scheme: light;
+      }
+      @media (prefers-color-scheme: dark){
+        :root{
+          --bg:#060a14;
+          --bg-2:#0a1122;
+          --surface:#0d1526;
+          --surface-2:#111c33;
+          --border:#1e2c4a;
+          --text:#f4f7fc;
+          --muted:#94a5c2;
+          --blue:#2f6bff;
+          --blue-strong:#2563eb;
+          --blue-soft:#16264a;
+          --orange:#ff7a1a;
+          --chip-bg:#131f38;
+          --chip-border:#24365c;
+          --disabled-bg:#1a2742;
+          --disabled-text:#6f819f;
+          --shadow:0 14px 36px rgba(0,0,0,.35);
+          color-scheme: dark;
+        }
+      }
+
+      *{box-sizing:border-box}
+      html{scroll-behavior:smooth}
+      body{
+        margin:0;
+        background:
+          radial-gradient(900px 420px at 85% -80px, color-mix(in srgb, var(--blue) 14%, transparent), transparent 65%),
+          linear-gradient(180deg, var(--bg-2), var(--bg) 340px);
+        color:var(--text);
+        font-family:"Be Vietnam Pro", system-ui, -apple-system, "Segoe UI", sans-serif;
+        -webkit-font-smoothing:antialiased;
+      }
+      a{color:inherit}
+      .wrap{max-width:1080px;margin:0 auto;padding:0 20px 56px}
+
+      /* ---------- Hero ---------- */
+      .hero{padding:44px 0 8px;text-align:left}
+      .brand{
+        font-size:clamp(44px,9vw,76px);
+        font-weight:900;
+        letter-spacing:-.03em;
+        line-height:1;
+        margin:0;
+      }
+      .brand .os{color:var(--blue)}
+      .tagline{
+        margin:14px 0 0;
+        font-size:clamp(16px,2.6vw,20px);
+        line-height:1.55;
+        color:var(--muted);
+        max-width:620px;
+        font-weight:500;
+      }
+      .tagline strong{color:var(--text);font-weight:700}
+      .stats{
+        display:flex;flex-wrap:wrap;gap:10px;margin-top:22px;
+      }
+      .stat{
+        display:flex;align-items:baseline;gap:8px;
+        background:var(--surface);border:1px solid var(--border);
+        border-radius:999px;padding:8px 16px 9px;
+      }
+      .stat b{font-size:18px;font-weight:800}
+      .stat span{font-size:13px;color:var(--muted);font-weight:600}
+
+      /* ---------- Toolbar ---------- */
+      .toolbar{
+        position:sticky;top:0;z-index:5;
+        padding:18px 0 14px;
+        background:linear-gradient(180deg, var(--bg) 72%, transparent);
+      }
+      .search{
+        display:flex;align-items:center;gap:10px;
+        background:var(--surface);border:1px solid var(--border);
+        border-radius:14px;padding:6px 6px 6px 16px;
+        box-shadow:var(--shadow);
+      }
+      .search svg{flex:none;color:var(--muted)}
+      .search input{
+        flex:1;min-width:0;border:0;outline:0;background:transparent;
+        color:var(--text);font:inherit;font-size:15px;font-weight:500;
+        padding:8px 0;
+      }
+      .search input::placeholder{color:var(--muted)}
+      .search .count{
+        flex:none;font-size:13px;font-weight:700;color:var(--muted);
+        background:var(--surface-2);border:1px solid var(--border);
+        border-radius:999px;padding:6px 12px;white-space:nowrap;
+      }
+
+      /* ---------- ROM grid ---------- */
+      .section-head{
+        display:flex;align-items:baseline;justify-content:space-between;gap:16px;
+        margin:18px 0 14px;
+      }
+      .section-head h2{margin:0;font-size:20px;font-weight:800;letter-spacing:-.01em}
+      .section-head p{margin:0;font-size:13.5px;color:var(--muted);font-weight:500}
+      .grid{
+        display:grid;grid-template-columns:1fr;gap:16px;
+      }
+      @media (min-width:680px){ .grid{grid-template-columns:1fr 1fr} }
+
+      .card{
+        background:var(--surface);
+        border:1px solid var(--border);
+        border-radius:20px;
+        padding:22px 22px 20px;
+        box-shadow:var(--shadow);
+        display:flex;flex-direction:column;gap:14px;
+      }
+      .card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+      .device-row{display:flex;align-items:center;flex-wrap:wrap;gap:10px;min-width:0}
+      .device{
+        font-size:clamp(26px,4.5vw,32px);
+        font-weight:800;letter-spacing:-.02em;line-height:1.1;
+        color:var(--text);margin:0;word-break:break-word;
+      }
+      .codename{
+        font-family:"JetBrains Mono", ui-monospace, monospace;
+        font-size:13px;font-weight:600;
+        color:var(--muted);
+        background:var(--chip-bg);border:1px solid var(--chip-border);
+        border-radius:999px;padding:5px 11px;white-space:nowrap;
+      }
+      .version{
+        font-size:22px;font-weight:800;color:var(--orange);line-height:1.15;margin:0;
+      }
+      .version small{
+        display:block;font-size:12px;font-weight:700;letter-spacing:.08em;
+        text-transform:uppercase;color:var(--muted);margin-bottom:3px;
+      }
+      .meta{
+        display:flex;flex-wrap:wrap;gap:8px 18px;
+        font-size:14px;color:var(--muted);font-weight:500;
+        border-top:1px solid var(--border);padding-top:14px;
+      }
+      .meta b{color:var(--text);font-weight:700}
+      .card-actions{margin-top:auto}
+      .btn-download{
+        display:inline-flex;align-items:center;justify-content:center;gap:9px;
+        width:100%;min-height:50px;
+        background:var(--blue);color:#fff;text-decoration:none;
+        font-size:16px;font-weight:700;
+        border:0;border-radius:999px;padding:12px 22px;cursor:pointer;
+        transition:background .15s ease, transform .15s ease;
+      }
+      .btn-download:hover{background:var(--blue-strong)}
+      .btn-download:active{transform:scale(.985)}
+      .btn-disabled{
+        display:inline-flex;align-items:center;justify-content:center;gap:9px;
+        width:100%;min-height:50px;
+        background:var(--disabled-bg);color:var(--disabled-text);
+        font-size:16px;font-weight:700;
+        border-radius:999px;padding:12px 22px;
+        cursor:not-allowed;user-select:none;
+      }
+
+      .empty{
+        display:none;text-align:center;padding:44px 20px;
+        background:var(--surface);border:1px dashed var(--border);border-radius:20px;
+        color:var(--muted);font-weight:600;font-size:15px;line-height:1.6;
+      }
+      .empty.show{display:block}
+
+      /* ---------- Notes ---------- */
+      .notes{
+        margin-top:34px;
+        background:var(--surface);border:1px solid var(--border);
+        border-radius:20px;padding:24px 22px;box-shadow:var(--shadow);
+      }
+      .notes h2{margin:0 0 6px;font-size:19px;font-weight:800}
+      .notes > p{margin:0 0 16px;color:var(--muted);font-size:14.5px;line-height:1.6;font-weight:500}
+      .notes ol{margin:0;padding-left:20px;display:grid;gap:10px}
+      .notes li{font-size:14.5px;line-height:1.6;color:var(--muted);font-weight:500;padding-left:4px}
+      .notes li b{color:var(--text);font-weight:700}
+      .warn{
+        margin-top:18px;border-top:1px solid var(--border);padding-top:16px;
+        font-size:13.5px;line-height:1.65;color:var(--muted);font-weight:500;
+      }
+      .warn b{color:var(--orange);font-weight:700}
+
+      footer{
+        margin-top:30px;text-align:center;
+        color:var(--muted);font-size:13px;font-weight:500;line-height:1.7;
+      }
+      footer .fbrand{font-weight:900;color:var(--text);font-size:15px;letter-spacing:-.01em}
+      footer .fbrand .os{color:var(--blue)}
+
+      @media (prefers-reduced-motion: reduce){
+        html{scroll-behavior:auto}
+        .btn-download{transition:none}
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+
+      <header class="hero">
+        <h1 class="brand">Bug<span class="os">OS</span></h1>
+        <p class="tagline">ROM mod <strong>BugOS</strong> cho các thiết bị Xiaomi / Redmi. Chọn đúng tên máy của bạn rồi tải bản ROM tương ứng.</p>
+        <div class="stats" aria-label="Tổng quan">
+          <div class="stat"><b id="statDevices">1</b><span>thiết bị</span></div>
+          <div class="stat"><b id="statRoms">1</b><span>bản ROM</span></div>
+        </div>
+      </header>
+
+      <div class="toolbar">
+        <label class="search">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.8-3.8"/></svg>
+          <input id="q" type="search" placeholder="Tìm theo tên máy, codename hoặc phiên bản…" autocomplete="off" aria-label="Tìm ROM" />
+          <span class="count" id="resultCount">1 ROM</span>
+        </label>
+      </div>
+
+      <main>
+        <div class="section-head">
+          <h2>Danh sách ROM</h2>
+          <p>Cập nhật gần nhất: tháng 11/2026</p>
+        </div>
+
+        <div class="grid" id="grid">
+          <!-- REDMI K90 -->
+          <article class="card" data-search="redmi k90 annibale os4">
+            <div class="card-top">
+              <div class="device-row">
+                <h3 class="device">REDMI K90</h3>
+                <span class="codename">annibale</span>
+              </div>
+            </div>
+            <p class="version"><small>Phiên bản ROM</small>OS4</p>
+            <div class="meta">
+              <span>Dung lượng&nbsp;<b>7.3 GB</b></span>
+              <span>Nền&nbsp;<b>HyperOS</b></span>
+            </div>
+            <div class="card-actions">
+              <span class="btn-disabled" aria-disabled="true">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M4 21h16"/></svg>
+                Chưa có link tải
+              </span>
+            </div>
+          </article>
+        </div>
+
+        <div class="empty" id="emptyState">
+          Không tìm thấy ROM nào khớp với từ khoá.<br />Thử tìm bằng tên máy hoặc codename khác.
+        </div>
+
+        <section class="notes" aria-labelledby="notesTitle">
+          <h2 id="notesTitle">Trước khi cài ROM</h2>
+          <p>Đọc kỹ 3 bước này để tránh mất dữ liệu và lỗi trong quá trình cài.</p>
+          <ol>
+            <li><b>Sao lưu dữ liệu</b> — cài ROM sẽ xoá toàn bộ dữ liệu trên máy, hãy sao lưu ảnh, danh bạ và file quan trọng trước.</li>
+            <li><b>Đúng máy, đúng codename</b> — chỉ cài ROM khớp với tên máy và codename của thiết bị. Cài sai bản có thể khiến máy không khởi động được.</li>
+            <li><b>Sạc đầy pin</b> — đảm bảo pin trên 50% và không rút cáp trong lúc cài.</li>
+          </ol>
+          <p class="warn"><b>Lưu ý:</b> BugOS là ROM mod không chính thức, không thuộc Xiaomi / Redmi. Việc mở khoá bootloader và cài ROM có thể ảnh hưởng đến bảo hành của thiết bị — bạn tự chịu trách nhiệm khi cài đặt.</p>
+        </section>
+      </main>
+
+      <footer>
+        <div class="fbrand">Bug<span class="os">OS</span></div>
+        ROM mod cho Xiaomi / Redmi — chọn đúng máy trước khi tải.
+      </footer>
+    </div>
+
+    <script>
+      (function () {
+        var input = document.getElementById('q');
+        var cards = Array.prototype.slice.call(document.querySelectorAll('.card'));
+        var countEl = document.getElementById('resultCount');
+        var emptyEl = document.getElementById('emptyState');
+
+        function norm(s) {
+          return (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd');
+        }
+
+        function apply() {
+          var q = norm(input.value.trim());
+          var visible = 0;
+          cards.forEach(function (card) {
+            var hay = norm(card.getAttribute('data-search') + ' ' + card.textContent);
+            var show = !q || hay.indexOf(q) !== -1;
+            card.style.display = show ? '' : 'none';
+            if (show) visible++;
+          });
+          countEl.textContent = visible + ' ROM';
+          emptyEl.classList.toggle('show', visible === 0);
+        }
+
+        input.addEventListener('input', apply);
+        apply();
+      })();
+    </script>
+  </body>
+</html>
