@@ -4,9 +4,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="color-scheme" content="light dark" />
-    <meta name="description" content="BugOS — ROM mod cho các thiết bị Xiaomi / Redmi" />
+    <meta name="description" content="BugOS — ROM mod cho các thiết bị Xiaomi / Redmi. Xem và tải đúng bản ROM theo tên máy." />
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%232563EB'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' fill='%23FFFFFF' font-family='sans-serif' font-weight='800' font-size='32'%3EB%3C/text%3E%3C/svg%3E" />
-    <title>BugOS ROM</title>
+    <title>BugOS ROM Công khai</title>
 
     <!-- Google Fonts: Be Vietnam Pro & JetBrains Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -35,8 +35,8 @@
         --bg: #F6F7F9;
         --bg-glass: rgba(246, 247, 249, 0.84);
         --surface: #FFFFFF;
-        --surface-2: #F1F4F8;
-        --border: #E4E7EE;
+        --surface-2: #F8FAFC;
+        --border: #E5E9F0;
         --border-hover: #CFD6E4;
 
         --text: #0F172A;
@@ -67,12 +67,12 @@
         --bg: #090C11;
         --bg-glass: rgba(9, 12, 17, 0.84);
         --surface: #11161F;
-        --surface-2: #161D29;
-        --border: #1E2634;
+        --surface-2: #151B26;
+        --border: #1E2738;
         --border-hover: #2E3A4E;
 
-        --text: #F1F5F9;
-        --muted: #94A3B8;
+        --text: #F3F5F9;
+        --muted: #8C99B0;
 
         --accent: #3B82F6;
         --accent-hover: #2563EB;
@@ -656,6 +656,7 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
+        gap: 8px;
         width: 100%;
         height: 44px;
         padding: 0 20px;
@@ -1145,7 +1146,7 @@
           </button>
         </div>
 
-        <p class="tagline">ROM mod <strong>BugOS</strong> cho các thiết bị Xiaomi / Redmi</p>
+        <p class="tagline">ROM mod <strong>BugOS</strong> cho các thiết bị Xiaomi / Redmi. Chọn đúng tên máy của bạn rồi tải bản ROM tương ứng.</p>
 
         <div class="stats" id="statsBar" aria-label="Tổng quan">
           <div class="stat"><b id="statDevices">0</b><span>thiết bị</span></div>
@@ -1320,15 +1321,18 @@
         window.addEventListener('scroll', handleScroll, { passive: true });
 
         /* ========================================================================
-           4. GOM NHÓM NHIỀU PHIÊN BẢN ROM VÀO CÙNG 1 THẺ MÁY
+           4. GOM NHÓM NHIỀU PHIÊN BẢN ROM VÀO CÙNG 1 THẺ MÁY (THÊM SAU LÊN ĐẦU)
            ======================================================================== */
-        function parseVersionItem(raw) {
+        function parseVersionItem(raw, order) {
           if (!raw || typeof raw !== 'object') return null;
 
           var version = String(raw.version || '').trim();
           var size = String(raw.size || '').trim();
           var date = String(raw.date || '').trim();
-          var note = String(raw.note || '').trim();
+          var noteVal = raw.note != null && String(raw.note).trim() !== ''
+            ? raw.note
+            : (raw.tag != null ? raw.tag : '');
+          var note = String(noteVal || '').trim();
           var link = String(raw.link || '').trim();
 
           /* Bỏ qua mục rỗng hoàn toàn không có thông tin phiên bản lẫn link */
@@ -1341,13 +1345,15 @@
             note: note,
             link: link,
             hasLink: isValidLink(link),
-            searchText: norm([version, size, date, note].join(' '))
+            searchText: norm([version, size, date, note].join(' ')),
+            _order: order
           };
         }
 
         function groupDevices(rawList) {
           var map = Object.create(null);
           var ordered = [];
+          var seq = 0;
 
           rawList.forEach(function (entry) {
             if (!entry || typeof entry !== 'object') return;
@@ -1364,15 +1370,15 @@
                 device: deviceName || codename || 'Thiết bị',
                 codename: codename,
                 versions: [],
-                deviceSearch: ''
+                deviceSearch: '',
+                lastOrder: -1
               };
               map[groupKey] = group;
               ordered.push(group);
             } else {
-              if (!group.codename && codename) group.codename = codename;
-              if ((!group.device || group.device === 'Thiết bị') && deviceName) {
-                group.device = deviceName;
-              }
+              /* Ưu tiên cập nhật tên máy và codename từ mục được thêm sau nếu không rỗng */
+              if (codename) group.codename = codename;
+              if (deviceName) group.device = deviceName;
             }
 
             /* Hỗ trợ đồng thời cấu trúc lồng nhau (versions / roms) và cấu trúc phẳng */
@@ -1382,20 +1388,34 @@
 
             if (nested) {
               nested.forEach(function (sub) {
-                var parsed = parseVersionItem(sub);
-                if (parsed) group.versions.push(parsed);
+                var parsed = parseVersionItem(sub, ++seq);
+                if (parsed) {
+                  group.versions.push(parsed);
+                  group.lastOrder = parsed._order;
+                }
               });
             } else {
-              var single = parseVersionItem(entry);
-              if (single) group.versions.push(single);
+              var single = parseVersionItem(entry, ++seq);
+              if (single) {
+                group.versions.push(single);
+                group.lastOrder = single._order;
+              }
             }
           });
 
           return ordered
             .filter(function (g) { return g.versions.length > 0; })
             .map(function (g) {
+              /* Đảo ngược thứ tự: bản thêm sau cùng trong roms.json luôn lên vị trí đầu tiên */
+              g.versions.sort(function (a, b) {
+                return b._order - a._order;
+              });
               g.deviceSearch = norm([g.device, g.codename].join(' '));
               return g;
+            })
+            .sort(function (a, b) {
+              /* Thiết bị nào có bản ROM mới được thêm sau cùng sẽ nổi lên đầu trang */
+              return b.lastOrder - a.lastOrder;
             });
         }
 
@@ -1470,10 +1490,10 @@
               + '<path d="M12 4v13"></path><polyline points="6 12 12 18 18 12"></polyline>'
               + '</svg>'
               + '<span>Tải ROM</span></a>'
-            : '<span class="btn-disabled" aria-disabled="true">Chưa có link tải</span>';
-
-          var accordionHtml = '';
-          if (hasMultiple) {
+            : '<span class="btn-disabled" aria-disabled="true">'
+              + '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+              + '<path d="M12 4v13"></path><polyline points="6 12 12 18 18 12"></polyline>'
+              + '</svg><span>Chưa có link tải</span></span>';
             var isOpen = item.autoExpand;
             var count = others.length;
             var labelText = (isOpen ? 'Thu gọn ' : 'Xem thêm ') + count + ' phiên bản khác';
