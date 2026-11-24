@@ -2,408 +2,283 @@
 <html lang="vi">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="color-scheme" content="light dark" />
-    <meta name="description" content="BugOS — ROM mod cho các thiết bị Xiaomi / Redmi. Xem và tải đúng bản ROM theo tên máy." />
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%232563EB'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' fill='%23FFFFFF' font-family='sans-serif' font-weight='800' font-size='32'%3EB%3C/text%3E%3C/svg%3E" />
+    <meta name="description" content="BugOS — ROM mod cho các thiết bị Xiaomi / Redmi. Chọn đúng tên máy và tải bản ROM tương ứng." />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%232563EB'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' fill='%23fff' font-family='system-ui,sans-serif' font-weight='800' font-size='36'%3EB%3C/text%3E%3C/svg%3E" />
     <title>BugOS ROM Công khai</title>
-
-    <!-- Google Fonts: Be Vietnam Pro & JetBrains Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet" />
-
-    <!-- Khởi tạo giao diện Sáng / Tối sớm để tránh chớp màn hình -->
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@500;600;700;800;900&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet" />
     <script>
       (function () {
         try {
           var saved = localStorage.getItem('bugos-theme');
-          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-          var theme = saved === 'light' || saved === 'dark' ? saved : (prefersDark ? 'dark' : 'light');
-          document.documentElement.setAttribute('data-theme', theme);
-        } catch (e) {
-          document.documentElement.setAttribute('data-theme', 'light');
-        }
+          var dark = saved ? saved === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+          document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+        } catch (e) {}
       })();
     </script>
-
     <style>
-      /* ==========================================================================
-         1. DESIGN TOKENS — TỐI GIẢN HIỆN ĐẠI (APPLE / LINEAR)
-         ========================================================================== */
       :root {
-        --bg: #F6F7F9;
-        --bg-glass: rgba(246, 247, 249, 0.84);
-        --surface: #FFFFFF;
-        --surface-2: #F8FAFC;
-        --border: #E5E9F0;
-        --border-hover: #CFD6E4;
-
-        --text: #0F172A;
-        --muted: #64748B;
-
-        --accent: #2563EB;
-        --accent-hover: #1D4ED8;
-        --accent-soft: #EFF6FF;
+        --bg: #f6f7f9;
+        --surface: #ffffff;
+        --surface-2: #f1f3f7;
+        --surface-hover: #eaeef5;
+        --border: rgba(15, 23, 42, 0.09);
+        --border-strong: rgba(15, 23, 42, 0.16);
+        --text: #0f172a;
+        --text-secondary: #475569;
+        --muted: #64748b;
+        --accent: #2563eb;
+        --accent-hover: #1d4ed8;
+        --accent-soft: rgba(37, 99, 235, 0.1);
         --accent-border: rgba(37, 99, 235, 0.28);
-        --accent-ring: rgba(37, 99, 235, 0.16);
-
-        --disabled-bg: #EEF1F6;
-        --disabled-text: #94A3B8;
-
-        --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04), 0 4px 12px rgba(15, 23, 42, 0.03);
-        --shadow-hover: 0 12px 28px -8px rgba(15, 23, 42, 0.1), 0 2px 6px rgba(15, 23, 42, 0.04);
-        --shadow-toast: 0 12px 32px -4px rgba(15, 23, 42, 0.24);
-
+        --disabled-bg: #e2e8f0;
+        --disabled-text: #94a3b8;
+        --glass: rgba(246, 247, 249, 0.84);
+        --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04);
+        --shadow: 0 8px 24px -8px rgba(15, 23, 42, 0.08);
+        --shadow-hover: 0 14px 30px -10px rgba(15, 23, 42, 0.12);
         --ease: cubic-bezier(0.22, 1, 0.36, 1);
-        --radius-card: 22px;
-        --radius-inner: 15px;
-        --radius-pill: 999px;
-
         color-scheme: light;
       }
 
-      [data-theme="dark"] {
-        --bg: #090C11;
-        --bg-glass: rgba(9, 12, 17, 0.84);
-        --surface: #11161F;
-        --surface-2: #151B26;
-        --border: #1E2738;
-        --border-hover: #2E3A4E;
-
-        --text: #F3F5F9;
-        --muted: #8C99B0;
-
-        --accent: #3B82F6;
-        --accent-hover: #2563EB;
-        --accent-soft: rgba(59, 130, 246, 0.12);
-        --accent-border: rgba(59, 130, 246, 0.36);
-        --accent-ring: rgba(59, 130, 246, 0.22);
-
-        --disabled-bg: #171F2C;
-        --disabled-text: #64748B;
-
-        --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.28);
-        --shadow-hover: 0 14px 32px -10px rgba(0, 0, 0, 0.56);
-        --shadow-toast: 0 14px 36px rgba(0, 0, 0, 0.52);
-
+      html[data-theme="dark"] {
+        --bg: #090c11;
+        --surface: #11161f;
+        --surface-2: #171e2a;
+        --surface-hover: #1d2636;
+        --border: rgba(255, 255, 255, 0.08);
+        --border-strong: rgba(255, 255, 255, 0.15);
+        --text: #f8fafc;
+        --text-secondary: #cbd5e1;
+        --muted: #8b9bb4;
+        --accent: #3b82f6;
+        --accent-hover: #2563eb;
+        --accent-soft: rgba(59, 130, 246, 0.14);
+        --accent-border: rgba(59, 130, 246, 0.35);
+        --disabled-bg: #1e2636;
+        --disabled-text: #64748b;
+        --glass: rgba(9, 12, 17, 0.84);
+        --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
+        --shadow: 0 10px 28px -8px rgba(0, 0, 0, 0.42);
+        --shadow-hover: 0 16px 34px -10px rgba(0, 0, 0, 0.55);
         color-scheme: dark;
       }
 
-      /* ==========================================================================
-         2. BASE & BỐ CỤC CHÍNH
-         ========================================================================== */
-      *, *::before, *::after {
-        box-sizing: border-box;
-      }
-
-      html {
-        scroll-behavior: smooth;
-        -webkit-tap-highlight-color: transparent;
-      }
-
+      *, *::before, *::after { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
       body {
         margin: 0;
-        min-height: 100vh;
+        min-height: 100dvh;
         display: flex;
         flex-direction: column;
-        background-color: var(--bg);
+        background: var(--bg);
         color: var(--text);
         font-family: "Be Vietnam Pro", system-ui, -apple-system, "Segoe UI", sans-serif;
-        font-size: 15px;
-        line-height: 1.5;
         -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
         transition: background-color 0.25s var(--ease), color 0.25s var(--ease);
       }
 
-      a {
-        color: inherit;
-      }
-
-      button, input {
-        font-family: inherit;
-      }
+      a { color: inherit; }
+      button { font: inherit; }
 
       .wrap {
         width: 100%;
-        max-width: 1000px;
+        max-width: 1020px;
         margin: 0 auto;
-        padding: 0 20px;
+        padding: 0 20px 56px;
         flex: 1;
         display: flex;
         flex-direction: column;
       }
 
-      .is-hidden {
-        display: none !important;
-      }
-
-      /* ==========================================================================
-         3. HERO GỌN GÀNG + NÚT CHUYỂN SÁNG/TỐI + 2 CHỈ SỐ
-         ========================================================================== */
+      /* ---------- Hero ---------- */
       .hero {
-        padding: 40px 0 12px;
+        padding: 40px 0 10px;
       }
-
       .hero-top {
         display: flex;
-        align-items: flex-start;
+        align-items: center;
         justify-content: space-between;
         gap: 16px;
       }
-
       .brand {
         margin: 0;
-        font-size: clamp(40px, 8vw, 62px);
+        font-size: clamp(40px, 7.5vw, 60px);
         font-weight: 900;
         letter-spacing: -0.035em;
         line-height: 1;
-        color: var(--text);
       }
+      .brand .os { color: var(--accent); }
 
-      .brand .os {
-        color: var(--accent);
-      }
-
-      /* Nút tròn chuyển Sáng / Tối ở góc phải */
       .theme-btn {
-        display: grid;
-        place-items: center;
-        width: 40px;
-        height: 40px;
-        flex: none;
-        margin-top: 4px;
-        border-radius: var(--radius-pill);
+        width: 42px;
+        height: 42px;
+        border-radius: 999px;
         border: 1px solid var(--border);
-        background-color: var(--surface);
-        color: var(--muted);
-        box-shadow: var(--shadow-sm);
+        background: var(--surface);
+        color: var(--text-secondary);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
         cursor: pointer;
-        transition: border-color 0.2s var(--ease), color 0.2s var(--ease), background-color 0.2s var(--ease), transform 0.2s var(--ease);
+        box-shadow: var(--shadow-sm);
+        transition: background-color 0.2s var(--ease), border-color 0.2s var(--ease), color 0.2s var(--ease), transform 0.2s var(--ease);
       }
-
       .theme-btn:hover {
-        border-color: var(--border-hover);
+        background: var(--surface-2);
+        border-color: var(--border-strong);
         color: var(--text);
       }
-
-      .theme-btn:active {
-        transform: scale(0.94);
-      }
-
-      .theme-btn svg {
-        width: 18px;
-        height: 18px;
-      }
-
-      [data-theme="light"] .ico-sun {
-        display: none;
-      }
-
-      [data-theme="dark"] .ico-moon {
-        display: none;
-      }
+      .theme-btn:active { transform: scale(0.94); }
+      .theme-btn .icon-sun { display: none; }
+      .theme-btn .icon-moon { display: block; }
+      html[data-theme="dark"] .theme-btn .icon-sun { display: block; }
+      html[data-theme="dark"] .theme-btn .icon-moon { display: none; }
 
       .tagline {
-        margin: 12px 0 0;
+        margin: 14px 0 0;
         max-width: 560px;
         font-size: clamp(15px, 2.2vw, 17px);
-        line-height: 1.55;
+        line-height: 1.6;
         color: var(--muted);
         font-weight: 500;
       }
-
-      .tagline strong {
-        color: var(--text);
-        font-weight: 700;
-      }
+      .tagline strong { color: var(--text); font-weight: 700; }
 
       .stats {
         display: flex;
         flex-wrap: wrap;
-        gap: 8px;
-        margin-top: 18px;
+        gap: 10px;
+        margin-top: 20px;
       }
-
       .stat {
         display: inline-flex;
         align-items: baseline;
-        gap: 6px;
+        gap: 7px;
         padding: 7px 14px;
-        border-radius: var(--radius-pill);
-        background-color: var(--surface);
+        border-radius: 999px;
+        background: var(--surface);
         border: 1px solid var(--border);
-        font-size: 13px;
-        color: var(--muted);
-        font-weight: 600;
+        box-shadow: var(--shadow-sm);
       }
-
       .stat b {
-        font-size: 15px;
+        font-size: 16px;
         font-weight: 800;
-        color: var(--text);
         font-variant-numeric: tabular-nums;
       }
+      .stat span {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--muted);
+      }
 
-      /* ==========================================================================
-         4. THANH TÌM KIẾM DÍNH KÍNH MỜ DUY NHẤT
-         ========================================================================== */
+      /* ---------- Sticky Search Toolbar ---------- */
       .toolbar {
         position: sticky;
         top: 0;
         z-index: 20;
-        margin: 8px -20px 0;
-        padding: 14px 20px;
-        background-color: var(--bg-glass);
+        margin: 14px -20px 0;
+        padding: 12px 20px;
+        background: var(--glass);
         backdrop-filter: blur(14px);
         -webkit-backdrop-filter: blur(14px);
-        border-bottom: 1px solid transparent;
-        transition: border-color 0.22s var(--ease), background-color 0.25s var(--ease);
       }
-
-      .toolbar.stuck {
-        border-bottom-color: var(--border);
-      }
-
-      .search-box {
+      .search {
         display: flex;
         align-items: center;
         gap: 10px;
-        height: 48px;
-        padding: 0 8px 0 16px;
-        border-radius: var(--radius-pill);
-        background-color: var(--surface);
+        background: var(--surface);
         border: 1px solid var(--border);
+        border-radius: 999px;
+        padding: 6px 8px 6px 16px;
         box-shadow: var(--shadow-sm);
         transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
       }
-
-      .search-box:focus-within {
+      .search:focus-within {
         border-color: var(--accent);
-        box-shadow: 0 0 0 3px var(--accent-ring);
+        box-shadow: 0 0 0 3px var(--accent-soft);
       }
-
-      .search-box .ico-search {
+      .search-icon {
         flex: none;
         color: var(--muted);
-        transition: color 0.2s var(--ease);
       }
-
-      .search-box:focus-within .ico-search {
-        color: var(--accent);
-      }
-
-      .search-box input {
+      .search input {
         flex: 1;
         min-width: 0;
-        height: 100%;
         border: 0;
         outline: 0;
         background: transparent;
         color: var(--text);
+        font: inherit;
         font-size: 14.5px;
         font-weight: 500;
+        padding: 8px 0;
       }
-
-      .search-box input::placeholder {
-        color: var(--muted);
-      }
-
-      .search-box input::-webkit-search-cancel-button {
-        -webkit-appearance: none;
-        appearance: none;
-      }
+      .search input::placeholder { color: var(--muted); }
+      .search input::-webkit-search-cancel-button { display: none; }
 
       .clear-btn {
         display: none;
-        place-items: center;
+        flex: none;
         width: 28px;
         height: 28px;
-        flex: none;
+        border-radius: 999px;
         border: 0;
-        border-radius: var(--radius-pill);
-        background-color: var(--surface-2);
+        background: var(--surface-2);
         color: var(--muted);
-        cursor: pointer;
-        transition: color 0.2s var(--ease), background-color 0.2s var(--ease), transform 0.2s var(--ease);
-      }
-
-      .clear-btn.show {
-        display: grid;
-      }
-
-      .clear-btn:hover {
-        color: var(--text);
-      }
-
-      .clear-btn:active {
-        transform: scale(0.92);
-      }
-
-      .kbd-hint {
-        display: inline-flex;
         align-items: center;
         justify-content: center;
-        min-width: 24px;
-        height: 24px;
-        padding: 0 6px;
-        flex: none;
-        border-radius: 7px;
-        background-color: var(--surface-2);
-        border: 1px solid var(--border);
-        color: var(--muted);
-        font-family: "JetBrains Mono", ui-monospace, monospace;
-        font-size: 11.5px;
-        font-weight: 600;
-        user-select: none;
+        cursor: pointer;
+        transition: background-color 0.15s ease, color 0.15s ease;
       }
+      .clear-btn.show { display: inline-flex; }
+      .clear-btn:hover { background: var(--surface-hover); color: var(--text); }
 
-      .search-box:focus-within .kbd-hint,
-      .search-box.has-query .kbd-hint {
+      .kbd-hint {
         display: none;
-      }
-
-      @media (max-width: 640px) {
-        .kbd-hint {
-          display: none;
-        }
-      }
-
-      .result-count {
         flex: none;
-        padding: 5px 12px;
-        border-radius: var(--radius-pill);
-        background-color: var(--surface-2);
-        border: 1px solid var(--border);
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-size: 11px;
+        font-weight: 600;
         color: var(--muted);
+        background: var(--surface-2);
+        border: 1px solid var(--border);
+        border-radius: 7px;
+        padding: 3px 7px;
+      }
+      @media (min-width: 640px) { .kbd-hint { display: inline-flex; } }
+      .search.has-value .kbd-hint { display: none; }
+
+      .count-pill {
+        flex: none;
         font-size: 12.5px;
         font-weight: 700;
         font-variant-numeric: tabular-nums;
+        color: var(--text-secondary);
+        background: var(--surface-2);
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        padding: 6px 12px;
         white-space: nowrap;
       }
 
-      /* ==========================================================================
-         5. DANH SÁCH ROM & LƯỚI THẺ BO CONG 22PX
-         ========================================================================== */
-      main {
-        flex: 1;
-        padding: 10px 0 36px;
-      }
-
+      /* ---------- Section & Grid ---------- */
+      main { flex: 1; }
       .section-head {
         display: flex;
-        align-items: baseline;
+        align-items: center;
         justify-content: space-between;
-        margin: 8px 0 14px;
+        margin: 14px 0 14px;
       }
-
       .section-head h2 {
         margin: 0;
-        font-size: 17px;
+        font-size: 16px;
         font-weight: 700;
-        letter-spacing: -0.015em;
-        color: var(--text);
+        color: var(--text-secondary);
+        letter-spacing: -0.01em;
       }
 
       .grid {
@@ -412,40 +287,31 @@
         gap: 16px;
         align-items: start;
       }
-
-      @media (min-width: 700px) {
-        .grid {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
+      @media (min-width: 720px) {
+        .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       }
 
+      /* ---------- Card ---------- */
       .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 22px;
+        padding: 20px;
+        box-shadow: var(--shadow);
         display: flex;
         flex-direction: column;
         gap: 14px;
-        padding: 20px;
-        border-radius: var(--radius-card);
-        background-color: var(--surface);
-        border: 1px solid var(--border);
-        box-shadow: var(--shadow-sm);
         opacity: 0;
         transform: translateY(10px);
-        animation: cardReveal 0.42s var(--ease) forwards;
-        animation-delay: calc(var(--i, 0) * 40ms);
-        transition: transform 0.25s var(--ease), border-color 0.22s var(--ease), box-shadow 0.25s var(--ease), background-color 0.25s var(--ease);
+        animation: cardIn 0.42s var(--ease) forwards;
+        transition: border-color 0.22s var(--ease), box-shadow 0.22s var(--ease), transform 0.22s var(--ease);
       }
-
-      @keyframes cardReveal {
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
       .card:hover {
-        transform: translateY(-2px);
-        border-color: var(--border-hover);
+        border-color: var(--border-strong);
         box-shadow: var(--shadow-hover);
+      }
+      @keyframes cardIn {
+        to { opacity: 1; transform: translateY(0); }
       }
 
       .card-head {
@@ -454,754 +320,458 @@
         justify-content: space-between;
         gap: 12px;
       }
-
       .device-name {
         margin: 0;
-        font-size: 20px;
+        font-size: clamp(20px, 3vw, 23px);
         font-weight: 800;
         letter-spacing: -0.02em;
         line-height: 1.25;
-        color: var(--text);
         word-break: break-word;
       }
-
-      .head-badges {
+      .badges {
         display: flex;
         align-items: center;
         flex-wrap: wrap;
         justify-content: flex-end;
         gap: 6px;
-        flex: none;
-        max-width: 55%;
+        flex-shrink: 0;
       }
-
-      .count-badge {
-        display: inline-flex;
-        align-items: center;
-        height: 28px;
-        padding: 0 10px;
-        border-radius: var(--radius-pill);
-        background-color: var(--surface-2);
-        border: 1px solid var(--border);
-        color: var(--muted);
-        font-size: 12px;
-        font-weight: 600;
-        font-variant-numeric: tabular-nums;
-        white-space: nowrap;
-      }
-
-      .codename-btn {
+      .badge-copy,
+      .badge-count {
         display: inline-flex;
         align-items: center;
         gap: 5px;
         height: 28px;
         padding: 0 10px;
-        flex: none;
-        border-radius: var(--radius-pill);
-        border: 1px solid var(--border);
-        background-color: var(--surface-2);
-        color: var(--muted);
-        font-family: "JetBrains Mono", ui-monospace, monospace;
+        border-radius: 999px;
         font-size: 12px;
         font-weight: 600;
-        cursor: pointer;
-        transition: border-color 0.2s var(--ease), background-color 0.2s var(--ease), color 0.2s var(--ease), transform 0.2s var(--ease);
+        background: var(--surface-2);
+        border: 1px solid var(--border);
+        color: var(--muted);
+        white-space: nowrap;
       }
-
-      .codename-btn:hover,
-      .codename-btn.copied {
-        border-color: var(--accent);
-        background-color: var(--accent-soft);
+      .badge-copy {
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+        cursor: pointer;
+        transition: background-color 0.18s var(--ease), border-color 0.18s var(--ease), color 0.18s var(--ease);
+      }
+      .badge-copy:hover {
+        background: var(--surface-hover);
+        border-color: var(--border-strong);
+        color: var(--text);
+      }
+      .badge-copy.copied {
+        background: var(--accent-soft);
+        border-color: var(--accent-border);
         color: var(--accent);
       }
 
-      .codename-btn:active {
-        transform: scale(0.95);
-      }
-
-      .codename-btn svg {
-        width: 12.5px;
-        height: 12.5px;
-        flex: none;
-      }
-
-      .codename-btn .ico-check {
-        display: none;
-      }
-
-      .codename-btn.copied .ico-copy {
-        display: none;
-      }
-
-      .codename-btn.copied .ico-check {
-        display: inline;
-      }
-
-      /* Khối phiên bản chính (Mới nhất / Phiên bản) */
-      .primary-box {
+      /* ---------- Latest Version Box ---------- */
+      .latest-box {
+        background: var(--surface-2);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 15px;
         display: flex;
         flex-direction: column;
         gap: 12px;
-        padding: 15px;
-        border-radius: var(--radius-inner);
-        background-color: var(--surface-2);
-        border: 1px solid var(--border);
-        transition: border-color 0.22s var(--ease), background-color 0.22s var(--ease);
       }
-
-      .primary-box.is-match {
-        border-color: var(--accent-border);
-        background-color: var(--accent-soft);
-      }
-
-      .primary-info {
-        display: flex;
-        flex-direction: column;
-        gap: 5px;
-        min-width: 0;
-      }
-
-      .primary-label {
+      .ver-label {
+        display: block;
         font-size: 11px;
-        font-weight: 700;
-        letter-spacing: 0.06em;
+        font-weight: 800;
+        letter-spacing: 0.08em;
         text-transform: uppercase;
         color: var(--muted);
+        margin-bottom: 4px;
       }
-
-      .primary-label.is-latest {
-        color: var(--accent);
-      }
-
-      .primary-version {
+      .ver-label.is-latest { color: var(--accent); }
+      .ver-code {
+        margin: 0;
         font-family: "JetBrains Mono", ui-monospace, monospace;
-        font-size: 15.5px;
-        font-weight: 600;
-        color: var(--text);
+        font-size: 16.5px;
+        font-weight: 700;
         line-height: 1.35;
-        overflow-wrap: anywhere;
+        color: var(--text);
+        word-break: break-word;
       }
-
-      .meta-row {
+      .ver-meta {
         display: flex;
         flex-wrap: wrap;
         align-items: center;
-        gap: 5px 8px;
-        font-size: 12.5px;
+        gap: 6px 12px;
+        margin-top: 6px;
+        font-size: 13px;
         font-weight: 500;
         color: var(--muted);
-        font-variant-numeric: tabular-nums;
       }
-
-      .meta-dot {
-        width: 3px;
-        height: 3px;
-        border-radius: 50%;
-        background-color: var(--border-hover);
-        flex: none;
-      }
-
-      .meta-note {
-        display: inline-flex;
-        align-items: center;
-        padding: 1px 8px;
-        border-radius: var(--radius-pill);
-        background-color: var(--surface);
-        border: 1px solid var(--border);
-        color: var(--text);
+      .ver-note {
         font-size: 11.5px;
-        font-weight: 600;
+        font-weight: 700;
+        color: var(--text-secondary);
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        padding: 2px 9px;
       }
 
-      /* Nút tải ROM chính */
-      .btn-download {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        width: 100%;
-        height: 44px;
-        padding: 0 20px;
-        border-radius: var(--radius-pill);
-        border: 0;
-        background-color: var(--accent);
-        color: #FFFFFF;
-        text-decoration: none;
-        font-size: 14.5px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: background-color 0.2s var(--ease), transform 0.2s var(--ease);
-      }
-
-      .btn-download:hover {
-        background-color: var(--accent-hover);
-      }
-
-      .btn-download:active {
-        transform: scale(0.985);
-      }
-
-      .btn-download svg {
-        width: 16px;
-        height: 16px;
-        flex: none;
-        transition: transform 0.22s var(--ease);
-      }
-
-      .btn-download:hover svg {
-        transform: translateY(2px);
-      }
-
+      .btn-download,
       .btn-disabled {
         display: inline-flex;
         align-items: center;
         justify-content: center;
         gap: 8px;
         width: 100%;
-        height: 44px;
-        padding: 0 20px;
-        border-radius: var(--radius-pill);
-        border: 1px solid var(--border);
-        background-color: var(--disabled-bg);
+        min-height: 44px;
+        padding: 10px 18px;
+        border-radius: 999px;
+        font-size: 14.5px;
+        font-weight: 700;
+        text-decoration: none;
+        border: 0;
+      }
+      .btn-download {
+        background: var(--accent);
+        color: #ffffff;
+        cursor: pointer;
+        transition: background-color 0.2s var(--ease), transform 0.18s var(--ease);
+      }
+      .btn-download:hover { background: var(--accent-hover); }
+      .btn-download:active { transform: scale(0.985); }
+      .btn-download svg { transition: transform 0.2s var(--ease); }
+      .btn-download:hover svg { transform: translateY(2px); }
+
+      .btn-disabled {
+        background: var(--disabled-bg);
         color: var(--disabled-text);
-        font-size: 14px;
-        font-weight: 600;
         cursor: not-allowed;
         user-select: none;
       }
 
-      /* ==========================================================================
-         6. ACCORDION CÁC PHIÊN BẢN KHÁC (grid-template-rows: 0fr -> 1fr)
-         ========================================================================== */
-      .versions-group {
-        display: flex;
-        flex-direction: column;
-      }
-
-      .versions-toggle {
+      /* ---------- Older Versions Accordion ---------- */
+      .acc-toggle {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        gap: 10px;
         width: 100%;
         min-height: 38px;
-        padding: 7px 14px;
-        border-radius: var(--radius-pill);
+        padding: 8px 14px;
+        border-radius: 999px;
+        background: transparent;
         border: 1px solid var(--border);
-        background-color: transparent;
-        color: var(--muted);
+        color: var(--text-secondary);
         font-size: 13px;
         font-weight: 600;
         cursor: pointer;
-        transition: border-color 0.2s var(--ease), background-color 0.2s var(--ease), color 0.2s var(--ease), transform 0.2s var(--ease);
+        transition: background-color 0.18s var(--ease), border-color 0.18s var(--ease), color 0.18s var(--ease);
       }
-
-      .versions-toggle:hover,
-      .versions-toggle[aria-expanded="true"] {
-        border-color: var(--border-hover);
-        background-color: var(--surface-2);
+      .acc-toggle:hover {
+        background: var(--surface-2);
+        border-color: var(--border-strong);
         color: var(--text);
       }
-
-      .versions-toggle:active {
-        transform: scale(0.99);
+      .acc-toggle svg {
+        transition: transform 0.28s var(--ease);
       }
-
-      .versions-chevron {
-        width: 15px;
-        height: 15px;
-        flex: none;
-        color: var(--muted);
-        transition: transform 0.3s var(--ease), color 0.2s var(--ease);
-      }
-
-      .versions-toggle[aria-expanded="true"] .versions-chevron {
+      .card.open .acc-toggle svg {
         transform: rotate(180deg);
-        color: var(--text);
       }
 
-      .versions-collapse {
+      .acc-panel {
         display: grid;
         grid-template-rows: 0fr;
-        opacity: 0;
-        transition: grid-template-rows 0.32s var(--ease), opacity 0.24s var(--ease), margin-top 0.32s var(--ease);
+        transition: grid-template-rows 0.3s var(--ease);
       }
-
-      .versions-group.is-open .versions-collapse {
+      .card.open .acc-panel {
         grid-template-rows: 1fr;
-        opacity: 1;
-        margin-top: 10px;
       }
-
-      .versions-collapse-inner {
+      .acc-inner {
         overflow: hidden;
       }
-
-      .version-list {
+      .old-list {
         display: flex;
         flex-direction: column;
-        border-top: 1px solid var(--border);
+        gap: 8px;
+        padding-top: 10px;
       }
-
-      .version-row {
+      .old-row {
         display: flex;
         align-items: center;
         justify-content: space-between;
         gap: 12px;
-        padding: 11px 6px;
-        border-bottom: 1px solid var(--border);
-        transition: background-color 0.22s var(--ease), border-color 0.22s var(--ease);
+        padding: 11px 13px;
+        border-radius: 14px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        transition: border-color 0.2s var(--ease), background-color 0.2s var(--ease);
       }
-
-      .version-row:last-child {
-        border-bottom: 0;
-        padding-bottom: 4px;
+      .old-row.is-match {
+        background: var(--accent-soft);
+        border-color: var(--accent-border);
       }
-
-      .version-row.is-match {
-        margin: 4px 0;
-        padding: 10px 12px;
-        border: 1px solid var(--accent-border);
-        border-radius: 12px;
-        background-color: var(--accent-soft);
-      }
-
-      .version-row.is-match:last-child {
-        padding-bottom: 10px;
-      }
-
-      .version-row-info {
-        display: flex;
-        flex-direction: column;
-        gap: 3px;
-        min-width: 0;
-      }
-
-      .version-row-name {
+      .old-info { min-width: 0; }
+      .old-ver {
         font-family: "JetBrains Mono", ui-monospace, monospace;
         font-size: 13.5px;
-        font-weight: 600;
+        font-weight: 700;
         color: var(--text);
-        line-height: 1.35;
-        overflow-wrap: anywhere;
+        word-break: break-word;
+      }
+      .old-meta {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 4px 10px;
+        margin-top: 3px;
+        font-size: 12px;
+        color: var(--muted);
+        font-weight: 500;
       }
 
-      .version-row.is-match .version-row-name {
-        color: var(--accent);
-      }
-
-      .btn-mini-download {
+      .btn-mini,
+      .btn-mini-disabled {
+        flex-shrink: 0;
         display: inline-flex;
         align-items: center;
         justify-content: center;
         gap: 5px;
-        height: 34px;
-        padding: 0 13px;
-        flex: none;
-        border-radius: var(--radius-pill);
-        border: 1px solid var(--accent-border);
-        background-color: var(--accent-soft);
-        color: var(--accent);
-        text-decoration: none;
+        min-height: 34px;
+        padding: 6px 13px;
+        border-radius: 999px;
         font-size: 12.5px;
-        font-weight: 600;
+        font-weight: 700;
+        text-decoration: none;
         white-space: nowrap;
-        transition: background-color 0.2s var(--ease), border-color 0.2s var(--ease), color 0.2s var(--ease), transform 0.2s var(--ease);
       }
-
-      .btn-mini-download:hover {
-        background-color: var(--accent);
-        border-color: var(--accent);
-        color: #FFFFFF;
+      .btn-mini {
+        background: var(--accent-soft);
+        color: var(--accent);
+        border: 1px solid var(--accent-border);
+        transition: background-color 0.18s var(--ease), color 0.18s var(--ease), transform 0.15s var(--ease);
       }
-
-      .btn-mini-download:active {
-        transform: scale(0.96);
+      .btn-mini:hover {
+        background: var(--accent);
+        color: #ffffff;
       }
-
-      .btn-mini-download svg {
-        width: 13.5px;
-        height: 13.5px;
-        flex: none;
-        transition: transform 0.22s var(--ease);
-      }
-
-      .btn-mini-download:hover svg {
-        transform: translateY(1.5px);
-      }
-
+      .btn-mini:active { transform: scale(0.96); }
       .btn-mini-disabled {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        height: 32px;
-        padding: 0 11px;
-        flex: none;
-        border-radius: var(--radius-pill);
-        border: 1px solid var(--border);
-        background-color: var(--disabled-bg);
+        background: var(--surface-2);
         color: var(--disabled-text);
-        font-size: 12px;
-        font-weight: 600;
-        white-space: nowrap;
+        border: 1px solid var(--border);
+        cursor: not-allowed;
         user-select: none;
       }
 
-      /* ==========================================================================
-         7. SKELETON LOADING (2 THẺ TỐI GIẢN) & TRẠNG THÁI TRỐNG
-         ========================================================================== */
-      .skel-card {
-        display: flex;
-        flex-direction: column;
-        gap: 14px;
+      /* ---------- Skeleton ---------- */
+      .skeleton-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 22px;
         padding: 20px;
-        border-radius: var(--radius-card);
-        background-color: var(--surface);
-        border: 1px solid var(--border);
-      }
-
-      .skel-row {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 12px;
-      }
-
-      .skel {
-        background: linear-gradient(90deg, var(--surface-2) 25%, var(--border) 50%, var(--surface-2) 75%);
-        background-size: 200% 100%;
-        border-radius: 10px;
-        animation: shimmer 1.35s ease-in-out infinite;
-      }
-
-      .skel-title { height: 24px; width: 46%; }
-      .skel-code { height: 28px; width: 84px; border-radius: var(--radius-pill); }
-      .skel-box { height: 112px; width: 100%; border-radius: var(--radius-inner); }
-
-      @keyframes shimmer {
-        0% { background-position: 200% 0; }
-        100% { background-position: -200% 0; }
-      }
-
-      .empty-state {
-        display: none;
-        text-align: center;
-        padding: 44px 20px;
-        border-radius: var(--radius-card);
-        background-color: var(--surface);
-        border: 1px dashed var(--border-hover);
-        color: var(--muted);
-        font-size: 14.5px;
-        font-weight: 500;
-        line-height: 1.6;
-      }
-
-      .empty-state.show {
-        display: block;
-      }
-
-      /* ==========================================================================
-         8. THẺ BẢO TRÌ TỐI GIẢN CĂN GIỮA TRANG
-         ========================================================================== */
-      .maintenance-wrap {
-        display: none;
-        padding: 28px 0 12px;
-      }
-
-      .maintenance-wrap.show {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-
-      .maintenance-card {
-        width: 100%;
-        max-width: 460px;
-        padding: 36px 28px 32px;
-        border-radius: 26px;
-        background-color: var(--surface);
-        border: 1px solid var(--border);
-        box-shadow: var(--shadow-sm);
-        text-align: center;
         display: flex;
         flex-direction: column;
-        align-items: center;
         gap: 14px;
-        animation: cardReveal 0.42s var(--ease) forwards;
+      }
+      .sk {
+        border-radius: 10px;
+        background: linear-gradient(90deg, var(--surface-2) 25%, var(--surface-hover) 50%, var(--surface-2) 75%);
+        background-size: 200% 100%;
+        animation: shimmer 1.4s infinite linear;
+      }
+      .sk-title { height: 24px; width: 58%; }
+      .sk-box { height: 112px; width: 100%; border-radius: 16px; }
+      @keyframes shimmer {
+        from { background-position: 200% 0; }
+        to { background-position: -200% 0; }
       }
 
-      .maint-icon-box {
-        position: relative;
-        width: 60px;
-        height: 60px;
-        display: grid;
-        place-items: center;
-        border-radius: 18px;
-        background-color: var(--accent-soft);
-        border: 1px solid var(--accent-border);
+      /* ---------- Empty & Maintenance States ---------- */
+      .state-card {
+        text-align: center;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 22px;
+        padding: 44px 24px;
+        box-shadow: var(--shadow);
+      }
+      .state-card.maintenance {
+        max-width: 520px;
+        margin: 28px auto 12px;
+        padding: 48px 28px;
+      }
+      .state-icon {
+        width: 54px;
+        height: 54px;
+        margin: 0 auto 16px;
+        border-radius: 16px;
+        background: var(--accent-soft);
         color: var(--accent);
-        margin-bottom: 4px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
       }
-
-      .maint-icon-box svg {
-        width: 28px;
-        height: 28px;
-      }
-
-      /* Chấm trạng thái có nhịp nhẹ tinh tế */
-      .maint-dot {
-        position: absolute;
-        top: -3px;
-        right: -3px;
-        width: 12px;
-        height: 12px;
-        border-radius: 50%;
-        background-color: var(--accent);
-        border: 2.5px solid var(--surface);
-      }
-
-      .maint-dot::after {
-        content: "";
-        position: absolute;
-        inset: -3px;
-        border-radius: 50%;
-        background-color: var(--accent);
-        opacity: 0.4;
-        animation: pulseDot 2s var(--ease) infinite;
-      }
-
-      @keyframes pulseDot {
-        0% {
-          transform: scale(0.8);
-          opacity: 0.55;
-        }
-        70% {
-          transform: scale(2.1);
-          opacity: 0;
-        }
-        100% {
-          transform: scale(2.1);
-          opacity: 0;
-        }
-      }
-
-      .maintenance-card h2 {
-        margin: 0;
-        font-size: 21px;
+      .state-card h3 {
+        margin: 0 0 8px;
+        font-size: 20px;
         font-weight: 800;
         letter-spacing: -0.02em;
-        color: var(--text);
       }
-
-      .maintenance-card p {
-        margin: 0;
-        max-width: 360px;
+      .state-card p {
+        margin: 0 auto;
+        max-width: 380px;
         font-size: 14.5px;
         line-height: 1.6;
         color: var(--muted);
         font-weight: 500;
       }
-
-      .btn-retry {
-        margin-top: 8px;
+      .state-btn {
+        margin-top: 20px;
         display: inline-flex;
         align-items: center;
         justify-content: center;
         gap: 8px;
-        height: 44px;
-        padding: 0 24px;
-        border-radius: var(--radius-pill);
+        min-height: 42px;
+        padding: 10px 20px;
+        border-radius: 999px;
         border: 0;
-        background-color: var(--accent);
-        color: #FFFFFF;
-        font-size: 14.5px;
-        font-weight: 600;
+        background: var(--accent);
+        color: #ffffff;
+        font-size: 14px;
+        font-weight: 700;
         cursor: pointer;
-        transition: background-color 0.2s var(--ease), transform 0.2s var(--ease), opacity 0.2s var(--ease);
+        transition: background-color 0.18s var(--ease), transform 0.15s var(--ease);
       }
+      .state-btn:hover { background: var(--accent-hover); }
+      .state-btn:active { transform: scale(0.97); }
+      .state-btn:disabled { opacity: 0.65; cursor: wait; }
 
-      .btn-retry:hover:not(:disabled) {
-        background-color: var(--accent-hover);
-      }
+      .hidden { display: none !important; }
 
-      .btn-retry:active:not(:disabled) {
-        transform: scale(0.97);
-      }
-
-      .btn-retry:disabled {
-        opacity: 0.78;
-        cursor: wait;
-      }
-
-      .btn-retry svg {
-        width: 16px;
-        height: 16px;
-        flex: none;
-      }
-
-      .btn-retry.is-loading svg {
-        animation: spinIcon 0.75s linear infinite;
-      }
-
-      @keyframes spinIcon {
-        to {
-          transform: rotate(360deg);
-        }
-      }
-
-      /* ==========================================================================
-         9. FOOTER & TOAST SAO CHÉP
-         ========================================================================== */
-      footer {
-        margin-top: auto;
-        padding: 24px 0 36px;
-        border-top: 1px solid var(--border);
-        text-align: center;
-        color: var(--muted);
-        font-size: 13px;
-        font-weight: 500;
-        line-height: 1.7;
-      }
-
-      footer .fbrand {
-        font-size: 15px;
-        font-weight: 900;
-        letter-spacing: -0.015em;
-        color: var(--text);
-      }
-
-      footer .fbrand .os {
-        color: var(--accent);
-      }
-
+      /* ---------- Toast ---------- */
       .toast {
         position: fixed;
         left: 50%;
         bottom: 24px;
-        z-index: 60;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 10px 16px;
-        border-radius: var(--radius-pill);
-        background-color: #0F172A;
-        color: #F8FAFC;
-        font-size: 13px;
-        font-weight: 600;
-        box-shadow: var(--shadow-toast);
-        white-space: nowrap;
-        max-width: calc(100vw - 32px);
-        overflow: hidden;
-        text-overflow: ellipsis;
+        z-index: 50;
+        transform: translate(-50%, 16px);
         opacity: 0;
         pointer-events: none;
-        transform: translate3d(-50%, 16px, 0);
-        transition: opacity 0.24s var(--ease), transform 0.28s var(--ease);
+        padding: 10px 16px;
+        border-radius: 999px;
+        background: var(--text);
+        color: var(--bg);
+        font-size: 13px;
+        font-weight: 600;
+        box-shadow: var(--shadow-hover);
+        transition: opacity 0.22s var(--ease), transform 0.22s var(--ease);
       }
-
-      [data-theme="dark"] .toast {
-        background-color: #F1F5F9;
-        color: #0F172A;
-      }
-
       .toast.show {
         opacity: 1;
-        transform: translate3d(-50%, 0, 0);
+        transform: translate(-50%, 0);
       }
 
-      .toast svg {
-        flex: none;
-        color: var(--accent);
+      /* ---------- Footer ---------- */
+      footer {
+        margin-top: 48px;
+        padding-top: 24px;
+        border-top: 1px solid var(--border);
+        text-align: center;
+        font-size: 13px;
+        line-height: 1.7;
+        color: var(--muted);
+        font-weight: 500;
       }
+      footer .fbrand {
+        font-size: 15px;
+        font-weight: 900;
+        color: var(--text);
+        letter-spacing: -0.02em;
+      }
+      footer .fbrand .os { color: var(--accent); }
 
       @media (prefers-reduced-motion: reduce) {
-        html {
-          scroll-behavior: auto;
-        }
-        .card, .skel, .maintenance-card, .maint-dot::after {
-          animation: none !important;
-          opacity: 1 !important;
-          transform: none !important;
-        }
         *, *::before, *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
           transition-duration: 0.01ms !important;
+          scroll-behavior: auto !important;
         }
       }
     </style>
   </head>
   <body>
     <div class="wrap">
-      <!-- Phần Hero gọn gàng đúng chất trang gốc -->
       <header class="hero">
         <div class="hero-top">
           <h1 class="brand">Bug<span class="os">OS</span></h1>
-          <button type="button" class="theme-btn" id="themeBtn" aria-label="Chuyển chế độ Sáng hoặc Tối" title="Đổi giao diện Sáng / Tối">
-            <svg class="ico-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <button id="themeToggle" class="theme-btn" type="button" aria-label="Chuyển giao diện Sáng / Tối" title="Chuyển giao diện Sáng / Tối">
+            <svg class="icon-sun" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <circle cx="12" cy="12" r="4"></circle>
-              <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
+              <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path>
             </svg>
-            <svg class="ico-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
             </svg>
           </button>
         </div>
-
         <p class="tagline">ROM mod <strong>BugOS</strong> cho các thiết bị Xiaomi / Redmi. Chọn đúng tên máy của bạn rồi tải bản ROM tương ứng.</p>
-
-        <div class="stats" id="statsBar" aria-label="Tổng quan">
+        <div id="statsBar" class="stats" aria-label="Tổng quan">
           <div class="stat"><b id="statDevices">0</b><span>thiết bị</span></div>
           <div class="stat"><b id="statRoms">0</b><span>bản ROM</span></div>
         </div>
       </header>
 
-      <!-- Thanh tìm kiếm dính kính mờ duy nhất -->
-      <div class="toolbar" id="toolbar">
-        <label class="search-box" id="searchBox">
-          <svg class="ico-search" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
+      <div id="toolbar" class="toolbar">
+        <label id="searchBox" class="search">
+          <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
             <circle cx="11" cy="11" r="7"></circle>
             <path d="m20 20-3.8-3.8"></path>
           </svg>
-          <input id="q" type="search" placeholder="Tìm theo tên máy Xiaomi / Redmi, codename hoặc phiên bản…" autocomplete="off" spellcheck="false" aria-label="Tìm ROM" />
-          <button type="button" class="clear-btn" id="clearBtn" aria-label="Xóa từ khóa">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
+          <input id="q" type="search" placeholder="Tìm theo tên máy Xiaomi / Redmi, codename hoặc phiên bản…" autocomplete="off" aria-label="Tìm ROM" />
+          <button id="clearBtn" class="clear-btn" type="button" aria-label="Xóa tìm kiếm">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true">
               <path d="M18 6 6 18M6 6l12 12"></path>
             </svg>
           </button>
-          <kbd class="kbd-hint" title="Nhấn / để tìm nhanh">/</kbd>
-          <span class="result-count" id="resultCount">0 ROM</span>
+          <kbd class="kbd-hint" aria-hidden="true">/</kbd>
+          <span id="resultCount" class="count-pill">0 ROM</span>
         </label>
       </div>
 
       <main>
-        <div class="section-head" id="sectionHead">
+        <div id="sectionHead" class="section-head">
           <h2>Danh sách ROM</h2>
         </div>
 
-        <!-- Lưới hiển thị thiết bị & các phiên bản ROM -->
-        <div class="grid" id="grid" aria-live="polite"></div>
-
-        <!-- Trạng thái trống (dữ liệu rỗng hoặc không khớp tìm kiếm) -->
-        <div class="empty-state" id="emptyState"></div>
-
-        <!-- Chế độ đang bảo trì (tự hiện khi không đọc được roms.json) -->
-        <section class="maintenance-wrap" id="maintenanceView" aria-live="polite">
-          <div class="maintenance-card">
-            <div class="maint-icon-box" aria-hidden="true">
-              <span class="maint-dot"></span>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
-              </svg>
-            </div>
-            <h2>Hệ thống đang bảo trì</h2>
-            <p>Danh sách ROM hiện tạm thời không khả dụng do đang cập nhật dữ liệu. Vui lòng quay lại sau ít phút.</p>
-            <button type="button" class="btn-retry" id="retryBtn">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M21 12a9 9 0 1 1-2.64-6.36"></path>
-                <polyline points="21 3 21 9 15 9"></polyline>
-              </svg>
-              <span id="retryBtnLabel">Thử tải lại</span>
-            </button>
+        <div id="skeletonGrid" class="grid" aria-hidden="true">
+          <div class="skeleton-card">
+            <div class="sk sk-title"></div>
+            <div class="sk sk-box"></div>
           </div>
+          <div class="skeleton-card">
+            <div class="sk sk-title"></div>
+            <div class="sk sk-box"></div>
+          </div>
+        </div>
+
+        <div id="grid" class="grid hidden"></div>
+
+        <div id="emptyState" class="state-card hidden">
+          <h3 id="emptyTitle">Không tìm thấy ROM</h3>
+          <p id="emptyText">Thử tìm bằng tên máy, codename hoặc phiên bản khác.</p>
+          <button id="resetSearchBtn" class="state-btn hidden" type="button">Xóa bộ lọc tìm kiếm</button>
+        </div>
+
+        <section id="maintenanceState" class="state-card maintenance hidden" aria-live="polite">
+          <div class="state-icon" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+            </svg>
+          </div>
+          <h3>Hệ thống đang bảo trì</h3>
+          <p>Danh sách ROM hiện tạm thời không thể truy cập. Vui lòng quay lại hoặc thử tải lại sau ít phút.</p>
+          <button id="retryBtn" class="state-btn" type="button">Thử tải lại</button>
         </section>
       </main>
 
@@ -1211,549 +781,403 @@
       </footer>
     </div>
 
-    <!-- Thông báo Toast gọn ở đáy màn hình -->
-    <div class="toast" id="toast" role="status" aria-live="polite">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <polyline points="20 6 9 17 4 12"></polyline>
-      </svg>
-      <span id="toastText"></span>
-    </div>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
     <script>
       (function () {
-        'use strict';
-
-        /* ========================================================================
-           1. THAM CHIẾU DOM & TRẠNG THÁI
-           ======================================================================== */
-        var themeBtn = document.getElementById('themeBtn');
+        var themeToggle = document.getElementById('themeToggle');
         var statsBar = document.getElementById('statsBar');
         var statDevices = document.getElementById('statDevices');
         var statRoms = document.getElementById('statRoms');
         var toolbar = document.getElementById('toolbar');
         var searchBox = document.getElementById('searchBox');
-        var searchInput = document.getElementById('q');
+        var input = document.getElementById('q');
         var clearBtn = document.getElementById('clearBtn');
         var resultCount = document.getElementById('resultCount');
         var sectionHead = document.getElementById('sectionHead');
+        var skeletonGrid = document.getElementById('skeletonGrid');
         var grid = document.getElementById('grid');
         var emptyState = document.getElementById('emptyState');
-        var maintenanceView = document.getElementById('maintenanceView');
+        var emptyTitle = document.getElementById('emptyTitle');
+        var emptyText = document.getElementById('emptyText');
+        var resetSearchBtn = document.getElementById('resetSearchBtn');
+        var maintenanceState = document.getElementById('maintenanceState');
         var retryBtn = document.getElementById('retryBtn');
-        var retryBtnLabel = document.getElementById('retryBtnLabel');
-        var toast = document.getElementById('toast');
-        var toastText = document.getElementById('toastText');
+        var toastEl = document.getElementById('toast');
 
-        var devices = [];
-        var isMaintenance = false;
+        var groups = [];
+        var manualOpen = {};
         var toastTimer = null;
 
-        /* ========================================================================
-           2. HÀM TIỆN ÍCH CƠ BẢN
-           ======================================================================== */
-        function esc(value) {
-          return String(value == null ? '' : value).replace(/[&<>"']/g, function (ch) {
-            return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch];
+        var ICON_DL = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"></path><path d="m7 11 5 5 5-5"></path><path d="M5 20h14"></path></svg>';
+        var ICON_DL_SM = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"></path><path d="m7 11 5 5 5-5"></path></svg>';
+        var ICON_COPY = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
+        var ICON_CHECK = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>';
+        var ICON_CHEVRON = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg>';
+
+        function cleanStr(v) {
+          return v == null ? '' : String(v).trim();
+        }
+
+        function esc(s) {
+          return cleanStr(s).replace(/[&<>"']/g, function (c) {
+            return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
           });
         }
 
-        function norm(value) {
-          return String(value || '')
+        function norm(s) {
+          return cleanStr(s)
             .toLowerCase()
             .normalize('NFD')
             .replace(/[\u0300-\u036f]/g, '')
             .replace(/đ/g, 'd');
         }
 
-        function isValidLink(link) {
-          return /^https?:\/\//i.test(String(link || '').trim());
+        function isHttpUrl(url) {
+          return /^https?:\/\//i.test(cleanStr(url));
         }
 
-        function showToast(message) {
-          toastText.textContent = message;
-          toast.classList.add('show');
-          clearTimeout(toastTimer);
+        function showToast(msg) {
+          toastEl.textContent = msg;
+          toastEl.classList.add('show');
+          if (toastTimer) clearTimeout(toastTimer);
           toastTimer = setTimeout(function () {
-            toast.classList.remove('show');
-          }, 2200);
+            toastEl.classList.remove('show');
+          }, 1800);
         }
 
-        /* Sao chép clipboard tương thích tốt cả trên iFrame và trình duyệt hiện đại */
-        function copyText(text) {
-          try {
-            var ta = document.createElement('textarea');
-            ta.value = text;
-            ta.setAttribute('readonly', '');
-            ta.style.position = 'fixed';
-            ta.style.left = '-9999px';
-            ta.style.top = '-9999px';
-            document.body.appendChild(ta);
-            ta.select();
-            ta.setSelectionRange(0, text.length);
-            var ok = document.execCommand('copy');
-            document.body.removeChild(ta);
-            if (ok) return true;
-          } catch (e) {}
-
-          if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(text).catch(function () {});
-            return true;
+        function copyText(text, btn) {
+          function onDone() {
+            if (btn) {
+              btn.classList.add('copied');
+              btn.innerHTML = '<span>' + esc(text) + '</span>' + ICON_CHECK;
+              setTimeout(function () {
+                btn.classList.remove('copied');
+                btn.innerHTML = '<span>' + esc(text) + '</span>' + ICON_COPY;
+              }, 1400);
+            }
+            showToast('Đã sao chép: ' + text);
           }
-          return false;
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(onDone).catch(fallbackCopy);
+          } else {
+            fallbackCopy();
+          }
+          function fallbackCopy() {
+            try {
+              var ta = document.createElement('textarea');
+              ta.value = text;
+              ta.style.position = 'fixed';
+              ta.style.opacity = '0';
+              document.body.appendChild(ta);
+              ta.select();
+              document.execCommand('copy');
+              document.body.removeChild(ta);
+              onDone();
+            } catch (e) {}
+          }
         }
 
-        /* ========================================================================
-           3. CHUYỂN CHẾ ĐỘ SÁNG / TỐI & ĐỔI VIỀN TOOLBAR KHI CUỘN
-           ======================================================================== */
-        themeBtn.addEventListener('click', function () {
-          var current = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
-          var next = current === 'dark' ? 'light' : 'dark';
-          document.documentElement.setAttribute('data-theme', next);
-          try {
-            localStorage.setItem('bugos-theme', next);
-          } catch (e) {}
-        });
-
-        function handleScroll() {
-          var y = window.scrollY || window.pageYOffset || 0;
-          toolbar.classList.toggle('stuck', !isMaintenance && y > 130);
-        }
-        window.addEventListener('scroll', handleScroll, { passive: true });
-
-        /* ========================================================================
-           4. GOM NHÓM NHIỀU PHIÊN BẢN ROM VÀO CÙNG 1 THẺ MÁY (THÊM SAU LÊN ĐẦU)
-           ======================================================================== */
-        function parseVersionItem(raw, order) {
-          if (!raw || typeof raw !== 'object') return null;
-
-          var version = String(raw.version || '').trim();
-          var size = String(raw.size || '').trim();
-          var date = String(raw.date || '').trim();
-          var noteVal = raw.note != null && String(raw.note).trim() !== ''
-            ? raw.note
-            : (raw.tag != null ? raw.tag : '');
-          var note = String(noteVal || '').trim();
-          var link = String(raw.link || '').trim();
-
-          /* Bỏ qua mục rỗng hoàn toàn không có thông tin phiên bản lẫn link */
-          if (!version && !link && !size && !date && !note) return null;
-
-          return {
-            version: version || '—',
-            size: size,
-            date: date,
-            note: note,
-            link: link,
-            hasLink: isValidLink(link),
-            searchText: norm([version, size, date, note].join(' ')),
-            _order: order
-          };
-        }
-
-        function groupDevices(rawList) {
-          var map = Object.create(null);
-          var ordered = [];
+        function normalizeData(raw) {
+          var map = {};
+          var keys = [];
           var seq = 0;
 
-          rawList.forEach(function (entry) {
-            if (!entry || typeof entry !== 'object') return;
-
-            var deviceName = String(entry.device || '').trim();
-            var codename = String(entry.codename || '').trim();
-            var groupKey = codename
-              ? 'code:' + norm(codename)
-              : 'dev:' + norm(deviceName || 'unknown');
-
-            var group = map[groupKey];
-            if (!group) {
-              group = {
-                device: deviceName || codename || 'Thiết bị',
+          function addVersion(key, device, codename, item) {
+            seq += 1;
+            if (!map[key]) {
+              map[key] = {
+                key: key,
+                device: device || codename || 'Thiết bị',
                 codename: codename,
                 versions: [],
-                deviceSearch: '',
-                lastOrder: -1
+                lastOrder: seq
               };
-              map[groupKey] = group;
-              ordered.push(group);
-            } else {
-              /* Ưu tiên cập nhật tên máy và codename từ mục được thêm sau nếu không rỗng */
-              if (codename) group.codename = codename;
-              if (deviceName) group.device = deviceName;
+              keys.push(key);
             }
+            var g = map[key];
+            if (device) g.device = device;
+            if (codename) g.codename = codename;
+            g.lastOrder = seq;
+            g.versions.push({
+              version: cleanStr(item.version),
+              size: cleanStr(item.size),
+              link: cleanStr(item.link),
+              date: cleanStr(item.date),
+              note: cleanStr(item.note || item.tag),
+              order: seq
+            });
+          }
 
-            /* Hỗ trợ đồng thời cấu trúc lồng nhau (versions / roms) và cấu trúc phẳng */
+          for (var i = 0; i < raw.length; i++) {
+            var entry = raw[i];
+            if (!entry || typeof entry !== 'object') continue;
+            var device = cleanStr(entry.device);
+            var codename = cleanStr(entry.codename);
+            var key = norm(codename) || norm(device) || ('device_' + i);
             var nested = Array.isArray(entry.versions)
               ? entry.versions
               : (Array.isArray(entry.roms) ? entry.roms : null);
 
             if (nested) {
-              nested.forEach(function (sub) {
-                var parsed = parseVersionItem(sub, ++seq);
-                if (parsed) {
-                  group.versions.push(parsed);
-                  group.lastOrder = parsed._order;
+              for (var j = 0; j < nested.length; j++) {
+                if (nested[j] && typeof nested[j] === 'object') {
+                  addVersion(key, device, codename, nested[j]);
                 }
-              });
-            } else {
-              var single = parseVersionItem(entry, ++seq);
-              if (single) {
-                group.versions.push(single);
-                group.lastOrder = single._order;
               }
+            } else {
+              addVersion(key, device, codename, entry);
             }
-          });
-
-          return ordered
-            .filter(function (g) { return g.versions.length > 0; })
-            .map(function (g) {
-              /* Đảo ngược thứ tự: bản thêm sau cùng trong roms.json luôn lên vị trí đầu tiên */
-              g.versions.sort(function (a, b) {
-                return b._order - a._order;
-              });
-              g.deviceSearch = norm([g.device, g.codename].join(' '));
-              return g;
-            })
-            .sort(function (a, b) {
-              /* Thiết bị nào có bản ROM mới được thêm sau cùng sẽ nổi lên đầu trang */
-              return b.lastOrder - a.lastOrder;
-            });
-        }
-
-        /* ========================================================================
-           5. HIỂN THỊ TRẠNG THÁI: SKELETON, BẢO TRÌ, DANH SÁCH ROM
-           ======================================================================== */
-        function renderSkeleton() {
-          var card = '<div class="skel-card" aria-hidden="true">'
-            + '<div class="skel-row"><div class="skel skel-title"></div><div class="skel skel-code"></div></div>'
-            + '<div class="skel skel-box"></div>'
-            + '</div>';
-          grid.innerHTML = card + card;
-          emptyState.classList.remove('show');
-        }
-
-        function setMaintenanceMode(enabled) {
-          isMaintenance = enabled;
-          statsBar.classList.toggle('is-hidden', enabled);
-          toolbar.classList.toggle('is-hidden', enabled);
-          sectionHead.classList.toggle('is-hidden', enabled);
-          grid.classList.toggle('is-hidden', enabled);
-          if (enabled) {
-            emptyState.classList.remove('show');
           }
-          maintenanceView.classList.toggle('show', enabled);
-          handleScroll();
+
+          var result = [];
+          for (var k = 0; k < keys.length; k++) {
+            var grp = map[keys[k]];
+            if (grp.versions.length > 0) {
+              grp.versions.sort(function (a, b) { return b.order - a.order; });
+              result.push(grp);
+            }
+          }
+          result.sort(function (a, b) { return b.lastOrder - a.lastOrder; });
+          return result;
         }
 
-        /* Chỉ hiển thị đúng những trường có thật trong file (size, date, note) */
-        function buildMetaHtml(v) {
+        function renderMeta(v, cls) {
           var parts = [];
-          if (v.size) {
-            parts.push('<span>' + esc(v.size) + '</span>');
-          }
-          if (v.date) {
-            if (parts.length) parts.push('<span class="meta-dot" aria-hidden="true"></span>');
-            parts.push('<span>' + esc(v.date) + '</span>');
-          }
-          if (v.note) {
-            parts.push('<span class="meta-note">' + esc(v.note) + '</span>');
-          }
-          return parts.length ? '<div class="meta-row">' + parts.join('') + '</div>' : '';
+          if (v.size) parts.push('<span>' + esc(v.size) + '</span>');
+          if (v.date) parts.push('<span>' + esc(v.date) + '</span>');
+          if (v.note) parts.push('<span class="ver-note">' + esc(v.note) + '</span>');
+          return parts.length ? '<div class="' + cls + '">' + parts.join('') + '</div>' : '';
         }
 
-        function buildCardHtml(item, idx) {
-          var dev = item.deviceObj;
-          var primary = dev.versions[0];
-          var others = dev.versions.slice(1);
-          var hasMultiple = others.length > 0;
-          var panelId = 'ver-panel-' + idx;
+        function buildCard(g, index, qNorm) {
+          var latest = g.versions[0];
+          var older = g.versions.slice(1);
+          var hasMulti = older.length > 0;
 
-          var codenameHtml = dev.codename
-            ? '<button type="button" class="codename-btn" data-copy="' + esc(dev.codename) + '" title="Sao chép codename ' + esc(dev.codename) + '">'
-              + '<span>' + esc(dev.codename) + '</span>'
-              + '<svg class="ico-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
-              + '<rect x="9" y="9" width="13" height="13" rx="2"></rect>'
-              + '<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>'
-              + '</svg>'
-              + '<svg class="ico-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
-              + '<polyline points="20 6 9 17 4 12"></polyline>'
-              + '</svg>'
-              + '</button>'
-            : '';
+          var headerHay = norm([g.device, g.codename].join(' '));
+          var latestHay = norm([latest.version, latest.size, latest.date, latest.note].join(' '));
 
-          var countBadgeHtml = hasMultiple
-            ? '<span class="count-badge">' + dev.versions.length + ' bản</span>'
-            : '';
+          var matchedOlder = [];
+          for (var i = 0; i < older.length; i++) {
+            var v = older[i];
+            var vHay = norm([v.version, v.size, v.date, v.note].join(' '));
+            var hit = !!(qNorm && vHay.indexOf(qNorm) !== -1);
+            matchedOlder.push(hit);
+          }
 
-          var primaryAction = primary.hasLink
-            ? '<a class="btn-download" href="' + esc(primary.link) + '" target="_blank" rel="noopener">'
-              + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
-              + '<path d="M12 4v13"></path><polyline points="6 12 12 18 18 12"></polyline>'
-              + '</svg>'
-              + '<span>Tải ROM</span></a>'
-            : '<span class="btn-disabled" aria-disabled="true">'
-              + '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
-              + '<path d="M12 4v13"></path><polyline points="6 12 12 18 18 12"></polyline>'
-              + '</svg><span>Chưa có link tải</span></span>';
-            var isOpen = item.autoExpand;
-            var count = others.length;
-            var labelText = (isOpen ? 'Thu gọn ' : 'Xem thêm ') + count + ' phiên bản khác';
+          var anyOlderHit = matchedOlder.indexOf(true) !== -1;
+          var headerOrLatestHit = !qNorm || headerHay.indexOf(qNorm) !== -1 || latestHay.indexOf(qNorm) !== -1;
 
-            var rowsHtml = others.map(function (v, vIdx) {
-              var isMatchedRow = item.matchedHidden.indexOf(vIdx) !== -1;
-              var miniAction = v.hasLink
-                ? '<a class="btn-mini-download" href="' + esc(v.link) + '" target="_blank" rel="noopener">'
-                  + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
-                  + '<path d="M12 4v13"></path><polyline points="6 12 12 18 18 12"></polyline>'
-                  + '</svg><span>Tải</span></a>'
+          if (qNorm && !headerOrLatestHit && !anyOlderHit) {
+            return null;
+          }
+
+          var isOpen = hasMulti && (Boolean(manualOpen[g.key]) || (Boolean(qNorm) && anyOlderHit));
+          var delay = Math.min(index * 40, 240);
+
+          var latestAction = isHttpUrl(latest.link)
+            ? '<a class="btn-download" href="' + esc(latest.link) + '" target="_blank" rel="noopener noreferrer">' + ICON_DL + '<span>Tải ROM</span></a>'
+            : '<span class="btn-disabled" aria-disabled="true">' + ICON_DL + '<span>Chưa có link tải</span></span>';
+
+          var olderHtml = '';
+          if (hasMulti) {
+            var rows = [];
+            for (var r = 0; r < older.length; r++) {
+              var ov = older[r];
+              var rowAction = isHttpUrl(ov.link)
+                ? '<a class="btn-mini" href="' + esc(ov.link) + '" target="_blank" rel="noopener noreferrer">' + ICON_DL_SM + '<span>Tải</span></a>'
                 : '<span class="btn-mini-disabled" aria-disabled="true">Chưa có link</span>';
-
-              return '<div class="version-row' + (isMatchedRow ? ' is-match' : '') + '">'
-                + '<div class="version-row-info">'
-                + '<span class="version-row-name">' + esc(v.version) + '</span>'
-                + buildMetaHtml(v)
-                + '</div>'
-                + miniAction
-                + '</div>';
-            }).join('');
-
-            accordionHtml = '<div class="versions-group' + (isOpen ? ' is-open' : '') + '">'
-              + '<button type="button" class="versions-toggle" aria-expanded="' + (isOpen ? 'true' : 'false') + '" aria-controls="' + panelId + '" data-count="' + count + '">'
-              + '<span class="versions-toggle-label">' + labelText + '</span>'
-              + '<svg class="versions-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
-              + '<polyline points="6 9 12 15 18 9"></polyline>'
-              + '</svg>'
-              + '</button>'
-              + '<div class="versions-collapse" id="' + panelId + '" role="region">'
-              + '<div class="versions-collapse-inner">'
-              + '<div class="version-list">' + rowsHtml + '</div>'
-              + '</div>'
-              + '</div>'
-              + '</div>';
+              rows.push(
+                '<div class="old-row' + (matchedOlder[r] ? ' is-match' : '') + '">' +
+                  '<div class="old-info">' +
+                    '<div class="old-ver">' + esc(ov.version || 'Chưa rõ phiên bản') + '</div>' +
+                    renderMeta(ov, 'old-meta') +
+                  '</div>' +
+                  rowAction +
+                '</div>'
+              );
+            }
+            var toggleLabel = (isOpen ? 'Thu gọn ' : 'Xem thêm ') + older.length + ' phiên bản khác';
+            olderHtml =
+              '<button class="acc-toggle" type="button" data-acc="' + esc(g.key) + '" data-count="' + older.length + '" aria-expanded="' + (isOpen ? 'true' : 'false') + '">' +
+                '<span class="acc-label">' + toggleLabel + '</span>' +
+                ICON_CHEVRON +
+              '</button>' +
+              '<div class="acc-panel"><div class="acc-inner"><div class="old-list">' + rows.join('') + '</div></div></div>';
           }
 
-          return '<article class="card" style="--i:' + Math.min(idx, 10) + '">'
-            + '<div class="card-head">'
-            + '<h3 class="device-name">' + esc(dev.device) + '</h3>'
-            + '<div class="head-badges">' + codenameHtml + countBadgeHtml + '</div>'
-            + '</div>'
-            + '<div class="primary-box' + (item.primaryHighlight ? ' is-match' : '') + '">'
-            + '<div class="primary-info">'
-            + '<span class="primary-label' + (hasMultiple ? ' is-latest' : '') + '">' + (hasMultiple ? 'Mới nhất' : 'Phiên bản') + '</span>'
-            + '<div class="primary-version">' + esc(primary.version) + '</div>'
-            + buildMetaHtml(primary)
-            + '</div>'
-            + primaryAction
-            + '</div>'
-            + accordionHtml
-            + '</article>';
+          return (
+            '<article class="card' + (isOpen ? ' open' : '') + '" data-key="' + esc(g.key) + '" style="animation-delay:' + delay + 'ms">' +
+              '<div class="card-head">' +
+                '<h3 class="device-name">' + esc(g.device) + '</h3>' +
+                '<div class="badges">' +
+                  (g.codename ? '<button class="badge-copy" type="button" data-copy="' + esc(g.codename) + '" title="Sao chép codename"><span>' + esc(g.codename) + '</span>' + ICON_COPY + '</button>' : '') +
+                  (hasMulti ? '<span class="badge-count">' + g.versions.length + ' bản</span>' : '') +
+                '</div>' +
+              '</div>' +
+              '<div class="latest-box">' +
+                '<div>' +
+                  '<span class="ver-label' + (hasMulti ? ' is-latest' : '') + '">' + (hasMulti ? 'Mới nhất' : 'Phiên bản') + '</span>' +
+                  '<p class="ver-code">' + esc(latest.version || 'Chưa rõ phiên bản') + '</p>' +
+                  renderMeta(latest, 'ver-meta') +
+                '</div>' +
+                latestAction +
+              '</div>' +
+              olderHtml +
+            '</article>'
+          );
         }
 
-        function applySearch() {
-          if (isMaintenance) return;
+        function setMode(mode) {
+          var isMaint = mode === 'maintenance';
+          var isLoading = mode === 'loading';
+          statsBar.classList.toggle('hidden', isMaint);
+          toolbar.classList.toggle('hidden', isMaint);
+          sectionHead.classList.toggle('hidden', isMaint);
+          skeletonGrid.classList.toggle('hidden', !isLoading);
+          maintenanceState.classList.toggle('hidden', !isMaint);
+          if (isMaint || isLoading) {
+            grid.classList.add('hidden');
+            emptyState.classList.add('hidden');
+          }
+        }
 
-          var rawQuery = searchInput.value.trim();
-          var query = norm(rawQuery);
+        function render() {
+          var rawQuery = input.value.trim();
+          var qNorm = norm(rawQuery);
 
+          searchBox.classList.toggle('has-value', rawQuery.length > 0);
           clearBtn.classList.toggle('show', rawQuery.length > 0);
-          searchBox.classList.toggle('has-query', rawQuery.length > 0);
 
-          if (devices.length === 0) {
+          var html = [];
+          var visibleRoms = 0;
+
+          for (var i = 0; i < groups.length; i++) {
+            var card = buildCard(groups[i], html.length, qNorm);
+            if (card) {
+              html.push(card);
+              visibleRoms += groups[i].versions.length;
+            }
+          }
+
+          resultCount.textContent = visibleRoms + ' ROM';
+
+          if (html.length === 0) {
             grid.innerHTML = '';
-            resultCount.textContent = '0 ROM';
-            emptyState.textContent = 'Hiện chưa có bản ROM nào được đăng tải.';
-            emptyState.classList.add('show');
-            return;
-          }
-
-          var visibleItems = [];
-          var visibleRomCount = 0;
-
-          devices.forEach(function (dev) {
-            var autoExpand = false;
-            var matchedHidden = [];
-            var primaryHighlight = false;
-
-            if (query) {
-              var matchesDevice = dev.deviceSearch.indexOf(query) !== -1;
-              var matchesPrimary = dev.versions[0].searchText.indexOf(query) !== -1;
-
-              dev.versions.slice(1).forEach(function (v, idx) {
-                if (v.searchText.indexOf(query) !== -1) {
-                  matchedHidden.push(idx);
-                }
-              });
-
-              var hasHiddenMatch = matchedHidden.length > 0;
-              if (!matchesDevice && !matchesPrimary && !hasHiddenMatch) {
-                return;
-              }
-
-              /* Tự mở rộng accordion và highlight khi từ khóa khớp với phiên bản nằm trong danh sách ẩn */
-              if (!matchesDevice && hasHiddenMatch) {
-                autoExpand = true;
-              }
-              if (!matchesDevice && matchesPrimary) {
-                primaryHighlight = true;
-              }
-            }
-
-            visibleRomCount += dev.versions.length;
-            visibleItems.push({
-              deviceObj: dev,
-              autoExpand: autoExpand,
-              matchedHidden: matchedHidden,
-              primaryHighlight: primaryHighlight
-            });
-          });
-
-          grid.innerHTML = visibleItems.map(buildCardHtml).join('');
-          resultCount.textContent = visibleRomCount + ' ROM';
-
-          if (visibleItems.length === 0) {
-            emptyState.textContent = 'Không tìm thấy ROM nào khớp với từ khóa. Thử tìm bằng tên máy hoặc codename khác.';
-            emptyState.classList.add('show');
-          } else {
-            emptyState.classList.remove('show');
-          }
-        }
-
-        function renderAll() {
-          var totalRoms = devices.reduce(function (sum, d) {
-            return sum + d.versions.length;
-          }, 0);
-          statDevices.textContent = String(devices.length);
-          statRoms.textContent = String(totalRoms);
-          applySearch();
-        }
-
-        /* ========================================================================
-           6. SỰ KIỆN TƯƠNG TÁC (TÌM KIẾM, PHÍM TẮT, COPY CODENAME, ACCORDION)
-           ======================================================================== */
-        searchInput.addEventListener('input', applySearch);
-
-        clearBtn.addEventListener('click', function () {
-          searchInput.value = '';
-          applySearch();
-          searchInput.focus();
-        });
-
-        document.addEventListener('keydown', function (e) {
-          if (isMaintenance) return;
-          if (e.key === '/' && document.activeElement !== searchInput && !e.ctrlKey && !e.metaKey && !e.altKey) {
-            var tag = ((document.activeElement && document.activeElement.tagName) || '').toLowerCase();
-            if (tag !== 'input' && tag !== 'textarea') {
-              e.preventDefault();
-              searchInput.focus();
-              searchInput.select();
-            }
-          } else if (e.key === 'Escape' && document.activeElement === searchInput) {
-            if (searchInput.value) {
-              searchInput.value = '';
-              applySearch();
+            grid.classList.add('hidden');
+            emptyState.classList.remove('hidden');
+            if (groups.length === 0) {
+              emptyTitle.textContent = 'Chưa có bản ROM nào';
+              emptyText.textContent = 'Danh sách ROM đang trống, hãy quay lại sau khi có bản cập nhật mới.';
+              resetSearchBtn.classList.add('hidden');
             } else {
-              searchInput.blur();
+              emptyTitle.textContent = 'Không tìm thấy ROM phù hợp';
+              emptyText.textContent = 'Thử tìm bằng tên máy Xiaomi / Redmi, codename hoặc số phiên bản khác.';
+              resetSearchBtn.classList.remove('hidden');
             }
-          }
-        });
-
-        grid.addEventListener('click', function (e) {
-          /* Sao chép codename */
-          var copyBtn = e.target.closest('.codename-btn');
-          if (copyBtn) {
-            var code = copyBtn.getAttribute('data-copy') || '';
-            if (!code) return;
-            copyText(code);
-            copyBtn.classList.add('copied');
-            showToast('Đã sao chép codename: ' + code);
-            clearTimeout(copyBtn._timer);
-            copyBtn._timer = setTimeout(function () {
-              copyBtn.classList.remove('copied');
-            }, 1500);
-            return;
-          }
-
-          /* Đóng / mở danh sách phiên bản khác */
-          var toggleBtn = e.target.closest('.versions-toggle');
-          if (toggleBtn) {
-            var group = toggleBtn.closest('.versions-group');
-            if (!group) return;
-            var open = group.classList.toggle('is-open');
-            var count = toggleBtn.getAttribute('data-count') || '0';
-            var label = toggleBtn.querySelector('.versions-toggle-label');
-            toggleBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
-            if (label) {
-              label.textContent = (open ? 'Thu gọn ' : 'Xem thêm ') + count + ' phiên bản khác';
-            }
-          }
-        });
-
-        /* ========================================================================
-           7. TẢI DỮ LIỆU THẬT TỪ ./roms.json & XỬ LÝ CHẾ ĐỘ BẢO TRÌ
-           ======================================================================== */
-        function loadRoms(isManualRetry) {
-          if (isManualRetry) {
-            retryBtn.disabled = true;
-            retryBtn.classList.add('is-loading');
-            retryBtnLabel.textContent = 'Đang kiểm tra…';
           } else {
-            setMaintenanceMode(false);
-            renderSkeleton();
+            emptyState.classList.add('hidden');
+            grid.innerHTML = html.join('');
+            grid.classList.remove('hidden');
           }
+        }
 
-          var startedAt = Date.now();
+        function loadRoms() {
+          setMode('loading');
+          retryBtn.disabled = true;
 
           fetch('./roms.json?v=' + Date.now(), { cache: 'no-store' })
             .then(function (res) {
-              if (!res.ok) {
-                throw new Error('HTTP ' + res.status + ' ' + res.statusText);
-              }
+              if (!res.ok) throw new Error('HTTP ' + res.status);
               return res.text();
             })
-            .then(function (rawText) {
-              /* Loại bỏ UTF-8 BOM nếu file được lưu bằng trình soạn thảo trên Windows */
-              var cleanText = rawText.replace(/^\uFEFF/, '');
-              var parsed = JSON.parse(cleanText);
-              if (!Array.isArray(parsed)) {
-                throw new Error('Dữ liệu trong roms.json không phải dạng mảng JSON.');
-              }
-              devices = groupDevices(parsed);
-              setMaintenanceMode(false);
-              renderAll();
-              if (isManualRetry) {
-                showToast('Đã cập nhật danh sách ROM.');
-              }
+            .then(function (text) {
+              var cleaned = text.replace(/^\uFEFF/, '').trim();
+              if (!cleaned) throw new Error('File roms.json rỗng');
+              var parsed = JSON.parse(cleaned);
+              var list = Array.isArray(parsed)
+                ? parsed
+                : (parsed && Array.isArray(parsed.roms) ? parsed.roms : null);
+              if (!list) throw new Error('Cấu trúc roms.json không phải mảng');
+
+              groups = normalizeData(list);
+              var totalRoms = 0;
+              for (var i = 0; i < groups.length; i++) totalRoms += groups[i].versions.length;
+              statDevices.textContent = groups.length;
+              statRoms.textContent = totalRoms;
+
+              setMode('ready');
+              render();
             })
             .catch(function (err) {
-              console.error('[BugOS] Lỗi đọc roms.json:', err);
-              var elapsed = Date.now() - startedAt;
-              var delay = isManualRetry ? Math.max(0, 380 - elapsed) : 0;
-
-              setTimeout(function () {
-                setMaintenanceMode(true);
-                if (isManualRetry) {
-                  showToast('Hệ thống vẫn đang bảo trì, vui lòng thử lại sau.');
-                }
-              }, delay);
+              console.error('[BugOS] Không đọc được roms.json:', err);
+              setMode('maintenance');
             })
             .finally(function () {
-              if (isManualRetry) {
-                var elapsed = Date.now() - startedAt;
-                var delay = Math.max(0, 380 - elapsed);
-                setTimeout(function () {
-                  retryBtn.disabled = false;
-                  retryBtn.classList.remove('is-loading');
-                  retryBtnLabel.textContent = 'Thử tải lại';
-                }, delay);
-              }
+              retryBtn.disabled = false;
             });
         }
 
-        retryBtn.addEventListener('click', function () {
-          loadRoms(true);
+        themeToggle.addEventListener('click', function () {
+          var next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+          document.documentElement.dataset.theme = next;
+          try { localStorage.setItem('bugos-theme', next); } catch (e) {}
         });
 
-        /* Khởi chạy nạp dữ liệu ban đầu */
-        loadRoms(false);
+        input.addEventListener('input', render);
+
+        clearBtn.addEventListener('click', function () {
+          input.value = '';
+          render();
+          input.focus();
+        });
+
+        resetSearchBtn.addEventListener('click', function () {
+          input.value = '';
+          render();
+          input.focus();
+        });
+
+        retryBtn.addEventListener('click', loadRoms);
+
+        grid.addEventListener('click', function (e) {
+          var copyBtn = e.target.closest('[data-copy]');
+          if (copyBtn) {
+            copyText(copyBtn.getAttribute('data-copy'), copyBtn);
+            return;
+          }
+          var accBtn = e.target.closest('[data-acc]');
+          if (accBtn) {
+            var card = accBtn.closest('.card');
+            var key = accBtn.getAttribute('data-acc');
+            var count = accBtn.getAttribute('data-count');
+            var nextOpen = !card.classList.contains('open');
+            card.classList.toggle('open', nextOpen);
+            accBtn.setAttribute('aria-expanded', nextOpen ? 'true' : 'false');
+            var labelEl = accBtn.querySelector('.acc-label');
+            if (labelEl) {
+              labelEl.textContent = (nextOpen ? 'Thu gọn ' : 'Xem thêm ') + count + ' phiên bản khác';
+            }
+            manualOpen[key] = nextOpen;
+          }
+        });
+
+        document.addEventListener('keydown', function (e) {
+          if (e.key === '/' && document.activeElement !== input && !toolbar.classList.contains('hidden')) {
+            e.preventDefault();
+            input.focus();
+          } else if (e.key === 'Escape' && document.activeElement === input) {
+            if (input.value) {
+              input.value = '';
+              render();
+            } else {
+              input.blur();
+            }
+          }
+        });
+
+        loadRoms();
       })();
     </script>
   </body>
