@@ -2,22 +2,36 @@
   {
     "device": "Redmi K90",
     "codename": "annibale",
-    "version": "OS4",
+    "version": "OS4.0.6.0.XPKCNXM",
     "size": "7.3 GB",
     "link": "https://drive.google.com/open?id=1rU84JYfRcujCmGz6GEmukBiUrrGBUjgZ"
   },
   {
     "device": "Xiaomi 15",
     "codename": "dada",
-    "version": "OS4",
+    "version": "OS4.0.4.0.XOCCNXM",
     "size": "7.6 GB",
     "link": "https://drive.google.com/open?id=1b7jomYcPUEPpyzUVDsdc9mguEaKB0t7P"
   },
   {
     "device": "Redmi Turbo 4 Pro",
     "codename": "onyx",
-    "version": "OS4",
+    "version": "OS4.0.4.0.XOLCNXM",
     "size": "6.7 GB",
     "link": "https://drive.google.com/open?id=1bwyGJh-0Sc4_XNjpRSwbTUCSjGYEiFNT"
+  },
+  {
+    "device": "Redmi K90 Pro Max",
+    "codename": "myron",
+    "version": "OS4.0.6.0.XPMCNXM",
+    "size": "8.1 GB",
+    "link": "https://drive.google.com/open?id=17ECdxqZqgd3jp2ITRcp39zBaR46zqHyo"
+  },
+  #{
+    "device": "",
+    "codename": "",
+    "version": "",
+    "size": "",
+    "link": ""
   }
 ]
