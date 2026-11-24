@@ -2,330 +2,2199 @@
 <html lang="vi">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="color-scheme" content="light dark" />
-    <meta name="description" content="BugOS — ROM mod cho các thiết bị Xiaomi / Redmi. Xem và tải ROM theo tên máy." />
-    <link rel="icon" href="data:," />
+    <meta name="description" content="BugOS — Kho ROM mod tối giản, ổn định dành riêng cho các thiết bị Xiaomi và Redmi. Tra cứu codename và tải đúng phiên bản ROM cho máy của bạn." />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%232563EB'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' fill='%23FFFFFF' font-family='sans-serif' font-weight='800' font-size='32'%3EB%3C/text%3E%3C/svg%3E" />
     <title>BugOS ROM Công khai</title>
+
+    <!-- Google Fonts: Be Vietnam Pro & JetBrains Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@500;600;700;800;900&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet" />
-    <style>
-      button, [role="button"], select, summary, input:not([type="checkbox"], [type="radio"]) { min-height: 2.25rem; }
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet" />
 
-      :root{
-        --bg:#f4f6fb;
-        --bg-2:#eaf0fa;
-        --surface:#ffffff;
-        --surface-2:#eef2f9;
-        --border:#dbe3f0;
-        --text:#0b1220;
-        --muted:#5b6b84;
-        --blue:#0047ff;
-        --blue-strong:#0039d6;
-        --blue-soft:#e3ebff;
-        --orange:#e85d04;
-        --chip-bg:#eef2f9;
-        --chip-border:#d5deee;
-        --disabled-bg:#e6eaf2;
-        --disabled-text:#8a97ad;
-        --shadow:0 10px 30px rgba(11,25,60,.08);
+    <!-- Khởi tạo chế độ Sáng / Tối trước khi vẽ giao diện để tránh nhấp nháy -->
+    <script>
+      (function () {
+        try {
+          var saved = localStorage.getItem('bugos-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var theme = saved === 'light' || saved === 'dark' ? saved : (prefersDark ? 'dark' : 'light');
+          document.documentElement.setAttribute('data-theme', theme);
+        } catch (e) {
+          document.documentElement.setAttribute('data-theme', 'light');
+        }
+      })();
+    </script>
+
+    <style>
+      /* ==========================================================================
+         1. DESIGN TOKENS — TỐI GIẢN TRUNG TÍNH & MỘT MÀU NHẤN XANH DƯƠNG
+         ========================================================================== */
+      :root {
+        --bg: #F6F7F9;
+        --bg-glass: rgba(246, 247, 249, 0.84);
+        --surface: #FFFFFF;
+        --surface-2: #F1F4F8;
+        --border: #E4E7EE;
+        --border-hover: #CFD6E4;
+
+        --text: #0F172A;
+        --muted: #64748B;
+
+        --accent: #2563EB;
+        --accent-hover: #1D4ED8;
+        --accent-soft: #EFF6FF;
+        --accent-border: rgba(37, 99, 235, 0.28);
+        --accent-ring: rgba(37, 99, 235, 0.16);
+
+        --disabled-bg: #EEF1F6;
+        --disabled-text: #94A3B8;
+
+        --shadow-card: 0 1px 2px rgba(15, 23, 42, 0.04), 0 4px 12px rgba(15, 23, 42, 0.03);
+        --shadow-card-hover: 0 10px 26px -8px rgba(15, 23, 42, 0.1), 0 2px 6px rgba(15, 23, 42, 0.04);
+        --shadow-toast: 0 12px 32px -4px rgba(15, 23, 42, 0.24);
+
+        --ease: cubic-bezier(0.22, 1, 0.36, 1);
+        --nav-h: 56px;
+        --radius-card: 20px;
+        --radius-inner: 14px;
+        --radius-pill: 999px;
+
         color-scheme: light;
       }
-      @media (prefers-color-scheme: dark){
-        :root{
-          --bg:#060a14;
-          --bg-2:#0a1122;
-          --surface:#0d1526;
-          --surface-2:#111c33;
-          --border:#1e2c4a;
-          --text:#f4f7fc;
-          --muted:#94a5c2;
-          --blue:#2f6bff;
-          --blue-strong:#2563eb;
-          --blue-soft:#16264a;
-          --orange:#ff7a1a;
-          --chip-bg:#131f38;
-          --chip-border:#24365c;
-          --disabled-bg:#1a2742;
-          --disabled-text:#6f819f;
-          --shadow:0 14px 36px rgba(0,0,0,.35);
-          color-scheme: dark;
+
+      [data-theme="dark"] {
+        --bg: #090C11;
+        --bg-glass: rgba(9, 12, 17, 0.84);
+        --surface: #11161F;
+        --surface-2: #161D29;
+        --border: #1E2634;
+        --border-hover: #2E3A4E;
+
+        --text: #F1F5F9;
+        --muted: #94A3B8;
+
+        --accent: #3B82F6;
+        --accent-hover: #2563EB;
+        --accent-soft: rgba(59, 130, 246, 0.12);
+        --accent-border: rgba(59, 130, 246, 0.36);
+        --accent-ring: rgba(59, 130, 246, 0.22);
+
+        --disabled-bg: #171F2C;
+        --disabled-text: #64748B;
+
+        --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.28);
+        --shadow-card-hover: 0 14px 30px -10px rgba(0, 0, 0, 0.56);
+        --shadow-toast: 0 14px 36px rgba(0, 0, 0, 0.52);
+
+        color-scheme: dark;
+      }
+
+      /* ==========================================================================
+         2. BASE & CONTAINER
+         ========================================================================== */
+      *, *::before, *::after {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background-color: var(--bg);
+        color: var(--text);
+        font-family: "Be Vietnam Pro", system-ui, -apple-system, "Segoe UI", sans-serif;
+        font-size: 15px;
+        line-height: 1.5;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        transition: background-color 0.25s var(--ease), color 0.25s var(--ease);
+      }
+
+      a {
+        color: inherit;
+      }
+
+      button, input, select {
+        font-family: inherit;
+      }
+
+      .container {
+        max-width: 1040px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* ==========================================================================
+         3. STICKY FROSTED TOP NAVIGATION BAR
+         ========================================================================== */
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 40;
+        height: var(--nav-h);
+        background-color: var(--bg-glass);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        border-bottom: 1px solid var(--border);
+        transition: background-color 0.25s var(--ease), border-color 0.25s var(--ease);
+      }
+
+      .topbar-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        height: 100%;
+      }
+
+      .brand-wrap {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        text-decoration: none;
+      }
+
+      .brand-wordmark {
+        font-size: 20px;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        line-height: 1;
+        color: var(--text);
+      }
+
+      .brand-wordmark span {
+        color: var(--accent);
+      }
+
+      .badge-public {
+        display: inline-flex;
+        align-items: center;
+        height: 22px;
+        padding: 0 9px;
+        border-radius: var(--radius-pill);
+        background-color: var(--surface);
+        border: 1px solid var(--border);
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.02em;
+      }
+
+      .theme-toggle {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        height: 36px;
+        padding: 0 13px;
+        border-radius: var(--radius-pill);
+        border: 1px solid var(--border);
+        background-color: var(--surface);
+        color: var(--text);
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: border-color 0.2s var(--ease), background-color 0.2s var(--ease), transform 0.2s var(--ease);
+      }
+
+      .theme-toggle:hover {
+        border-color: var(--border-hover);
+      }
+
+      .theme-toggle:active {
+        transform: scale(0.97);
+      }
+
+      .theme-toggle svg {
+        width: 15px;
+        height: 15px;
+        flex: none;
+        color: var(--muted);
+        transition: color 0.2s var(--ease);
+      }
+
+      .theme-toggle:hover svg {
+        color: var(--text);
+      }
+
+      [data-theme="light"] .ico-sun,
+      [data-theme="light"] .label-light {
+        display: none;
+      }
+
+      [data-theme="dark"] .ico-moon,
+      [data-theme="dark"] .label-dark {
+        display: none;
+      }
+
+      /* ==========================================================================
+         4. COMPACT HERO & 2 INLINE COUNT-UP STATS
+         ========================================================================== */
+      .hero {
+        padding: 26px 0 14px;
+      }
+
+      .hero-row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 14px 24px;
+      }
+
+      .hero-copy {
+        max-width: 560px;
+      }
+
+      .hero-title {
+        margin: 0;
+        font-size: clamp(25px, 3.8vw, 33px);
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        line-height: 1.15;
+      }
+
+      .hero-title span {
+        color: var(--accent);
+      }
+
+      .hero-desc {
+        margin: 7px 0 0;
+        font-size: 14.5px;
+        color: var(--muted);
+        font-weight: 500;
+        line-height: 1.55;
+      }
+
+      .stats-list {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .stat-item {
+        display: inline-flex;
+        align-items: baseline;
+        gap: 6px;
+        padding: 7px 14px;
+        border-radius: var(--radius-pill);
+        background-color: var(--surface);
+        border: 1px solid var(--border);
+        font-size: 13px;
+        color: var(--muted);
+        font-weight: 500;
+      }
+
+      .stat-item b {
+        font-size: 14.5px;
+        font-weight: 700;
+        color: var(--text);
+        font-variant-numeric: tabular-nums;
+      }
+
+      /* ==========================================================================
+         5. DEMO NOTICE BANNER (TRUNG TÍNH, ẨN KHI TẢI ĐƯỢC roms.json)
+         ========================================================================== */
+      .demo-notice {
+        display: none;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin: 0 0 12px;
+        padding: 9px 10px 9px 14px;
+        border-radius: var(--radius-inner);
+        background-color: var(--surface);
+        border: 1px solid var(--border);
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.5;
+      }
+
+      .demo-notice.show {
+        display: flex;
+      }
+
+      .demo-notice-text {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        min-width: 0;
+      }
+
+      .demo-notice-text svg {
+        flex: none;
+        color: var(--accent);
+      }
+
+      .demo-notice code {
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-size: 12px;
+        padding: 1px 6px;
+        border-radius: 6px;
+        background-color: var(--surface-2);
+        color: var(--text);
+        font-weight: 600;
+      }
+
+      .demo-dismiss {
+        display: grid;
+        place-items: center;
+        width: 30px;
+        height: 30px;
+        flex: none;
+        border: 0;
+        border-radius: var(--radius-pill);
+        background: transparent;
+        color: var(--muted);
+        cursor: pointer;
+        transition: background-color 0.2s var(--ease), color 0.2s var(--ease);
+      }
+
+      .demo-dismiss:hover {
+        background-color: var(--surface-2);
+        color: var(--text);
+      }
+
+      /* ==========================================================================
+         6. STICKY FROSTED TOOLBAR (SEARCH + 4 CHIPS + SORT + RESULT COUNT)
+         ========================================================================== */
+      .toolbar-sticky {
+        position: sticky;
+        top: var(--nav-h);
+        z-index: 30;
+        padding: 12px 0;
+        background-color: var(--bg-glass);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        border-bottom: 1px solid transparent;
+        transition: border-color 0.25s var(--ease), background-color 0.25s var(--ease);
+      }
+
+      .toolbar-sticky.stuck {
+        border-bottom-color: var(--border);
+      }
+
+      .toolbar-stack {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .search-field {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        height: 46px;
+        padding: 0 10px 0 16px;
+        border-radius: var(--radius-pill);
+        background-color: var(--surface);
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow-card);
+        transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+      }
+
+      .search-field:focus-within {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px var(--accent-ring);
+      }
+
+      .search-field svg.search-ico {
+        flex: none;
+        color: var(--muted);
+        transition: color 0.2s var(--ease);
+      }
+
+      .search-field:focus-within svg.search-ico {
+        color: var(--accent);
+      }
+
+      .search-field input {
+        flex: 1;
+        min-width: 0;
+        height: 100%;
+        border: 0;
+        outline: 0;
+        background: transparent;
+        color: var(--text);
+        font-size: 14.5px;
+        font-weight: 500;
+      }
+
+      .search-field input::placeholder {
+        color: var(--muted);
+      }
+
+      .search-field input::-webkit-search-cancel-button {
+        -webkit-appearance: none;
+        appearance: none;
+      }
+
+      .clear-btn {
+        display: none;
+        place-items: center;
+        width: 28px;
+        height: 28px;
+        flex: none;
+        border: 0;
+        border-radius: var(--radius-pill);
+        background-color: var(--surface-2);
+        color: var(--muted);
+        cursor: pointer;
+        transition: background-color 0.2s var(--ease), color 0.2s var(--ease), transform 0.2s var(--ease);
+      }
+
+      .clear-btn.show {
+        display: grid;
+      }
+
+      .clear-btn:hover {
+        color: var(--text);
+      }
+
+      .clear-btn:active {
+        transform: scale(0.92);
+      }
+
+      .kbd-slash {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 24px;
+        height: 24px;
+        padding: 0 6px;
+        border-radius: 7px;
+        background-color: var(--surface-2);
+        border: 1px solid var(--border);
+        color: var(--muted);
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-size: 11.5px;
+        font-weight: 600;
+        user-select: none;
+        flex: none;
+      }
+
+      .search-field:focus-within .kbd-slash,
+      .search-field.has-query .kbd-slash {
+        display: none;
+      }
+
+      @media (max-width: 640px) {
+        .kbd-slash {
+          display: none;
         }
       }
 
-      *{box-sizing:border-box}
-      html{scroll-behavior:smooth}
-      body{
-        margin:0;
-        background:
-          radial-gradient(900px 420px at 85% -80px, color-mix(in srgb, var(--blue) 14%, transparent), transparent 65%),
-          linear-gradient(180deg, var(--bg-2), var(--bg) 340px);
-        color:var(--text);
-        font-family:"Be Vietnam Pro", system-ui, -apple-system, "Segoe UI", sans-serif;
-        -webkit-font-smoothing:antialiased;
-      }
-      a{color:inherit}
-      .wrap{max-width:1080px;margin:0 auto;padding:0 20px 56px}
-
-      /* ---------- Hero ---------- */
-      .hero{padding:44px 0 8px;text-align:left}
-      .brand{
-        font-size:clamp(44px,9vw,76px);
-        font-weight:900;
-        letter-spacing:-.03em;
-        line-height:1;
-        margin:0;
-      }
-      .brand .os{color:var(--blue)}
-      .tagline{
-        margin:14px 0 0;
-        font-size:clamp(16px,2.6vw,20px);
-        line-height:1.55;
-        color:var(--muted);
-        max-width:620px;
-        font-weight:500;
-      }
-      .tagline strong{color:var(--text);font-weight:700}
-      .stats{
-        display:flex;flex-wrap:wrap;gap:10px;margin-top:22px;
-      }
-      .stat{
-        display:flex;align-items:baseline;gap:8px;
-        background:var(--surface);border:1px solid var(--border);
-        border-radius:999px;padding:8px 16px 9px;
-      }
-      .stat b{font-size:18px;font-weight:800}
-      .stat span{font-size:13px;color:var(--muted);font-weight:600}
-
-      /* ---------- Toolbar ---------- */
-      .toolbar{
-        position:sticky;top:0;z-index:5;
-        padding:18px 0 14px;
-        background:linear-gradient(180deg, var(--bg) 72%, transparent);
-      }
-      .search{
-        display:flex;align-items:center;gap:10px;
-        background:var(--surface);border:1px solid var(--border);
-        border-radius:14px;padding:6px 6px 6px 16px;
-        box-shadow:var(--shadow);
-      }
-      .search svg{flex:none;color:var(--muted)}
-      .search input{
-        flex:1;min-width:0;border:0;outline:0;background:transparent;
-        color:var(--text);font:inherit;font-size:15px;font-weight:500;
-        padding:8px 0;
-      }
-      .search input::placeholder{color:var(--muted)}
-      .search .count{
-        flex:none;font-size:13px;font-weight:700;color:var(--muted);
-        background:var(--surface-2);border:1px solid var(--border);
-        border-radius:999px;padding:6px 12px;white-space:nowrap;
+      .controls-row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
       }
 
-      /* ---------- ROM grid ---------- */
-      .section-head{
-        display:flex;align-items:baseline;justify-content:space-between;gap:16px;
-        margin:18px 0 14px;
-      }
-      .section-head h2{margin:0;font-size:20px;font-weight:800;letter-spacing:-.01em}
-      .section-head p{margin:0;font-size:13.5px;color:var(--muted);font-weight:500}
-      .grid{
-        display:grid;grid-template-columns:1fr;gap:16px;
-      }
-      @media (min-width:680px){ .grid{grid-template-columns:1fr 1fr} }
-
-      .card{
-        background:var(--surface);
-        border:1px solid var(--border);
-        border-radius:20px;
-        padding:22px 22px 20px;
-        box-shadow:var(--shadow);
-        display:flex;flex-direction:column;gap:14px;
-      }
-      .card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
-      .device-row{display:flex;align-items:center;flex-wrap:wrap;gap:10px;min-width:0}
-      .device{
-        font-size:clamp(26px,4.5vw,32px);
-        font-weight:800;letter-spacing:-.02em;line-height:1.1;
-        color:var(--text);margin:0;word-break:break-word;
-      }
-      .codename{
-        font-family:"JetBrains Mono", ui-monospace, monospace;
-        font-size:13px;font-weight:600;
-        color:var(--muted);
-        background:var(--chip-bg);border:1px solid var(--chip-border);
-        border-radius:999px;padding:5px 11px;white-space:nowrap;
-      }
-      .version{
-        font-size:22px;font-weight:800;color:var(--orange);line-height:1.15;margin:0;
-      }
-      .version small{
-        display:block;font-size:12px;font-weight:700;letter-spacing:.08em;
-        text-transform:uppercase;color:var(--muted);margin-bottom:3px;
-      }
-      .meta{
-        display:flex;flex-wrap:wrap;gap:8px 18px;
-        font-size:14px;color:var(--muted);font-weight:500;
-        border-top:1px solid var(--border);padding-top:14px;
-      }
-      .meta b{color:var(--text);font-weight:700}
-      .card-actions{margin-top:auto}
-      .btn-download{
-        display:inline-flex;align-items:center;justify-content:center;gap:9px;
-        width:100%;min-height:50px;
-        background:var(--blue);color:#fff;text-decoration:none;
-        font-size:16px;font-weight:700;
-        border:0;border-radius:999px;padding:12px 22px;cursor:pointer;
-        transition:background .15s ease, transform .15s ease;
-      }
-      .btn-download:hover{background:var(--blue-strong)}
-      .btn-download:active{transform:scale(.985)}
-      .btn-disabled{
-        display:inline-flex;align-items:center;justify-content:center;gap:9px;
-        width:100%;min-height:50px;
-        background:var(--disabled-bg);color:var(--disabled-text);
-        font-size:16px;font-weight:700;
-        border-radius:999px;padding:12px 22px;
-        cursor:not-allowed;user-select:none;
+      .filter-chips {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+        gap: 7px;
+        overflow-x: auto;
+        max-width: 100%;
+        padding: 1px 0;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
       }
 
-      .empty{
-        display:none;text-align:center;padding:44px 20px;
-        background:var(--surface);border:1px dashed var(--border);border-radius:20px;
-        color:var(--muted);font-weight:600;font-size:15px;line-height:1.6;
+      .filter-chips::-webkit-scrollbar {
+        display: none;
       }
-      .empty.show{display:block}
 
-      /* ---------- Notes ---------- */
-      .notes{
-        margin-top:34px;
-        background:var(--surface);border:1px solid var(--border);
-        border-radius:20px;padding:24px 22px;box-shadow:var(--shadow);
+      .chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        height: 36px;
+        padding: 0 13px;
+        border-radius: var(--radius-pill);
+        border: 1px solid var(--border);
+        background-color: var(--surface);
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 600;
+        white-space: nowrap;
+        cursor: pointer;
+        transition: background-color 0.22s var(--ease), color 0.22s var(--ease), border-color 0.22s var(--ease), transform 0.2s var(--ease);
       }
-      .notes h2{margin:0 0 6px;font-size:19px;font-weight:800}
-      .notes > p{margin:0 0 16px;color:var(--muted);font-size:14.5px;line-height:1.6;font-weight:500}
-      .notes ol{margin:0;padding-left:20px;display:grid;gap:10px}
-      .notes li{font-size:14.5px;line-height:1.6;color:var(--muted);font-weight:500;padding-left:4px}
-      .notes li b{color:var(--text);font-weight:700}
-      .warn{
-        margin-top:18px;border-top:1px solid var(--border);padding-top:16px;
-        font-size:13.5px;line-height:1.65;color:var(--muted);font-weight:500;
-      }
-      .warn b{color:var(--orange);font-weight:700}
 
-      footer{
-        margin-top:30px;text-align:center;
-        color:var(--muted);font-size:13px;font-weight:500;line-height:1.7;
+      .chip:hover {
+        border-color: var(--border-hover);
+        color: var(--text);
       }
-      footer .fbrand{font-weight:900;color:var(--text);font-size:15px;letter-spacing:-.01em}
-      footer .fbrand .os{color:var(--blue)}
 
-      @media (prefers-reduced-motion: reduce){
-        html{scroll-behavior:auto}
-        .btn-download{transition:none}
+      .chip:active {
+        transform: scale(0.97);
+      }
+
+      .chip.active {
+        background-color: var(--accent);
+        border-color: var(--accent);
+        color: #FFFFFF;
+      }
+
+      .chip-count {
+        font-size: 11.5px;
+        font-weight: 600;
+        padding: 1px 6px;
+        border-radius: var(--radius-pill);
+        background-color: var(--surface-2);
+        color: var(--muted);
+        font-variant-numeric: tabular-nums;
+        transition: background-color 0.22s var(--ease), color 0.22s var(--ease);
+      }
+
+      .chip.active .chip-count {
+        background-color: rgba(255, 255, 255, 0.2);
+        color: #FFFFFF;
+      }
+
+      .sort-wrap {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        margin-left: auto;
+      }
+
+      .result-meta {
+        font-size: 12.5px;
+        font-weight: 600;
+        color: var(--muted);
+        font-variant-numeric: tabular-nums;
+        white-space: nowrap;
+      }
+
+      .sort-select-box {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+      }
+
+      .sort-select {
+        appearance: none;
+        -webkit-appearance: none;
+        height: 36px;
+        padding: 0 32px 0 13px;
+        border-radius: var(--radius-pill);
+        border: 1px solid var(--border);
+        background-color: var(--surface);
+        color: var(--text);
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        outline: none;
+        transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+      }
+
+      .sort-select:hover {
+        border-color: var(--border-hover);
+      }
+
+      .sort-select:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px var(--accent-ring);
+      }
+
+      .sort-chevron {
+        position: absolute;
+        right: 11px;
+        pointer-events: none;
+        color: var(--muted);
+      }
+
+      /* ==========================================================================
+         7. DEVICE CARD GRID (align-items: start ĐỂ MỞ THẺ KHÔNG KÉO GIÃN THẺ BÊN)
+         ========================================================================== */
+      main {
+        padding: 16px 0 44px;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 16px;
+        align-items: start;
+      }
+
+      @media (min-width: 700px) {
+        .grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      .card {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        padding: 20px;
+        border-radius: var(--radius-card);
+        background-color: var(--surface);
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow-card);
+        opacity: 0;
+        transform: translateY(10px);
+        animation: cardFadeUp 0.42s var(--ease) forwards;
+        animation-delay: calc(var(--i, 0) * 38ms);
+        transition: transform 0.26s var(--ease), border-color 0.22s var(--ease), box-shadow 0.26s var(--ease), background-color 0.25s var(--ease);
+      }
+
+      @keyframes cardFadeUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .card:hover {
+        transform: translateY(-2px);
+        border-color: var(--border-hover);
+        box-shadow: var(--shadow-card-hover);
+      }
+
+      /* Đầu thẻ: Tên máy + Badge codename + Badge số lượng bản (nếu >= 2) */
+      .card-head {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .device-title {
+        margin: 0;
+        font-size: 20px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        line-height: 1.25;
+        color: var(--text);
+        word-break: break-word;
+      }
+
+      .head-badges {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: 6px;
+        flex: none;
+        max-width: 55%;
+      }
+
+      .count-pill {
+        display: inline-flex;
+        align-items: center;
+        height: 28px;
+        padding: 0 10px;
+        border-radius: var(--radius-pill);
+        background-color: var(--surface-2);
+        border: 1px solid var(--border);
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 600;
+        white-space: nowrap;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .codename-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        height: 28px;
+        padding: 0 10px;
+        flex: none;
+        border-radius: var(--radius-pill);
+        border: 1px solid var(--border);
+        background-color: var(--surface-2);
+        color: var(--muted);
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: border-color 0.2s var(--ease), background-color 0.2s var(--ease), color 0.2s var(--ease), transform 0.2s var(--ease);
+      }
+
+      .codename-pill:hover {
+        border-color: var(--accent);
+        background-color: var(--accent-soft);
+        color: var(--accent);
+      }
+
+      .codename-pill:active {
+        transform: scale(0.95);
+      }
+
+      .codename-pill.copied {
+        border-color: var(--accent);
+        background-color: var(--accent-soft);
+        color: var(--accent);
+      }
+
+      .codename-pill svg {
+        width: 12.5px;
+        height: 12.5px;
+        flex: none;
+      }
+
+      .codename-pill .ico-check {
+        display: none;
+      }
+
+      .codename-pill.copied .ico-copy {
+        display: none;
+      }
+
+      .codename-pill.copied .ico-check {
+        display: inline;
+      }
+
+      /* Khối phiên bản chính (Mới nhất / Phiên bản) */
+      .primary-box {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding: 14px 15px;
+        border-radius: var(--radius-inner);
+        background-color: var(--surface-2);
+        border: 1px solid var(--border);
+        transition: border-color 0.22s var(--ease), background-color 0.22s var(--ease);
+      }
+
+      .primary-box.is-match {
+        border-color: var(--accent-border);
+        background-color: var(--accent-soft);
+      }
+
+      .primary-top {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        min-width: 0;
+      }
+
+      .primary-label-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+      }
+
+      .primary-label {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+
+      .primary-label.is-latest {
+        color: var(--accent);
+      }
+
+      .primary-version {
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-size: 15.5px;
+        font-weight: 600;
+        color: var(--text);
+        line-height: 1.35;
+        overflow-wrap: anywhere;
+      }
+
+      .meta-line {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 5px 8px;
+        font-size: 12.5px;
+        font-weight: 500;
+        color: var(--muted);
+        font-variant-numeric: tabular-nums;
+      }
+
+      .meta-dot {
+        width: 3px;
+        height: 3px;
+        border-radius: 50%;
+        background-color: var(--border-hover);
+        flex: none;
+      }
+
+      .meta-tag {
+        display: inline-flex;
+        align-items: center;
+        padding: 1px 8px;
+        border-radius: var(--radius-pill);
+        background-color: var(--surface);
+        border: 1px solid var(--border);
+        color: var(--text);
+        font-size: 11.5px;
+        font-weight: 600;
+      }
+
+      /* Nút tải ROM chính dạng pill full-width */
+      .btn-download {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        width: 100%;
+        height: 44px;
+        padding: 0 20px;
+        border-radius: var(--radius-pill);
+        border: 0;
+        background-color: var(--accent);
+        color: #FFFFFF;
+        text-decoration: none;
+        font-size: 14.5px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.2s var(--ease), transform 0.2s var(--ease);
+      }
+
+      .btn-download:hover {
+        background-color: var(--accent-hover);
+      }
+
+      .btn-download:active {
+        transform: scale(0.985);
+      }
+
+      .btn-download svg {
+        width: 16px;
+        height: 16px;
+        flex: none;
+        transition: transform 0.24s var(--ease);
+      }
+
+      .btn-download:hover svg {
+        transform: translateY(2px);
+      }
+
+      .btn-disabled {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        width: 100%;
+        height: 44px;
+        padding: 0 20px;
+        border-radius: var(--radius-pill);
+        border: 1px solid var(--border);
+        background-color: var(--disabled-bg);
+        color: var(--disabled-text);
+        font-size: 14px;
+        font-weight: 600;
+        cursor: not-allowed;
+        user-select: none;
+      }
+
+      /* ==========================================================================
+         8. KHU VỰC CÁC PHIÊN BẢN KHÁC (SMOOTH ACCORDION 0fr -> 1fr)
+         ========================================================================== */
+      .versions-section {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .versions-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        width: 100%;
+        min-height: 38px;
+        padding: 7px 14px;
+        border-radius: var(--radius-pill);
+        border: 1px solid var(--border);
+        background-color: transparent;
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: border-color 0.2s var(--ease), background-color 0.2s var(--ease), color 0.2s var(--ease), transform 0.2s var(--ease);
+      }
+
+      .versions-toggle:hover {
+        border-color: var(--border-hover);
+        background-color: var(--surface-2);
+        color: var(--text);
+      }
+
+      .versions-toggle:active {
+        transform: scale(0.99);
+      }
+
+      .versions-toggle[aria-expanded="true"] {
+        border-color: var(--border-hover);
+        background-color: var(--surface-2);
+        color: var(--text);
+      }
+
+      .versions-toggle-chevron {
+        width: 15px;
+        height: 15px;
+        flex: none;
+        color: var(--muted);
+        transition: transform 0.3s var(--ease), color 0.2s var(--ease);
+      }
+
+      .versions-toggle[aria-expanded="true"] .versions-toggle-chevron {
+        transform: rotate(180deg);
+        color: var(--text);
+      }
+
+      /* Accordion grid-template-rows mượt mà */
+      .versions-collapse {
+        display: grid;
+        grid-template-rows: 0fr;
+        opacity: 0;
+        transition: grid-template-rows 0.32s var(--ease), opacity 0.24s var(--ease), margin-top 0.32s var(--ease);
+      }
+
+      .versions-section.is-open .versions-collapse {
+        grid-template-rows: 1fr;
+        opacity: 1;
+        margin-top: 10px;
+      }
+
+      .versions-collapse-inner {
+        overflow: hidden;
+      }
+
+      .version-list {
+        display: flex;
+        flex-direction: column;
+        border-top: 1px solid var(--border);
+      }
+
+      .version-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 11px 6px;
+        border-bottom: 1px solid var(--border);
+        border-radius: 0;
+        transition: background-color 0.22s var(--ease), border-color 0.22s var(--ease);
+      }
+
+      .version-row:last-child {
+        border-bottom: 0;
+        padding-bottom: 4px;
+      }
+
+      /* Nhấn nhẹ đúng dòng phiên bản khớp tìm kiếm */
+      .version-row.is-match {
+        margin: 4px 0;
+        padding: 10px 12px;
+        border: 1px solid var(--accent-border);
+        border-radius: 12px;
+        background-color: var(--accent-soft);
+      }
+
+      .version-row.is-match:last-child {
+        padding-bottom: 10px;
+      }
+
+      .version-row-info {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+        min-width: 0;
+      }
+
+      .version-row-name {
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-size: 13.5px;
+        font-weight: 600;
+        color: var(--text);
+        line-height: 1.35;
+        overflow-wrap: anywhere;
+      }
+
+      .version-row.is-match .version-row-name {
+        color: var(--accent);
+      }
+
+      .btn-mini-download {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        height: 34px;
+        padding: 0 13px;
+        flex: none;
+        border-radius: var(--radius-pill);
+        border: 1px solid var(--accent-border);
+        background-color: var(--accent-soft);
+        color: var(--accent);
+        text-decoration: none;
+        font-size: 12.5px;
+        font-weight: 600;
+        white-space: nowrap;
+        transition: background-color 0.2s var(--ease), border-color 0.2s var(--ease), color 0.2s var(--ease), transform 0.2s var(--ease);
+      }
+
+      .btn-mini-download:hover {
+        background-color: var(--accent);
+        border-color: var(--accent);
+        color: #FFFFFF;
+      }
+
+      .btn-mini-download:active {
+        transform: scale(0.96);
+      }
+
+      .btn-mini-download svg {
+        width: 13.5px;
+        height: 13.5px;
+        flex: none;
+        transition: transform 0.22s var(--ease);
+      }
+
+      .btn-mini-download:hover svg {
+        transform: translateY(1.5px);
+      }
+
+      .btn-mini-disabled {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: 32px;
+        padding: 0 11px;
+        flex: none;
+        border-radius: var(--radius-pill);
+        border: 1px solid var(--border);
+        background-color: var(--disabled-bg);
+        color: var(--disabled-text);
+        font-size: 12px;
+        font-weight: 600;
+        white-space: nowrap;
+        user-select: none;
+      }
+
+      /* ==========================================================================
+         9. SKELETON LOADING & EMPTY STATE
+         ========================================================================== */
+      .skel-card {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        padding: 20px;
+        border-radius: var(--radius-card);
+        background-color: var(--surface);
+        border: 1px solid var(--border);
+      }
+
+      .skel-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .skel {
+        background: linear-gradient(90deg, var(--surface-2) 25%, var(--border) 50%, var(--surface-2) 75%);
+        background-size: 200% 100%;
+        border-radius: 10px;
+        animation: skelPulse 1.35s ease-in-out infinite;
+      }
+
+      .skel-title { height: 24px; width: 48%; }
+      .skel-code { height: 28px; width: 88px; border-radius: var(--radius-pill); }
+      .skel-box { height: 112px; width: 100%; border-radius: var(--radius-inner); }
+      .skel-toggle { height: 36px; width: 100%; border-radius: var(--radius-pill); }
+
+      @keyframes skelPulse {
+        0% { background-position: 200% 0; }
+        100% { background-position: -200% 0; }
+      }
+
+      .empty-state {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 10px;
+        padding: 44px 20px;
+        border-radius: var(--radius-card);
+        background-color: var(--surface);
+        border: 1px dashed var(--border-hover);
+      }
+
+      .empty-state.show {
+        display: flex;
+      }
+
+      .empty-state svg {
+        color: var(--muted);
+        margin-bottom: 2px;
+      }
+
+      .empty-state h3 {
+        margin: 0;
+        font-size: 16px;
+        font-weight: 700;
+      }
+
+      .empty-state p {
+        margin: 0;
+        max-width: 390px;
+        font-size: 14px;
+        color: var(--muted);
+      }
+
+      .btn-reset {
+        margin-top: 6px;
+        height: 38px;
+        padding: 0 18px;
+        border-radius: var(--radius-pill);
+        border: 1px solid var(--border);
+        background-color: var(--surface-2);
+        color: var(--text);
+        font-size: 13.5px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: border-color 0.2s var(--ease), color 0.2s var(--ease), transform 0.2s var(--ease);
+      }
+
+      .btn-reset:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+
+      .btn-reset:active {
+        transform: scale(0.97);
+      }
+
+      /* ==========================================================================
+         10. LƯU Ý CÀI ĐẶT NGẮN GỌN & FOOTER
+         ========================================================================== */
+      .notes-card {
+        margin-top: 28px;
+        padding: 18px 20px;
+        border-radius: var(--radius-card);
+        background-color: var(--surface);
+        border: 1px solid var(--border);
+      }
+
+      .notes-head {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        margin: 0 0 12px;
+        font-size: 14.5px;
+        font-weight: 700;
+        color: var(--text);
+      }
+
+      .notes-head svg {
+        color: var(--accent);
+        flex: none;
+      }
+
+      .notes-list {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+        gap: 10px;
+      }
+
+      @media (min-width: 700px) {
+        .notes-list {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 12px;
+        }
+      }
+
+      .note-item {
+        padding: 12px 14px;
+        border-radius: var(--radius-inner);
+        background-color: var(--surface-2);
+        border: 1px solid var(--border);
+        font-size: 13px;
+        line-height: 1.55;
+        color: var(--muted);
+      }
+
+      .note-item strong {
+        display: block;
+        margin-bottom: 3px;
+        color: var(--text);
+        font-weight: 700;
+      }
+
+      footer {
+        border-top: 1px solid var(--border);
+        padding: 24px 0 36px;
+        text-align: center;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .footer-brand {
+        font-size: 15px;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        color: var(--text);
+        margin-bottom: 4px;
+      }
+
+      .footer-brand span {
+        color: var(--accent);
+      }
+
+      /* ==========================================================================
+         11. TOAST & BACK-TO-TOP
+         ========================================================================== */
+      .toast {
+        position: fixed;
+        left: 50%;
+        bottom: 24px;
+        z-index: 60;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 16px;
+        border-radius: var(--radius-pill);
+        background-color: #0F172A;
+        color: #F8FAFC;
+        font-size: 13px;
+        font-weight: 600;
+        box-shadow: var(--shadow-toast);
+        white-space: nowrap;
+        max-width: calc(100vw - 32px);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        opacity: 0;
+        pointer-events: none;
+        transform: translate3d(-50%, 16px, 0);
+        transition: opacity 0.24s var(--ease), transform 0.28s var(--ease);
+      }
+
+      [data-theme="dark"] .toast {
+        background-color: #F1F5F9;
+        color: #0F172A;
+      }
+
+      .toast.show {
+        opacity: 1;
+        transform: translate3d(-50%, 0, 0);
+      }
+
+      .toast svg {
+        flex: none;
+        color: var(--accent);
+      }
+
+      .back-top {
+        position: fixed;
+        right: 20px;
+        bottom: 24px;
+        z-index: 40;
+        display: grid;
+        place-items: center;
+        width: 42px;
+        height: 42px;
+        border-radius: var(--radius-pill);
+        border: 1px solid var(--border);
+        background-color: var(--surface);
+        color: var(--text);
+        box-shadow: var(--shadow-card-hover);
+        cursor: pointer;
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(12px);
+        transition: opacity 0.24s var(--ease), transform 0.26s var(--ease), border-color 0.2s var(--ease), color 0.2s var(--ease);
+      }
+
+      .back-top.show {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0);
+      }
+
+      .back-top:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+        transform: translateY(-2px);
+      }
+
+      .back-top:active {
+        transform: scale(0.95);
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+        .card, .skel {
+          animation: none !important;
+          opacity: 1 !important;
+          transform: none !important;
+        }
+        *, *::before, *::after {
+          transition-duration: 0.01ms !important;
+        }
       }
     </style>
   </head>
   <body>
-    <div class="wrap">
+    <!-- Thanh điều hướng dính kính mờ tối giản -->
+    <header class="topbar">
+      <div class="container topbar-inner">
+        <a href="#" class="brand-wrap" aria-label="BugOS ROM Công khai">
+          <span class="brand-wordmark">Bug<span>OS</span></span>
+          <span class="badge-public">Public</span>
+        </a>
 
-      <header class="hero">
-        <h1 class="brand">Bug<span class="os">OS</span></h1>
-        <p class="tagline">ROM mod <strong>BugOS</strong> cho các thiết bị Xiaomi / Redmi. Chọn đúng tên máy của bạn rồi tải bản ROM tương ứng.</p>
-        <div class="stats" aria-label="Tổng quan">
-          <div class="stat"><b id="statDevices">0</b><span>thiết bị</span></div>
-          <div class="stat"><b id="statRoms">0</b><span>bản ROM</span></div>
+        <button type="button" class="theme-toggle" id="themeToggle" aria-label="Chuyển chế độ Sáng hoặc Tối">
+          <svg class="ico-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
+          </svg>
+          <svg class="ico-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+          <span class="label-dark">Tối</span>
+          <span class="label-light">Sáng</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Phần Hero gọn gàng dành riêng cho Xiaomi / Redmi -->
+    <section class="hero">
+      <div class="container">
+        <div class="hero-row">
+          <div class="hero-copy">
+            <h1 class="hero-title">Bug<span>OS</span> cho Xiaomi / Redmi</h1>
+            <p class="hero-desc">Tra cứu theo tên máy, codename hoặc phiên bản và tải đúng bản ROM tương ứng cho thiết bị của bạn.</p>
+          </div>
+
+          <div class="stats-list" aria-label="Thống kê kho ROM">
+            <span class="stat-item"><b id="statDevices">0</b> thiết bị</span>
+            <span class="stat-item"><b id="statRoms">0</b> bản ROM</span>
+          </div>
         </div>
-      </header>
+      </div>
+    </section>
 
-      <div class="toolbar">
-        <label class="search">
-          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.8-3.8"/></svg>
-          <input id="q" type="search" placeholder="Tìm theo tên máy, codename hoặc phiên bản…" autocomplete="off" aria-label="Tìm ROM" />
-          <span class="count" id="resultCount">0 ROM</span>
+    <!-- Thanh thông báo dữ liệu mẫu (tự ẩn khi tải được roms.json thật) -->
+    <div class="container">
+      <div class="demo-notice" id="demoNotice" role="status">
+        <div class="demo-notice-text">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="16" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+          </svg>
+          <span>Đang hiển thị dữ liệu mẫu do chưa tìm thấy tệp <code>roms.json</code> cùng thư mục.</span>
+        </div>
+        <button type="button" class="demo-dismiss" id="demoDismiss" aria-label="Đóng thông báo">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+            <path d="M18 6 6 18M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Thanh công cụ dính kính mờ: Tìm kiếm, Chip lọc, Bộ đếm, Sắp xếp -->
+    <div class="toolbar-sticky" id="toolbar">
+      <div class="container toolbar-stack">
+        <label class="search-field" id="searchField">
+          <svg class="search-ico" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="7"></circle>
+            <path d="m20 20-3.8-3.8"></path>
+          </svg>
+          <input id="searchInput" type="search" placeholder="Tìm tên máy Xiaomi / Redmi, codename hoặc phiên bản ROM…" autocomplete="off" spellcheck="false" aria-label="Tìm theo tên máy, codename hoặc phiên bản ROM" />
+          <button type="button" class="clear-btn" id="clearBtn" aria-label="Xóa từ khóa tìm kiếm">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
+              <path d="M18 6 6 18M6 6l12 12"></path>
+            </svg>
+          </button>
+          <kbd class="kbd-slash" title="Nhấn / để tìm nhanh">/</kbd>
         </label>
+
+        <div class="controls-row">
+          <div class="filter-chips" id="filterChips" role="tablist" aria-label="Lọc theo dòng máy"></div>
+
+          <div class="sort-wrap">
+            <span class="result-meta" id="resultCount">0 máy · 0 ROM</span>
+            <div class="sort-select-box">
+              <select class="sort-select" id="sortSelect" aria-label="Sắp xếp danh sách máy">
+                <option value="default">Mặc định</option>
+                <option value="az">Tên A → Z</option>
+                <option value="most">Nhiều bản nhất</option>
+              </select>
+              <svg class="sort-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Nội dung chính: Lưới thiết bị & Lưu ý cài đặt -->
+    <main class="container">
+      <div class="grid" id="deviceGrid" aria-live="polite">
+        <!-- Skeleton loading tinh gọn khi đang nạp roms.json -->
+        <div class="skel-card" aria-hidden="true">
+          <div class="skel-row">
+            <div class="skel skel-title"></div>
+            <div class="skel skel-code"></div>
+          </div>
+          <div class="skel skel-box"></div>
+          <div class="skel skel-toggle"></div>
+        </div>
+        <div class="skel-card" aria-hidden="true">
+          <div class="skel-row">
+            <div class="skel skel-title"></div>
+            <div class="skel skel-code"></div>
+          </div>
+          <div class="skel skel-box"></div>
+          <div class="skel skel-toggle"></div>
+        </div>
+        <div class="skel-card" aria-hidden="true">
+          <div class="skel-row">
+            <div class="skel skel-title"></div>
+            <div class="skel skel-code"></div>
+          </div>
+          <div class="skel skel-box"></div>
+        </div>
+        <div class="skel-card" aria-hidden="true">
+          <div class="skel-row">
+            <div class="skel skel-title"></div>
+            <div class="skel skel-code"></div>
+          </div>
+          <div class="skel skel-box"></div>
+        </div>
       </div>
 
-      <main>
-        <div class="section-head">
-          <h2>Danh sách ROM</h2>
-        </div>
+      <!-- Trạng thái rỗng -->
+      <div class="empty-state" id="emptyState">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"></circle>
+          <path d="m20 20-3.8-3.8"></path>
+        </svg>
+        <h3>Không tìm thấy thiết bị hoặc bản ROM phù hợp</h3>
+        <p>Thử kiểm tra lại từ khóa, tìm theo codename máy Xiaomi / Redmi hoặc đặt lại bộ lọc đang áp dụng.</p>
+        <button type="button" class="btn-reset" id="resetBtn">Xóa bộ lọc</button>
+      </div>
 
-        <div class="grid" id="grid"></div>
+      <!-- Khu vực lưu ý cài đặt ngắn gọn, sạch sẽ -->
+      <section class="notes-card" aria-label="Lưu ý trước khi cài đặt">
+        <h2 class="notes-head">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="16" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+          </svg>
+          Lưu ý trước khi cài đặt
+        </h2>
+        <ul class="notes-list">
+          <li class="note-item">
+            <strong>Đối chiếu đúng codename</strong>
+            Kiểm tra chính xác mã máy Xiaomi / Redmi trước khi tải để tránh cài nhầm bản ROM không tương thích.
+          </li>
+          <li class="note-item">
+            <strong>Sao lưu dữ liệu cá nhân</strong>
+            Chủ động sao lưu ảnh, danh bạ và tệp quan trọng ra ngoài trước khi flash hoặc chuyển giữa các phiên bản.
+          </li>
+          <li class="note-item">
+            <strong>Đảm bảo pin và Bootloader</strong>
+            Giữ dung lượng pin trên 50% và chắc chắn thiết bị đã mở khóa Bootloader trước khi thực hiện cài đặt.
+          </li>
+        </ul>
+      </section>
+    </main>
 
-        <div class="empty" id="emptyState">
-          Không tìm thấy ROM nào khớp với từ khoá.<br />Thử tìm bằng tên máy hoặc codename khác.
-        </div>
+    <!-- Footer tối giản -->
+    <footer>
+      <div class="container">
+        <div class="footer-brand">Bug<span>OS</span></div>
+        <div>Kho ROM công khai dành riêng cho Xiaomi / Redmi.</div>
+      </div>
+    </footer>
 
-      </main>
-
-      <footer>
-        <div class="fbrand">Bug<span class="os">OS</span></div>
-        ROM mod cho Xiaomi / Redmi — chọn đúng máy trước khi tải.
-      </footer>
+    <!-- Thông báo Toast sao chép codename -->
+    <div class="toast" id="toast" role="status" aria-live="polite">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <polyline points="20 6 9 17 4 12"></polyline>
+      </svg>
+      <span id="toastMessage"></span>
     </div>
+
+    <!-- Nút cuộn lên đầu trang -->
+    <button type="button" class="back-top" id="backTop" aria-label="Cuộn lên đầu trang" title="Lên đầu trang">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <polyline points="18 15 12 9 6 15"></polyline>
+      </svg>
+    </button>
 
     <script>
       (function () {
-        var input = document.getElementById('q');
-        var grid = document.getElementById('grid');
-        var countEl = document.getElementById('resultCount');
-        var emptyEl = document.getElementById('emptyState');
+        'use strict';
+
+        /* ========================================================================
+           1. THAM CHIẾU DOM & TRẠNG THÁI ỨNG DỤNG
+           ======================================================================== */
+        var themeToggle = document.getElementById('themeToggle');
+        var toolbar = document.getElementById('toolbar');
+        var searchField = document.getElementById('searchField');
+        var searchInput = document.getElementById('searchInput');
+        var clearBtn = document.getElementById('clearBtn');
+        var filterChips = document.getElementById('filterChips');
+        var sortSelect = document.getElementById('sortSelect');
+        var resultCount = document.getElementById('resultCount');
+        var deviceGrid = document.getElementById('deviceGrid');
+        var emptyState = document.getElementById('emptyState');
+        var resetBtn = document.getElementById('resetBtn');
         var statDevices = document.getElementById('statDevices');
         var statRoms = document.getElementById('statRoms');
-        var roms = [];
+        var demoNotice = document.getElementById('demoNotice');
+        var demoDismiss = document.getElementById('demoDismiss');
+        var toast = document.getElementById('toast');
+        var toastMessage = document.getElementById('toastMessage');
+        var backTop = document.getElementById('backTop');
 
-        function esc(s) {
-          return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
-            return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+        var devices = [];
+        var activeFilter = 'all';
+        var activeSort = 'default';
+        var toastTimer = null;
+
+        /* Dữ liệu mẫu minh họa đầy đủ cả định dạng lồng nhau (nhiều bản) lẫn phẳng (1 bản) */
+        var DEMO_DATA = [
+          {
+            device: 'Xiaomi 15',
+            codename: 'dada',
+            versions: [
+              {
+                version: 'BugOS 2.1.102',
+                size: '5.8 GB',
+                date: '18/11/2026',
+                tag: 'Ổn định',
+                link: 'https://github.com/'
+              },
+              {
+                version: 'BugOS 2.0.118',
+                size: '5.6 GB',
+                date: '02/11/2026',
+                link: 'https://github.com/'
+              },
+              {
+                version: 'BugOS 2.0.105',
+                size: '5.5 GB',
+                date: '14/10/2026',
+                note: 'Bản cũ',
+                link: 'https://github.com/'
+              }
+            ]
+          },
+          {
+            device: 'Redmi K80 Pro',
+            codename: 'miro',
+            versions: [
+              {
+                version: 'BugOS 2.1.105',
+                size: '5.7 GB',
+                date: '20/11/2026',
+                tag: 'Ổn định',
+                link: 'https://github.com/'
+              },
+              {
+                version: 'BugOS 2.0.112',
+                size: '5.5 GB',
+                date: '29/10/2026',
+                link: 'https://github.com/'
+              }
+            ]
+          },
+          {
+            device: 'Xiaomi 14',
+            codename: 'houji',
+            versions: [
+              {
+                version: 'BugOS 2.0.116',
+                size: '5.4 GB',
+                date: '12/11/2026',
+                tag: 'Ổn định',
+                link: 'https://github.com/'
+              },
+              {
+                version: 'BugOS 2.1 Beta',
+                size: '5.6 GB',
+                date: '22/11/2026',
+                note: 'Thử nghiệm',
+                link: ''
+              }
+            ]
+          },
+          {
+            device: 'Redmi K60 Ultra',
+            codename: 'corot',
+            version: 'BugOS 2.0.109',
+            size: '5.1 GB',
+            date: '06/11/2026',
+            tag: 'Ổn định',
+            link: 'https://github.com/'
+          },
+          {
+            device: 'Xiaomi 13',
+            codename: 'fuxi',
+            version: 'BugOS 2.1 Preview',
+            size: '5.3 GB',
+            date: '21/11/2026',
+            note: 'Sắp phát hành',
+            link: ''
+          }
+        ];
+
+        /* ========================================================================
+           2. HÀM TIỆN ÍCH: ESCAPE, CHUẨN HÓA TIẾNG VIỆT, PHÂN LOẠI, COPY
+           ======================================================================== */
+        function esc(value) {
+          return String(value == null ? '' : value).replace(/[&<>"']/g, function (ch) {
+            return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch];
           });
         }
-        function norm(s) {
-          return (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd');
+
+        function norm(value) {
+          return String(value || '')
+            .toLowerCase()
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .replace(/đ/g, 'd');
         }
-        function cardHtml(r) {
-          var link = String(r.link || '').trim();
-          var hasLink = /^https?:\/\//i.test(link);
-          var action = hasLink
-            ? '<a class="btn-download" href="' + esc(link) + '" target="_blank" rel="noopener">↓ Tải ROM</a>'
-            : '<span class="btn-disabled" aria-disabled="true">↓ Chưa có link tải</span>';
-          return '<article class="card" data-search="' + esc([r.device, r.codename, r.version].join(' ')) + '">'
-            + '<div class="card-top"><div class="device-row">'
-            + '<h3 class="device">' + esc(r.device) + '</h3>'
-            + (r.codename ? '<span class="codename">' + esc(r.codename) + '</span>' : '')
-            + '</div></div>'
-            + '<p class="version"><small>Phiên bản ROM</small>' + esc(r.version) + '</p>'
-            + '<div class="meta"><span>Dung lượng&nbsp;<b>' + esc(r.size) + '</b></span></div>'
-            + '<div class="card-actions">' + action + '</div></article>';
+
+        function isValidLink(link) {
+          return /^https?:\/\//i.test(String(link || '').trim());
         }
-        function apply() {
-          var q = norm(input.value.trim());
-          var visible = 0;
-          Array.prototype.slice.call(grid.querySelectorAll('.card')).forEach(function (card) {
-            var hay = norm(card.getAttribute('data-search') + ' ' + card.textContent);
-            var show = !q || hay.indexOf(q) !== -1;
-            card.style.display = show ? '' : 'none';
-            if (show) visible++;
+
+        /* Phân loại tự động theo tên máy: Redmi hoặc Xiaomi (bao gồm dòng Mi) */
+        function getBrandGroup(deviceName) {
+          var text = norm(deviceName).trim();
+          if (text.indexOf('redmi') !== -1) {
+            return 'Redmi';
+          }
+          if (text.indexOf('xiaomi') !== -1 || text.indexOf('mi ') !== -1 || /^mi(\d|$)/.test(text)) {
+            return 'Xiaomi';
+          }
+          return 'Other';
+        }
+
+        function animateCount(el, target) {
+          var end = Number(target) || 0;
+          var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          if (reduced || end === 0) {
+            el.textContent = String(end);
+            return;
+          }
+          var duration = 480;
+          var start = null;
+          function tick(ts) {
+            if (!start) start = ts;
+            var p = Math.min((ts - start) / duration, 1);
+            var eased = 1 - Math.pow(1 - p, 3);
+            el.textContent = String(Math.round(eased * end));
+            if (p < 1) {
+              requestAnimationFrame(tick);
+            } else {
+              el.textContent = String(end);
+            }
+          }
+          requestAnimationFrame(tick);
+        }
+
+        /* Sao chép codename an toàn (ưu tiên execCommand tương thích tốt với iFrame) */
+        function copyToClipboard(text) {
+          try {
+            var ta = document.createElement('textarea');
+            ta.value = text;
+            ta.setAttribute('readonly', '');
+            ta.style.position = 'fixed';
+            ta.style.left = '-9999px';
+            ta.style.top = '-9999px';
+            document.body.appendChild(ta);
+            ta.select();
+            ta.setSelectionRange(0, text.length);
+            var copied = document.execCommand('copy');
+            document.body.removeChild(ta);
+            if (copied) return true;
+          } catch (err) {
+            /* Chuyển sang Clipboard API nếu có */
+          }
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).catch(function () {});
+            return true;
+          }
+          return false;
+        }
+
+        function showToast(text) {
+          toastMessage.textContent = text;
+          toast.classList.add('show');
+          clearTimeout(toastTimer);
+          toastTimer = setTimeout(function () {
+            toast.classList.remove('show');
+          }, 2200);
+        }
+
+        /* ========================================================================
+           3. CHUẨN HÓA & GOM NHÓM DỮ LIỆU TỪ roms.json (PHẲNG + LỒNG NHAU)
+           ======================================================================== */
+        function normalizeVersionItem(raw) {
+          if (!raw || typeof raw !== 'object') return null;
+          var version = String(raw.version || '').trim() || 'Đang cập nhật';
+          var size = String(raw.size || '').trim();
+          var date = String(raw.date || '').trim();
+          var note = String(raw.note != null ? raw.note : (raw.tag != null ? raw.tag : '')).trim();
+          var link = String(raw.link || '').trim();
+          var searchText = norm([version, size, date, note].join(' '));
+
+          return {
+            version: version,
+            size: size || '—',
+            date: date,
+            note: note,
+            link: link,
+            hasLink: isValidLink(link),
+            searchText: searchText
+          };
+        }
+
+        function buildDeviceGroups(rawData) {
+          var list = Array.isArray(rawData)
+            ? rawData
+            : (rawData && Array.isArray(rawData.devices)
+              ? rawData.devices
+              : (rawData && Array.isArray(rawData.roms) ? rawData.roms : []));
+
+          var map = Object.create(null);
+          var ordered = [];
+
+          list.forEach(function (entry) {
+            if (!entry || typeof entry !== 'object') return;
+
+            var deviceName = String(entry.device || '').trim();
+            var codename = String(entry.codename || '').trim();
+            var key = codename
+              ? 'code:' + norm(codename)
+              : 'dev:' + norm(deviceName || 'unknown');
+
+            var group = map[key];
+            if (!group) {
+              group = {
+                key: key,
+                device: deviceName || codename || 'Thiết bị chưa rõ',
+                codename: codename,
+                brand: getBrandGroup(deviceName || codename),
+                versions: [],
+                hasValidLink: false,
+                deviceSearch: ''
+              };
+              map[key] = group;
+              ordered.push(group);
+            } else {
+              if (!group.codename && codename) group.codename = codename;
+              if ((!group.device || group.device === 'Thiết bị chưa rõ') && deviceName) {
+                group.device = deviceName;
+                group.brand = getBrandGroup(deviceName);
+              }
+            }
+
+            /* Hỗ trợ cả dạng lồng nhau (versions / roms) lẫn dạng phẳng (cũ) */
+            var nestedList = Array.isArray(entry.versions)
+              ? entry.versions
+              : (Array.isArray(entry.roms) ? entry.roms : null);
+
+            if (nestedList) {
+              nestedList.forEach(function (sub) {
+                var v = normalizeVersionItem(sub);
+                if (v) group.versions.push(v);
+              });
+            } else {
+              var single = normalizeVersionItem(entry);
+              if (single) group.versions.push(single);
+            }
           });
-          countEl.textContent = visible + ' ROM';
-          emptyEl.classList.toggle('show', visible === 0);
+
+          return ordered
+            .filter(function (g) { return g.versions.length > 0; })
+            .map(function (g, index) {
+              g.order = index;
+              g.hasValidLink = g.versions.some(function (v) { return v.hasLink; });
+              g.deviceSearch = norm([g.device, g.codename].join(' '));
+              return g;
+            });
         }
-        function render() {
-          grid.innerHTML = roms.map(cardHtml).join('');
-          var devices = new Set(roms.map(function (r) { return (r.device || '').toLowerCase(); })).size;
-          statDevices.textContent = devices;
-          statRoms.textContent = roms.length;
-          apply();
+
+        /* ========================================================================
+           4. CHUYỂN CHẾ ĐỘ SÁNG / TỐI
+           ======================================================================== */
+        themeToggle.addEventListener('click', function () {
+          var current = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+          var next = current === 'dark' ? 'light' : 'dark';
+          document.documentElement.setAttribute('data-theme', next);
+          try {
+            localStorage.setItem('bugos-theme', next);
+          } catch (e) {}
+        });
+
+        /* ========================================================================
+           5. RENDER BỘ LỌC & THẺ THIẾT BỊ ĐA PHIÊN BẢN
+           ======================================================================== */
+        function renderFilters() {
+          var xiaomiCount = 0;
+          var redmiCount = 0;
+          var readyCount = 0;
+
+          devices.forEach(function (dev) {
+            if (dev.brand === 'Xiaomi') xiaomiCount++;
+            else if (dev.brand === 'Redmi') redmiCount++;
+            if (dev.hasValidLink) readyCount++;
+          });
+
+          var options = [
+            { id: 'all', label: 'Tất cả', count: devices.length },
+            { id: 'xiaomi', label: 'Xiaomi', count: xiaomiCount },
+            { id: 'redmi', label: 'Redmi', count: redmiCount },
+            { id: 'ready', label: 'Sẵn sàng tải', count: readyCount }
+          ];
+
+          filterChips.innerHTML = options.map(function (opt) {
+            var isActive = activeFilter === opt.id;
+            return '<button type="button" class="chip' + (isActive ? ' active' : '') + '" role="tab" aria-selected="' + (isActive ? 'true' : 'false') + '" data-filter="' + opt.id + '">'
+              + '<span>' + opt.label + '</span>'
+              + '<span class="chip-count">' + opt.count + '</span>'
+              + '</button>';
+          }).join('');
         }
-        input.addEventListener('input', apply);
+
+        function buildMetaHtml(ver) {
+          var parts = ['<span>' + esc(ver.size) + '</span>'];
+          if (ver.date) {
+            parts.push('<span class="meta-dot" aria-hidden="true"></span><span>' + esc(ver.date) + '</span>');
+          }
+          if (ver.note) {
+            parts.push('<span class="meta-tag">' + esc(ver.note) + '</span>');
+          }
+          return '<div class="meta-line">' + parts.join('') + '</div>';
+        }
+
+        function createDeviceCardHtml(item, cardIndex) {
+          var dev = item.deviceObj;
+          var versions = dev.versions;
+          var primary = versions[0];
+          var others = versions.slice(1);
+          var hasMultiple = others.length > 0;
+          var panelId = 'versions-panel-' + cardIndex;
+
+          var codenameHtml = dev.codename
+            ? '<button type="button" class="codename-pill" data-copy="' + esc(dev.codename) + '" title="Sao chép codename ' + esc(dev.codename) + '">'
+              + '<span>' + esc(dev.codename) + '</span>'
+              + '<svg class="ico-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+              + '<rect x="9" y="9" width="13" height="13" rx="2"></rect>'
+              + '<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>'
+              + '</svg>'
+              + '<svg class="ico-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+              + '<polyline points="20 6 9 17 4 12"></polyline>'
+              + '</svg>'
+              + '</button>'
+            : '';
+
+          var countBadgeHtml = hasMultiple
+            ? '<span class="count-pill">' + versions.length + ' bản</span>'
+            : '';
+
+          var primaryActionHtml = primary.hasLink
+            ? '<a class="btn-download" href="' + esc(primary.link) + '" target="_blank" rel="noopener">'
+              + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+              + '<path d="M12 4v13"></path>'
+              + '<polyline points="6 12 12 18 18 12"></polyline>'
+              + '</svg>'
+              + '<span>Tải ROM</span>'
+              + '</a>'
+            : '<span class="btn-disabled" aria-disabled="true">Chưa có link tải</span>';
+
+          var othersHtml = '';
+          if (hasMultiple) {
+            var isOpen = item.autoExpand;
+            var otherCount = others.length;
+            var toggleTextClosed = 'Xem thêm ' + otherCount + ' phiên bản khác';
+            var toggleTextOpen = 'Thu gọn ' + otherCount + ' phiên bản khác';
+
+            var rowsHtml = others.map(function (v, idx) {
+              var rowMatched = item.matchedHiddenIndices.indexOf(idx) !== -1;
+              var miniAction = v.hasLink
+                ? '<a class="btn-mini-download" href="' + esc(v.link) + '" target="_blank" rel="noopener">'
+                  + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+                  + '<path d="M12 4v13"></path>'
+                  + '<polyline points="6 12 12 18 18 12"></polyline>'
+                  + '</svg>'
+                  + '<span>Tải</span>'
+                  + '</a>'
+                : '<span class="btn-mini-disabled" aria-disabled="true">Chưa có link</span>';
+
+              return '<div class="version-row' + (rowMatched ? ' is-match' : '') + '">'
+                + '<div class="version-row-info">'
+                + '<span class="version-row-name">' + esc(v.version) + '</span>'
+                + buildMetaHtml(v)
+                + '</div>'
+                + miniAction
+                + '</div>';
+            }).join('');
+
+            othersHtml = '<div class="versions-section' + (isOpen ? ' is-open' : '') + '">'
+              + '<button type="button" class="versions-toggle" aria-expanded="' + (isOpen ? 'true' : 'false') + '" aria-controls="' + panelId + '" data-count="' + otherCount + '">'
+              + '<span class="versions-toggle-label">' + (isOpen ? toggleTextOpen : toggleTextClosed) + '</span>'
+              + '<svg class="versions-toggle-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+              + '<polyline points="6 9 12 15 18 9"></polyline>'
+              + '</svg>'
+              + '</button>'
+              + '<div class="versions-collapse" id="' + panelId + '" role="region">'
+              + '<div class="versions-collapse-inner">'
+              + '<div class="version-list">' + rowsHtml + '</div>'
+              + '</div>'
+              + '</div>'
+              + '</div>';
+          }
+
+          return '<article class="card" style="--i:' + Math.min(cardIndex, 10) + '">'
+            + '<div class="card-head">'
+            + '<h2 class="device-title">' + esc(dev.device) + '</h2>'
+            + '<div class="head-badges">' + codenameHtml + countBadgeHtml + '</div>'
+            + '</div>'
+            + '<div class="primary-box' + (item.primaryOnlyMatch ? ' is-match' : '') + '">'
+            + '<div class="primary-top">'
+            + '<div class="primary-label-row">'
+            + '<span class="primary-label' + (hasMultiple ? ' is-latest' : '') + '">' + (hasMultiple ? 'Mới nhất' : 'Phiên bản') + '</span>'
+            + '</div>'
+            + '<div class="primary-version">' + esc(primary.version) + '</div>'
+            + buildMetaHtml(primary)
+            + '</div>'
+            + primaryActionHtml
+            + '</div>'
+            + othersHtml
+            + '</article>';
+        }
+
+        function applyView() {
+          var rawQuery = searchInput.value.trim();
+          var query = norm(rawQuery);
+
+          clearBtn.classList.toggle('show', rawQuery.length > 0);
+          searchField.classList.toggle('has-query', rawQuery.length > 0);
+
+          var matchedItems = [];
+
+          devices.forEach(function (dev) {
+            if (activeFilter === 'xiaomi' && dev.brand !== 'Xiaomi') return;
+            if (activeFilter === 'redmi' && dev.brand !== 'Redmi') return;
+            if (activeFilter === 'ready' && !dev.hasValidLink) return;
+
+            var autoExpand = false;
+            var matchedHiddenIndices = [];
+            var primaryOnlyMatch = false;
+
+            if (query) {
+              var matchesDevice = dev.deviceSearch.indexOf(query) !== -1;
+              var primary = dev.versions[0];
+              var matchesPrimary = primary.searchText.indexOf(query) !== -1;
+
+              dev.versions.slice(1).forEach(function (v, idx) {
+                if (v.searchText.indexOf(query) !== -1) {
+                  matchedHiddenIndices.push(idx);
+                }
+              });
+
+              var anyHiddenMatch = matchedHiddenIndices.length > 0;
+              if (!matchesDevice && !matchesPrimary && !anyHiddenMatch) {
+                return;
+              }
+
+              /* Nếu từ khóa chỉ khớp với phiên bản nằm trong danh sách ẩn -> tự động mở rộng và tô nhấn */
+              if (!matchesDevice && !matchesPrimary && anyHiddenMatch) {
+                autoExpand = true;
+              } else if (!matchesDevice && matchesPrimary) {
+                primaryOnlyMatch = true;
+              }
+            }
+
+            matchedItems.push({
+              deviceObj: dev,
+              autoExpand: autoExpand,
+              matchedHiddenIndices: matchedHiddenIndices,
+              primaryOnlyMatch: primaryOnlyMatch
+            });
+          });
+
+          if (activeSort === 'az') {
+            matchedItems.sort(function (a, b) {
+              return a.deviceObj.device.localeCompare(b.deviceObj.device, 'vi', { numeric: true, sensitivity: 'base' });
+            });
+          } else if (activeSort === 'most') {
+            matchedItems.sort(function (a, b) {
+              var diff = b.deviceObj.versions.length - a.deviceObj.versions.length;
+              return diff !== 0 ? diff : a.deviceObj.order - b.deviceObj.order;
+            });
+          }
+
+          var visibleRomTotal = matchedItems.reduce(function (sum, item) {
+            return sum + item.deviceObj.versions.length;
+          }, 0);
+
+          deviceGrid.innerHTML = matchedItems.map(createDeviceCardHtml).join('');
+          resultCount.textContent = matchedItems.length + ' máy · ' + visibleRomTotal + ' ROM';
+          emptyState.classList.toggle('show', matchedItems.length === 0);
+        }
+
+        function renderAll() {
+          var totalRoms = devices.reduce(function (sum, d) {
+            return sum + d.versions.length;
+          }, 0);
+
+          animateCount(statDevices, devices.length);
+          animateCount(statRoms, totalRoms);
+
+          renderFilters();
+          applyView();
+        }
+
+        /* ========================================================================
+           6. SỰ KIỆN TƯƠNG TÁC (SEARCH, FILTER, SORT, ACCORDION, COPY, SCROLL)
+           ======================================================================== */
+        searchInput.addEventListener('input', applyView);
+
+        clearBtn.addEventListener('click', function () {
+          searchInput.value = '';
+          applyView();
+          searchInput.focus();
+        });
+
+        sortSelect.addEventListener('change', function () {
+          activeSort = sortSelect.value || 'default';
+          applyView();
+        });
+
+        filterChips.addEventListener('click', function (e) {
+          var chip = e.target.closest('.chip');
+          if (!chip) return;
+          activeFilter = chip.getAttribute('data-filter') || 'all';
+          Array.prototype.slice.call(filterChips.querySelectorAll('.chip')).forEach(function (el) {
+            var isActive = el === chip;
+            el.classList.toggle('active', isActive);
+            el.setAttribute('aria-selected', isActive ? 'true' : 'false');
+          });
+          applyView();
+        });
+
+        resetBtn.addEventListener('click', function () {
+          searchInput.value = '';
+          activeFilter = 'all';
+          activeSort = 'default';
+          sortSelect.value = 'default';
+          renderFilters();
+          applyView();
+        });
+
+        /* Ủy quyền sự kiện trên lưới: sao chép codename & đóng/mở danh sách phiên bản khác */
+        deviceGrid.addEventListener('click', function (e) {
+          var copyBtn = e.target.closest('.codename-pill');
+          if (copyBtn) {
+            var code = copyBtn.getAttribute('data-copy') || '';
+            if (!code) return;
+            copyToClipboard(code);
+            copyBtn.classList.add('copied');
+            showToast('Đã sao chép codename: ' + code);
+
+            clearTimeout(copyBtn._copyTimer);
+            copyBtn._copyTimer = setTimeout(function () {
+              copyBtn.classList.remove('copied');
+            }, 1500);
+            return;
+          }
+
+          var toggleBtn = e.target.closest('.versions-toggle');
+          if (toggleBtn) {
+            var section = toggleBtn.closest('.versions-section');
+            if (!section) return;
+            var isOpen = section.classList.toggle('is-open');
+            var count = toggleBtn.getAttribute('data-count') || '0';
+            var labelEl = toggleBtn.querySelector('.versions-toggle-label');
+            toggleBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+            if (labelEl) {
+              labelEl.textContent = (isOpen ? 'Thu gọn ' : 'Xem thêm ') + count + ' phiên bản khác';
+            }
+          }
+        });
+
+        /* Phím tắt '/' để tìm kiếm nhanh và 'Esc' để xóa/thoát */
+        document.addEventListener('keydown', function (e) {
+          if (e.key === '/' && document.activeElement !== searchInput && !e.ctrlKey && !e.metaKey && !e.altKey) {
+            var tag = (document.activeElement && document.activeElement.tagName || '').toLowerCase();
+            if (tag !== 'input' && tag !== 'textarea' && tag !== 'select') {
+              e.preventDefault();
+              searchInput.focus();
+              searchInput.select();
+            }
+          } else if (e.key === 'Escape' && document.activeElement === searchInput) {
+            if (searchInput.value) {
+              searchInput.value = '';
+              applyView();
+            } else {
+              searchInput.blur();
+            }
+          }
+        });
+
+        demoDismiss.addEventListener('click', function () {
+          demoNotice.classList.remove('show');
+        });
+
+        function handleScroll() {
+          var y = window.scrollY || window.pageYOffset || 0;
+          toolbar.classList.toggle('stuck', y > 110);
+          backTop.classList.toggle('show', y > 300);
+        }
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        handleScroll();
+
+        backTop.addEventListener('click', function () {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        /* ========================================================================
+           7. NẠP DỮ LIỆU TỪ roms.json (FALLBACK DỮ LIỆU MẪU KHI XEM TRƯỚC)
+           ======================================================================== */
         fetch('roms.json?v=' + Date.now(), { cache: 'no-store' })
-          .then(function (res) { if (!res.ok) throw new Error('Không đọc được roms.json'); return res.json(); })
-          .then(function (data) { roms = Array.isArray(data) ? data : []; render(); })
+          .then(function (res) {
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            return res.json();
+          })
+          .then(function (data) {
+            var parsed = buildDeviceGroups(data);
+            if (!parsed.length && !Array.isArray(data)) throw new Error('Invalid JSON');
+            devices = parsed;
+            demoNotice.classList.remove('show');
+            renderAll();
+          })
           .catch(function () {
-            grid.innerHTML = '';
-            emptyEl.textContent = 'Không đọc được file roms.json. Hãy chắc chắn file roms.json nằm cùng thư mục với index.html trên GitHub.';
-            emptyEl.classList.add('show');
+            devices = buildDeviceGroups(DEMO_DATA);
+            demoNotice.classList.add('show');
+            renderAll();
           });
       })();
     </script>
