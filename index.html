@@ -1,1184 +1,1290 @@
 <!doctype html>
-<html lang="vi">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="color-scheme" content="light dark" />
-    <meta name="description" content="BugOS — ROM mod cho các thiết bị Xiaomi / Redmi. Chọn đúng tên máy và tải bản ROM tương ứng." />
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%232563EB'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' fill='%23fff' font-family='system-ui,sans-serif' font-weight='800' font-size='36'%3EB%3C/text%3E%3C/svg%3E" />
-    <title>BugOS ROM Công khai</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@500;600;700;800;900&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet" />
-    <script>
-      (function () {
-        try {
-          var saved = localStorage.getItem('bugos-theme');
-          var dark = saved ? saved === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
-          document.documentElement.dataset.theme = dark ? 'dark' : 'light';
-        } catch (e) {}
-      })();
-    </script>
-    <style>
-      :root {
-        --bg: #f6f7f9;
-        --surface: #ffffff;
-        --surface-2: #f1f3f7;
-        --surface-hover: #eaeef5;
-        --border: rgba(15, 23, 42, 0.09);
-        --border-strong: rgba(15, 23, 42, 0.16);
-        --text: #0f172a;
-        --text-secondary: #475569;
-        --muted: #64748b;
-        --accent: #2563eb;
-        --accent-hover: #1d4ed8;
-        --accent-soft: rgba(37, 99, 235, 0.1);
-        --accent-border: rgba(37, 99, 235, 0.28);
-        --disabled-bg: #e2e8f0;
-        --disabled-text: #94a3b8;
-        --glass: rgba(246, 247, 249, 0.84);
-        --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04);
-        --shadow: 0 8px 24px -8px rgba(15, 23, 42, 0.08);
-        --shadow-hover: 0 14px 30px -10px rgba(15, 23, 42, 0.12);
-        --ease: cubic-bezier(0.22, 1, 0.36, 1);
-        color-scheme: light;
-      }
+<html lang="vi" data-page-node-id="ilLHAfTvzFyfkgh0eR0m6S">
+<head data-page-node-id="o6AlPzNYPvTtFv17QqjjKR">
+  <meta charset="utf-8" data-page-node-id="KBQz53k3m7Od50Cbl3qs3o" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" data-page-node-id="gTDi8wpCdaZcuC9lnc277i" />
+  <meta name="color-scheme" content="light dark" data-page-node-id="6bfo25EhCjoEryv4dxKTK5" />
+  <meta name="theme-color" content="#080c14" data-page-node-id="vnWuYUNwf2pe0uuhHgGWxE" />
+  <meta name="description" content="BugOS — kho ROM mod công khai cho Xiaomi / Redmi / POCO. Chọn đúng tên máy và tải bản ROM tương ứng." data-page-node-id="PbRJ1LUd6CpRZszWDjtNS4" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%232563EB'/%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='%23fff' font-family='system-ui,sans-serif' font-weight='800' font-size='36'%3EB%3C/text%3E%3C/svg%3E" data-page-node-id="LjACCcuIKGAHk9tSdoiUGt" />
+  <title>BugOS — Kho ROM công khai</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" data-page-node-id="xM44Qi0FFatULUEqINx8sH" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin data-page-node-id="1d00XoIG4YbXfo3k5pgo44" />
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" data-page-node-id="BuSz3LNlBzBZijMlyLxxE5" />
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('bugos-theme');
+        var dark = saved ? saved === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+      } catch (e) { document.documentElement.dataset.theme = 'dark'; }
+    })();
+  </script>
+  <style>
+    :root {
+      --bg: #f3f6fb;
+      --surface: #ffffff;
+      --surface-2: #f0f4fa;
+      --surface-3: #e6edf6;
+      --surface-hover: #e8eef7;
+      --border: rgba(15, 32, 58, 0.10);
+      --border-strong: rgba(15, 32, 58, 0.18);
+      --text: #0d1b2a;
+      --text-2: #45566e;
+      --muted: #66788f;
+      --accent: #2563eb;
+      --accent-hover: #1d4ed8;
+      --accent-soft: rgba(37, 99, 235, 0.09);
+      --accent-border: rgba(37, 99, 235, 0.28);
+      --on-accent: #ffffff;
+      --signal: #4d7c0f;
+      --signal-soft: rgba(77, 124, 15, 0.11);
+      --disabled-bg: #e9eef5;
+      --disabled-text: #94a3b8;
+      --glass: rgba(243, 246, 251, 0.86);
+      --glow-1: rgba(37, 99, 235, 0.10);
+      --glow-2: rgba(132, 204, 22, 0.08);
+      --grid-line: rgba(15, 32, 58, 0.035);
+      --shadow-sm: 0 1px 2px rgba(13, 27, 42, 0.05);
+      --shadow: 0 16px 40px -22px rgba(13, 27, 42, 0.26);
+      --shadow-hover: 0 22px 48px -20px rgba(13, 27, 42, 0.30);
+      --overlay: rgba(13, 27, 42, 0.42);
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+      color-scheme: light;
+    }
 
-      html[data-theme="dark"] {
-        --bg: #090c11;
-        --surface: #11161f;
-        --surface-2: #171e2a;
-        --surface-hover: #1d2636;
-        --border: rgba(255, 255, 255, 0.08);
-        --border-strong: rgba(255, 255, 255, 0.15);
-        --text: #f8fafc;
-        --text-secondary: #cbd5e1;
-        --muted: #8b9bb4;
-        --accent: #3b82f6;
-        --accent-hover: #2563eb;
-        --accent-soft: rgba(59, 130, 246, 0.14);
-        --accent-border: rgba(59, 130, 246, 0.35);
-        --disabled-bg: #1e2636;
-        --disabled-text: #64748b;
-        --glass: rgba(9, 12, 17, 0.84);
-        --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
-        --shadow: 0 10px 28px -8px rgba(0, 0, 0, 0.42);
-        --shadow-hover: 0 16px 34px -10px rgba(0, 0, 0, 0.55);
-        color-scheme: dark;
-      }
+    html[data-theme="dark"] {
+      --bg: #080c14;
+      --surface: #101826;
+      --surface-2: #16202f;
+      --surface-3: #1c2839;
+      --surface-hover: #1d293a;
+      --border: rgba(148, 163, 184, 0.13);
+      --border-strong: rgba(148, 163, 184, 0.25);
+      --text: #eef4ff;
+      --text-2: #b7c5d9;
+      --muted: #8698b0;
+      --accent: #5b9cff;
+      --accent-hover: #7db4ff;
+      --accent-soft: rgba(91, 156, 255, 0.13);
+      --accent-border: rgba(91, 156, 255, 0.36);
+      --on-accent: #06101e;
+      --signal: #b8ef4a;
+      --signal-soft: rgba(184, 239, 74, 0.11);
+      --disabled-bg: #1a2331;
+      --disabled-text: #64748b;
+      --glass: rgba(8, 12, 20, 0.84);
+      --glow-1: rgba(37, 99, 235, 0.17);
+      --glow-2: rgba(163, 230, 53, 0.08);
+      --grid-line: rgba(148, 163, 184, 0.045);
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.28);
+      --shadow: 0 18px 44px -22px rgba(0, 0, 0, 0.62);
+      --shadow-hover: 0 26px 56px -22px rgba(0, 0, 0, 0.72);
+      --overlay: rgba(2, 6, 12, 0.66);
+      color-scheme: dark;
+    }
 
-      *, *::before, *::after { box-sizing: border-box; }
-      html { scroll-behavior: smooth; }
-      body {
-        margin: 0;
-        min-height: 100dvh;
-        display: flex;
-        flex-direction: column;
-        background: var(--bg);
-        color: var(--text);
-        font-family: "Be Vietnam Pro", system-ui, -apple-system, "Segoe UI", sans-serif;
-        -webkit-font-smoothing: antialiased;
-        transition: background-color 0.25s var(--ease), color 0.25s var(--ease);
-      }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Be Vietnam Pro", system-ui, -apple-system, "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      transition: background-color 0.3s var(--ease), color 0.3s var(--ease);
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background-image:
+        radial-gradient(58rem 38rem at 12% -12%, var(--glow-1), transparent 62%),
+        radial-gradient(46rem 32rem at 92% -4%, var(--glow-2), transparent 60%),
+        linear-gradient(var(--grid-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+      background-size: auto, auto, 44px 44px, 44px 44px;
+      -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 45%, transparent 92%);
+      mask-image: linear-gradient(to bottom, #000 0%, #000 45%, transparent 92%);
+    }
 
-      a { color: inherit; }
-      button { font: inherit; }
+    a { color: inherit; }
+    button, select, input { font: inherit; }
+    button, select { cursor: pointer; }
 
-      .wrap {
-        width: 100%;
-        max-width: 1020px;
-        margin: 0 auto;
-        padding: 0 20px 56px;
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-      }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 8px; }
 
-      /* ---------- Hero ---------- */
-      .hero {
-        padding: 40px 0 10px;
-      }
-      .hero-top {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 16px;
-      }
-      .brand {
-        margin: 0;
-        font-size: clamp(40px, 7.5vw, 60px);
-        font-weight: 900;
-        letter-spacing: -0.035em;
-        line-height: 1;
-      }
-      .brand .os { color: var(--accent); }
+    .skip-link {
+      position: absolute; left: -999px; top: 10px; z-index: 100;
+      background: var(--accent); color: var(--on-accent);
+      padding: 10px 16px; border-radius: 10px; font-weight: 700; text-decoration: none;
+    }
+    .skip-link:focus { left: 16px; }
 
-      .theme-btn {
-        width: 42px;
-        height: 42px;
-        border-radius: 999px;
-        border: 1px solid var(--border);
-        background: var(--surface);
-        color: var(--text-secondary);
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        box-shadow: var(--shadow-sm);
-        transition: background-color 0.2s var(--ease), border-color 0.2s var(--ease), color 0.2s var(--ease), transform 0.2s var(--ease);
-      }
-      .theme-btn:hover {
-        background: var(--surface-2);
-        border-color: var(--border-strong);
-        color: var(--text);
-      }
-      .theme-btn:active { transform: scale(0.94); }
-      .theme-btn .icon-sun { display: none; }
-      .theme-btn .icon-moon { display: block; }
-      html[data-theme="dark"] .theme-btn .icon-sun { display: block; }
-      html[data-theme="dark"] .theme-btn .icon-moon { display: none; }
+    .progress {
+      position: fixed; top: 0; left: 0; z-index: 100;
+      height: 2px; width: 0;
+      background: linear-gradient(90deg, var(--accent), var(--signal));
+      transition: width 0.1s linear;
+    }
 
-      .tagline {
-        margin: 14px 0 0;
-        max-width: 560px;
-        font-size: clamp(15px, 2.2vw, 17px);
-        line-height: 1.6;
-        color: var(--muted);
-        font-weight: 500;
-      }
-      .tagline strong { color: var(--text); font-weight: 700; }
+    .wrap {
+      width: 100%; max-width: 1060px; margin: 0 auto;
+      padding: 0 20px 56px; flex: 1;
+      display: flex; flex-direction: column;
+    }
 
-      .stats {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        margin-top: 20px;
-      }
-      .stat {
-        display: inline-flex;
-        align-items: baseline;
-        gap: 7px;
-        padding: 7px 14px;
-        border-radius: 999px;
-        background: var(--surface);
-        border: 1px solid var(--border);
-        box-shadow: var(--shadow-sm);
-      }
-      .stat b {
-        font-size: 16px;
-        font-weight: 800;
-        font-variant-numeric: tabular-nums;
-      }
-      .stat span {
-        font-size: 13px;
-        font-weight: 600;
-        color: var(--muted);
-      }
+    /* ---------- Hero ---------- */
+    .hero { padding: 38px 0 6px; }
+    .hero-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 10.5px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--muted); margin: 0 0 12px;
+    }
+    .live-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--signal); box-shadow: 0 0 0 4px var(--signal-soft); flex: none;
+    }
+    .brand {
+      margin: 0; font-size: clamp(52px, 10vw, 80px);
+      font-weight: 900; letter-spacing: -0.035em; line-height: 0.98;
+    }
+    .brand .os {
+      display: inline-block;
+      margin-left: 0.025em;
+      padding-right: 0.06em;
+      background: linear-gradient(115deg, var(--accent) 10%, #22d3ee 92%);
+      -webkit-background-clip: text; background-clip: text;
+      color: transparent; -webkit-text-fill-color: transparent;
+    }
+    .tagline {
+      margin: 18px 0 0; max-width: 600px;
+      font-size: clamp(14.5px, 2.1vw, 16.5px); line-height: 1.65;
+      color: var(--text-2); font-weight: 500;
+    }
+    .tagline strong { color: var(--text); font-weight: 800; }
 
-      /* ---------- Sticky Search Toolbar ---------- */
-      .toolbar {
-        position: sticky;
-        top: 0;
-        z-index: 20;
-        margin: 14px -20px 0;
-        padding: 12px 20px;
-        background: var(--glass);
-        backdrop-filter: blur(14px);
-        -webkit-backdrop-filter: blur(14px);
-      }
-      .search {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: 999px;
-        padding: 6px 8px 6px 16px;
-        box-shadow: var(--shadow-sm);
-        transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
-      }
-      .search:focus-within {
-        border-color: var(--accent);
-        box-shadow: 0 0 0 3px var(--accent-soft);
-      }
-      .search-icon {
-        flex: none;
-        color: var(--muted);
-      }
-      .search input {
-        flex: 1;
-        min-width: 0;
-        border: 0;
-        outline: 0;
-        background: transparent;
-        color: var(--text);
-        font: inherit;
-        font-size: 14.5px;
-        font-weight: 500;
-        padding: 8px 0;
-      }
-      .search input::placeholder { color: var(--muted); }
-      .search input::-webkit-search-cancel-button { display: none; }
+    .stats { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+    .stat {
+      display: inline-flex; align-items: baseline; gap: 8px;
+      padding: 9px 15px; border-radius: 12px;
+      background: var(--surface); border: 1px solid var(--border); box-shadow: var(--shadow-sm);
+    }
+    .stat b {
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 17px; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: -0.03em;
+    }
+    .stat span { font-size: 12.5px; font-weight: 600; color: var(--muted); }
 
-      .clear-btn {
-        display: none;
-        flex: none;
-        width: 28px;
-        height: 28px;
-        border-radius: 999px;
-        border: 0;
-        background: var(--surface-2);
-        color: var(--muted);
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        transition: background-color 0.15s ease, color 0.15s ease;
-      }
-      .clear-btn.show { display: inline-flex; }
-      .clear-btn:hover { background: var(--surface-hover); color: var(--text); }
+    .theme-btn {
+      width: 44px; height: 44px; flex: none; border-radius: 13px;
+      border: 1px solid var(--border); background: var(--surface); color: var(--text-2);
+      display: inline-flex; align-items: center; justify-content: center; box-shadow: var(--shadow-sm);
+      transition: background-color 0.2s var(--ease), border-color 0.2s var(--ease), color 0.2s var(--ease), transform 0.2s var(--ease);
+    }
+    .theme-btn:hover { background: var(--surface-2); border-color: var(--border-strong); color: var(--text); }
+    .theme-btn:active { transform: scale(0.94); }
+    .theme-btn .icon-sun, .theme-btn .icon-moon { display: none; }
+    html[data-theme="light"] .theme-btn .icon-moon { display: block; }
+    html[data-theme="dark"] .theme-btn .icon-sun { display: block; }
 
-      .kbd-hint {
-        display: none;
-        flex: none;
-        font-family: "JetBrains Mono", ui-monospace, monospace;
-        font-size: 11px;
-        font-weight: 600;
-        color: var(--muted);
-        background: var(--surface-2);
-        border: 1px solid var(--border);
-        border-radius: 7px;
-        padding: 3px 7px;
-      }
-      @media (min-width: 640px) { .kbd-hint { display: inline-flex; } }
-      .search.has-value .kbd-hint { display: none; }
+    .steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 26px; }
+    .step {
+      display: flex; align-items: center; gap: 11px; padding: 12px 13px;
+      border-radius: 14px; border: 1px solid var(--border); background: var(--surface);
+      box-shadow: var(--shadow-sm); min-width: 0;
+    }
+    .step-num {
+      flex: none; width: 30px; height: 30px; border-radius: 9px; display: grid; place-items: center;
+      font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 11px; font-weight: 700;
+      color: var(--accent); background: var(--accent-soft); border: 1px solid var(--accent-border);
+    }
+    .step-text { min-width: 0; }
+    .step-text b { display: block; font-size: 13px; font-weight: 700; line-height: 1.3; }
+    .step-text span { display: block; font-size: 11.5px; color: var(--muted); font-weight: 500; line-height: 1.4; }
 
-      .count-pill {
-        flex: none;
-        font-size: 12.5px;
-        font-weight: 700;
-        font-variant-numeric: tabular-nums;
-        color: var(--text-secondary);
-        background: var(--surface-2);
-        border: 1px solid var(--border);
-        border-radius: 999px;
-        padding: 6px 12px;
-        white-space: nowrap;
-      }
+    .demo-note {
+      display: flex; align-items: flex-start; gap: 10px; margin-top: 16px; padding: 12px 14px;
+      border-radius: 14px; border: 1px dashed var(--accent-border); background: var(--accent-soft);
+      color: var(--text-2); font-size: 12.5px; line-height: 1.5;
+    }
+    .demo-note svg { flex: none; color: var(--accent); margin-top: 1px; }
+    .demo-note b { color: var(--text); }
+    .demo-note button { margin-left: auto; flex: none; border: 0; background: transparent; color: var(--muted); font-size: 18px; line-height: 1; padding: 2px 4px; }
+    code {
+      font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 0.92em;
+      background: var(--surface-2); border: 1px solid var(--border); border-radius: 6px;
+      padding: 1px 6px; color: var(--text-2);
+    }
 
-      /* ---------- Section & Grid ---------- */
-      main { flex: 1; }
-      .section-head {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin: 14px 0 14px;
-      }
-      .section-head h2 {
-        margin: 0;
-        font-size: 16px;
-        font-weight: 700;
-        color: var(--text-secondary);
-        letter-spacing: -0.01em;
-      }
+    /* ---------- Spotlight ---------- */
+    .spotlight {
+      position: relative; margin-top: 24px; border-radius: 22px; overflow: hidden;
+      border: 1px solid var(--accent-border); background: var(--surface); box-shadow: var(--shadow);
+      display: grid; grid-template-columns: 1fr;
+    }
+    .spotlight::before {
+      content: ""; position: absolute; inset: 0; pointer-events: none;
+      background: radial-gradient(38rem 22rem at 100% 0%, var(--glow-1), transparent 70%);
+    }
+    @media (min-width: 820px) { .spotlight { grid-template-columns: 1.15fr 0.85fr; } }
+    .spot-main { position: relative; padding: 22px; }
+    .spot-side { position: relative; padding: 18px; background: var(--surface-2); }
+    @media (min-width: 820px) { .spot-side { border-left: 1px solid var(--border); } }
+    @media (max-width: 819px) { .spot-side { border-top: 1px solid var(--border); } }
+    .spot-eyebrow {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 10px; font-weight: 700; letter-spacing: 0.13em; text-transform: uppercase;
+      color: var(--signal);
+    }
+    .spot-title-row {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 6px 14px; margin-top: 10px;
+    }
+    .spot-title {
+      margin: 0; font-size: clamp(27px, 4.2vw, 38px); font-weight: 900;
+      letter-spacing: -0.045em; line-height: 1.1; overflow-wrap: anywhere;
+    }
+    .spot-title-row .badge-copy { flex: none; }
+    .spot-ver {
+      margin: 15px 0 0; font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 14px; font-weight: 700; color: var(--accent); overflow-wrap: anywhere; line-height: 1.45;
+    }
+    .spot-actions { display: flex; gap: 8px; margin-top: 18px; }
+    .term-head {
+      display: flex; align-items: center; gap: 6px; margin-bottom: 12px;
+      font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 10.5px; font-weight: 600; color: var(--muted);
+    }
+    .term-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border-strong); }
+    .term-dot.live { background: var(--signal); }
+    .term-row {
+      display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+      padding: 8px 0; border-bottom: 1px dashed var(--border); font-size: 12px;
+    }
+    .term-row span {
+      flex: none; font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted);
+    }
+    .term-row b { font-weight: 600; text-align: right; overflow-wrap: anywhere; }
 
-      .grid {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 16px;
-        align-items: start;
-      }
-      @media (min-width: 720px) {
-        .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      }
+    /* ---------- Sticky toolbar ---------- */
+    .toolbar {
+      position: sticky; top: 0; z-index: 30; margin: 22px -20px 0;
+      padding: 12px 20px 11px; background: var(--glass); border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(18px) saturate(150%); -webkit-backdrop-filter: blur(18px) saturate(150%);
+    }
+    .search {
+      display: flex; align-items: center; gap: 10px; min-height: 52px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 15px;
+      padding: 6px 8px 6px 16px; box-shadow: var(--shadow-sm);
+      transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+    }
+    .search:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+    .search-icon { flex: none; color: var(--muted); }
+    .search input {
+      flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; color: var(--text);
+      font-size: 14.5px; font-weight: 500; padding: 8px 0;
+    }
+    .search input::placeholder { color: var(--muted); opacity: 0.9; }
+    .search input::-webkit-search-cancel-button { display: none; }
+    .clear-btn {
+      display: none; flex: none; width: 32px; height: 32px; border-radius: 9px;
+      border: 1px solid var(--border); background: var(--surface-2); color: var(--muted);
+      align-items: center; justify-content: center;
+      transition: background-color 0.15s ease, color 0.15s ease;
+    }
+    .clear-btn.show { display: inline-flex; }
+    .clear-btn:hover { background: var(--surface-hover); color: var(--text); }
+    .kbd-hint, .kbd-btn {
+      display: none; flex: none; align-items: center;
+      font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 11px; font-weight: 600;
+      color: var(--muted); background: var(--surface-2); border: 1px solid var(--border);
+      border-radius: 7px; padding: 5px 8px; line-height: 1;
+    }
+    .kbd-btn { cursor: pointer; }
+    .kbd-btn:hover { color: var(--accent); border-color: var(--accent-border); background: var(--accent-soft); }
+    @media (min-width: 640px) { .kbd-hint { display: inline-flex; } }
+    .kbd-btn { display: inline-flex; }
+    .search.has-value .kbd-hint, .search.has-value .kbd-btn { display: none; }
 
-      /* ---------- Card ---------- */
-      .card {
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: 22px;
-        padding: 20px;
-        box-shadow: var(--shadow);
-        display: flex;
-        flex-direction: column;
-        gap: 14px;
-        opacity: 0;
-        transform: translateY(10px);
-        animation: cardIn 0.42s var(--ease) forwards;
-        transition: border-color 0.22s var(--ease), box-shadow 0.22s var(--ease), transform 0.22s var(--ease);
-      }
-      .card:hover {
-        border-color: var(--border-strong);
-        box-shadow: var(--shadow-hover);
-      }
-      @keyframes cardIn {
-        to { opacity: 1; transform: translateY(0); }
-      }
+    .filters {
+      display: flex; gap: 8px; margin-top: 10px; overflow-x: auto;
+      scrollbar-width: none; -ms-overflow-style: none;
+    }
+    .filters::-webkit-scrollbar { display: none; }
+    .chip {
+      flex: none; min-height: 36px; display: inline-flex; align-items: center; gap: 6px;
+      padding: 7px 13px; border-radius: 999px;
+      border: 1px solid var(--border); background: var(--surface); color: var(--text-2);
+      font-size: 12.5px; font-weight: 600; white-space: nowrap;
+      transition: background-color 0.18s var(--ease), border-color 0.18s var(--ease), color 0.18s var(--ease);
+    }
+    .chip:hover { background: var(--surface-2); border-color: var(--border-strong); color: var(--text); }
+    .chip[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent-border); color: var(--accent); }
+    .chip .dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; opacity: 0.65; }
+    .chip small { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 10px; opacity: 0.7; }
+    .chip-divider { flex: none; width: 1px; align-self: stretch; margin: 4px 3px; background: var(--border); }
 
-      .card-head {
-        display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
-        gap: 12px;
-      }
-      .device-name {
-        margin: 0;
-        font-size: clamp(20px, 3vw, 23px);
-        font-weight: 800;
-        letter-spacing: -0.02em;
-        line-height: 1.25;
-        word-break: break-word;
-      }
-      .badges {
-        display: flex;
-        align-items: center;
-        flex-wrap: wrap;
-        justify-content: flex-end;
-        gap: 6px;
-        flex-shrink: 0;
-      }
-      .badge-copy,
-      .badge-count {
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-        height: 28px;
-        padding: 0 10px;
-        border-radius: 999px;
-        font-size: 12px;
-        font-weight: 600;
-        background: var(--surface-2);
-        border: 1px solid var(--border);
-        color: var(--muted);
-        white-space: nowrap;
-      }
-      .badge-copy {
-        font-family: "JetBrains Mono", ui-monospace, monospace;
-        cursor: pointer;
-        transition: background-color 0.18s var(--ease), border-color 0.18s var(--ease), color 0.18s var(--ease);
-      }
-      .badge-copy:hover {
-        background: var(--surface-hover);
-        border-color: var(--border-strong);
-        color: var(--text);
-      }
-      .badge-copy.copied {
-        background: var(--accent-soft);
-        border-color: var(--accent-border);
-        color: var(--accent);
-      }
+    /* ---------- Section & grid ---------- */
+    main { flex: 1; }
+    .section-head {
+      display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; margin: 18px 0 14px;
+    }
+    .section-head h2 { margin: 0; font-size: 17px; font-weight: 800; letter-spacing: -0.02em; }
+    .section-head p { margin: 3px 0 0; font-size: 12px; color: var(--muted); font-weight: 500; }
+    .section-actions { display: flex; align-items: center; gap: 8px; flex: none; }
+    .sort-wrap {
+      display: inline-flex; align-items: center; gap: 6px; min-height: 36px;
+      padding: 0 8px 0 12px; border-radius: 999px;
+      border: 1px solid var(--border); background: var(--surface); color: var(--muted);
+      font-size: 12px; font-weight: 600;
+    }
+    .sort-wrap select {
+      border: 0; outline: 0; background: transparent; color: var(--text);
+      font-size: 12px; font-weight: 700; padding: 6px 2px; max-width: 112px;
+    }
+    .count-pill {
+      flex: none; min-height: 36px; display: inline-flex; align-items: center; padding: 0 12px;
+      border-radius: 999px; font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 11.5px; font-weight: 600; color: var(--accent);
+      background: var(--accent-soft); border: 1px solid var(--accent-border);
+      white-space: nowrap; font-variant-numeric: tabular-nums;
+    }
+    .grid { display: grid; grid-template-columns: 1fr; gap: 16px; align-items: start; }
+    @media (min-width: 760px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
-      /* ---------- Latest Version Box ---------- */
-      .latest-box {
-        background: var(--surface-2);
-        border: 1px solid var(--border);
-        border-radius: 16px;
-        padding: 15px;
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-      }
-      .ver-label {
-        display: block;
-        font-size: 11px;
-        font-weight: 800;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-        color: var(--muted);
-        margin-bottom: 4px;
-      }
-      .ver-label.is-latest { color: var(--accent); }
-      .ver-code {
-        margin: 0;
-        font-family: "JetBrains Mono", ui-monospace, monospace;
-        font-size: 16.5px;
-        font-weight: 700;
-        line-height: 1.35;
-        color: var(--text);
-        word-break: break-word;
-      }
-      .ver-meta {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        gap: 6px 12px;
-        margin-top: 6px;
-        font-size: 13px;
-        font-weight: 500;
-        color: var(--muted);
-      }
-      .ver-note {
-        font-size: 11.5px;
-        font-weight: 700;
-        color: var(--text-secondary);
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: 999px;
-        padding: 2px 9px;
-      }
+    /* ---------- Card ---------- */
+    .card {
+      position: relative; background: var(--surface); border: 1px solid var(--border);
+      border-radius: 20px; padding: 18px; box-shadow: var(--shadow);
+      display: flex; flex-direction: column; gap: 14px; overflow: hidden;
+      opacity: 0; transform: translateY(12px) scale(0.985);
+      animation: cardIn 0.46s var(--ease) forwards;
+      transition: border-color 0.24s var(--ease), box-shadow 0.24s var(--ease), transform 0.24s var(--ease);
+    }
+    .card::before {
+      content: ""; position: absolute; inset: 0 0 auto; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent) 35%, var(--signal) 72%, transparent);
+      opacity: 0.5; transition: opacity 0.24s var(--ease);
+    }
+    .card:hover { transform: translateY(-3px); border-color: var(--accent-border); box-shadow: var(--shadow-hover); }
+    .card:hover::before { opacity: 1; }
+    .card.flash { animation: flashRing 1.25s var(--ease); }
+    @keyframes cardIn { to { opacity: 1; transform: translateY(0) scale(1); } }
+    @keyframes flashRing {
+      0% { box-shadow: 0 0 0 0 var(--accent), var(--shadow); }
+      45% { box-shadow: 0 0 0 5px var(--accent-soft), var(--shadow-hover); }
+      100% { box-shadow: 0 0 0 0 transparent, var(--shadow); }
+    }
 
-      .btn-download,
-      .btn-disabled {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        width: 100%;
-        min-height: 44px;
-        padding: 10px 18px;
-        border-radius: 999px;
-        font-size: 14.5px;
-        font-weight: 700;
-        text-decoration: none;
-        border: 0;
-      }
-      .btn-download {
-        background: var(--accent);
-        color: #ffffff;
-        cursor: pointer;
-        transition: background-color 0.2s var(--ease), transform 0.18s var(--ease);
-      }
-      .btn-download:hover { background: var(--accent-hover); }
-      .btn-download:active { transform: scale(0.985); }
-      .btn-download svg { transition: transform 0.2s var(--ease); }
-      .btn-download:hover svg { transform: translateY(2px); }
+    .card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+    .device-wrap { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .device-icon {
+      flex: none; width: 44px; height: 44px; border-radius: 13px; display: grid; place-items: center;
+      color: var(--accent); background: var(--accent-soft); border: 1px solid var(--accent-border);
+    }
+    .device-text { min-width: 0; }
+    .device-name { margin: 0; font-size: 18px; font-weight: 800; letter-spacing: -0.025em; line-height: 1.25; overflow-wrap: anywhere; }
+    .device-code {
+      margin: 3px 0 0; font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 11.5px; font-weight: 500; color: var(--muted); overflow-wrap: anywhere;
+    }
+    .badges { display: flex; align-items: center; flex-wrap: wrap; justify-content: flex-end; gap: 6px; flex-shrink: 0; }
+    .badge-copy, .badge-count {
+      display: inline-flex; align-items: center; gap: 5px; min-height: 30px; padding: 0 10px;
+      border-radius: 9px; font-size: 11.5px; font-weight: 600;
+      background: var(--surface-2); border: 1px solid var(--border); color: var(--muted); white-space: nowrap;
+    }
+    .badge-copy { font-family: "JetBrains Mono", ui-monospace, monospace; transition: background-color 0.18s var(--ease), border-color 0.18s var(--ease), color 0.18s var(--ease); }
+    .badge-copy:hover { background: var(--surface-hover); border-color: var(--border-strong); color: var(--text); }
+    .badge-copy.copied { background: var(--signal-soft); border-color: var(--signal); color: var(--signal); }
+    .badge-count { font-variant-numeric: tabular-nums; }
 
-      .btn-disabled {
-        background: var(--disabled-bg);
-        color: var(--disabled-text);
-        cursor: not-allowed;
-        user-select: none;
-      }
+    .latest {
+      background: var(--surface-2); border: 1px solid var(--border); border-radius: 15px;
+      padding: 14px; display: flex; flex-direction: column; gap: 12px;
+    }
+    .ver-label {
+      display: flex; align-items: center; gap: 7px; font-size: 10px; font-weight: 800;
+      letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px;
+    }
+    .ver-label.is-latest { color: var(--signal); }
+    .ver-code {
+      margin: 0; font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 16.5px; font-weight: 700; line-height: 1.4; color: var(--text);
+      overflow-wrap: anywhere; letter-spacing: -0.015em;
+    }
+    .ver-meta, .old-meta {
+      display: flex; flex-wrap: wrap; align-items: center; gap: 5px 11px; margin-top: 7px;
+      font-size: 12px; font-weight: 500; color: var(--muted);
+    }
+    .ver-meta > span, .old-meta > span { display: inline-flex; align-items: center; gap: 4px; }
+    .ver-note {
+      font-size: 10.5px; font-weight: 700; color: var(--accent);
+      background: var(--accent-soft); border: 1px solid var(--accent-border);
+      border-radius: 999px; padding: 2px 8px;
+    }
+    .fresh-tag {
+      font-size: 10px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--signal); background: var(--signal-soft); border: 1px solid var(--signal);
+      border-radius: 999px; padding: 2px 8px;
+    }
+    .latest-actions { display: flex; gap: 8px; }
 
-      /* ---------- Older Versions Accordion ---------- */
-      .acc-toggle {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        width: 100%;
-        min-height: 38px;
-        padding: 8px 14px;
-        border-radius: 999px;
-        background: transparent;
-        border: 1px solid var(--border);
-        color: var(--text-secondary);
-        font-size: 13px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: background-color 0.18s var(--ease), border-color 0.18s var(--ease), color 0.18s var(--ease);
-      }
-      .acc-toggle:hover {
-        background: var(--surface-2);
-        border-color: var(--border-strong);
-        color: var(--text);
-      }
-      .acc-toggle svg {
-        transition: transform 0.28s var(--ease);
-      }
-      .card.open .acc-toggle svg {
-        transform: rotate(180deg);
-      }
+    .btn-download, .btn-disabled {
+      display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+      min-height: 46px; padding: 10px 18px; border-radius: 12px;
+      font-size: 14px; font-weight: 700; text-decoration: none; border: 0;
+    }
+    .btn-download { flex: 1; position: relative; overflow: hidden; background: var(--accent); color: var(--on-accent); box-shadow: 0 6px 18px -8px var(--accent); transition: background-color 0.2s var(--ease), transform 0.18s var(--ease), box-shadow 0.2s var(--ease); }
+    .btn-download::after {
+      content: ""; position: absolute; inset: 0;
+      background: linear-gradient(100deg, transparent 22%, rgba(255, 255, 255, 0.24), transparent 78%);
+      transform: translateX(-130%); transition: transform 0.65s var(--ease); pointer-events: none;
+    }
+    .btn-download:hover { background: var(--accent-hover); box-shadow: 0 10px 24px -8px var(--accent); }
+    .btn-download:hover::after { transform: translateX(130%); }
+    .btn-download:active { transform: scale(0.985); }
+    .btn-download svg { transition: transform 0.2s var(--ease); }
+    .btn-download:hover svg { transform: translateY(2px); }
+    .btn-disabled { flex: 1; background: var(--disabled-bg); color: var(--disabled-text); cursor: not-allowed; user-select: none; }
+    .icon-copy-link {
+      flex: none; width: 46px; min-height: 46px; border-radius: 12px;
+      display: grid; place-items: center;
+      background: var(--accent-soft); color: var(--accent); border: 1px solid var(--accent-border);
+      transition: background-color 0.18s var(--ease), color 0.18s var(--ease), transform 0.15s var(--ease);
+    }
+    .icon-copy-link:hover { background: var(--accent); color: var(--on-accent); }
+    .icon-copy-link:active { transform: scale(0.95); }
 
-      .acc-panel {
-        display: grid;
-        grid-template-rows: 0fr;
-        transition: grid-template-rows 0.3s var(--ease);
-      }
-      .card.open .acc-panel {
-        grid-template-rows: 1fr;
-      }
-      .acc-inner {
-        overflow: hidden;
-      }
-      .old-list {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-        padding-top: 10px;
-      }
-      .old-row {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 12px;
-        padding: 11px 13px;
-        border-radius: 14px;
-        background: var(--surface);
-        border: 1px solid var(--border);
-        transition: border-color 0.2s var(--ease), background-color 0.2s var(--ease);
-      }
-      .old-row.is-match {
-        background: var(--accent-soft);
-        border-color: var(--accent-border);
-      }
-      .old-info { min-width: 0; }
-      .old-ver {
-        font-family: "JetBrains Mono", ui-monospace, monospace;
-        font-size: 13.5px;
-        font-weight: 700;
-        color: var(--text);
-        word-break: break-word;
-      }
-      .old-meta {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        gap: 4px 10px;
-        margin-top: 3px;
-        font-size: 12px;
-        color: var(--muted);
-        font-weight: 500;
-      }
+    .acc-toggle {
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+      width: 100%; min-height: 40px; padding: 9px 13px; border-radius: 12px;
+      background: transparent; border: 1px solid var(--border); color: var(--text-2);
+      font-size: 12.5px; font-weight: 700; text-align: left;
+      transition: background-color 0.2s var(--ease), border-color 0.2s var(--ease), color 0.2s var(--ease);
+    }
+    .acc-toggle:hover { background: var(--surface-2); border-color: var(--border-strong); color: var(--text); }
+    .acc-toggle svg { flex: none; transition: transform 0.3s var(--ease); }
+    .card.open .acc-toggle { background: var(--accent-soft); border-color: var(--accent-border); color: var(--accent); }
+    .card.open .acc-toggle svg { transform: rotate(180deg); }
+    .acc-panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.32s var(--ease); }
+    .card.open .acc-panel { grid-template-rows: 1fr; }
+    .acc-inner { overflow: hidden; }
+    .old-list { display: flex; flex-direction: column; gap: 8px; padding-top: 10px; }
+    .old-row {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      padding: 11px 12px; border-radius: 13px; background: var(--surface); border: 1px solid var(--border);
+      transition: border-color 0.2s var(--ease), background-color 0.2s var(--ease);
+    }
+    .old-row.is-match { background: var(--accent-soft); border-color: var(--accent-border); }
+    .old-info { min-width: 0; }
+    .old-ver { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 12.5px; font-weight: 700; color: var(--text); overflow-wrap: anywhere; }
+    .old-actions { display: flex; align-items: center; gap: 6px; flex: none; }
+    .btn-mini, .btn-mini-disabled, .btn-mini-icon {
+      flex: none; display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+      min-height: 38px; padding: 7px 13px; border-radius: 10px;
+      font-size: 12px; font-weight: 700; text-decoration: none; white-space: nowrap;
+    }
+    .btn-mini { background: var(--accent-soft); color: var(--accent); border: 1px solid var(--accent-border); transition: background-color 0.18s var(--ease), color 0.18s var(--ease), transform 0.15s var(--ease); }
+    .btn-mini:hover { background: var(--accent); color: var(--on-accent); }
+    .btn-mini:active, .btn-mini-icon:active { transform: scale(0.96); }
+    .btn-mini-disabled { background: var(--surface-2); color: var(--disabled-text); border: 1px solid var(--border); cursor: not-allowed; user-select: none; }
+    .btn-mini-icon { width: 38px; padding: 0; background: var(--surface-2); color: var(--muted); border: 1px solid var(--border); transition: color 0.18s var(--ease), border-color 0.18s var(--ease); }
+    .btn-mini-icon:hover { color: var(--accent); border-color: var(--accent-border); }
 
-      .btn-mini,
-      .btn-mini-disabled {
-        flex-shrink: 0;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 5px;
-        min-height: 34px;
-        padding: 6px 13px;
-        border-radius: 999px;
-        font-size: 12.5px;
-        font-weight: 700;
-        text-decoration: none;
-        white-space: nowrap;
-      }
-      .btn-mini {
-        background: var(--accent-soft);
-        color: var(--accent);
-        border: 1px solid var(--accent-border);
-        transition: background-color 0.18s var(--ease), color 0.18s var(--ease), transform 0.15s var(--ease);
-      }
-      .btn-mini:hover {
-        background: var(--accent);
-        color: #ffffff;
-      }
-      .btn-mini:active { transform: scale(0.96); }
-      .btn-mini-disabled {
-        background: var(--surface-2);
-        color: var(--disabled-text);
-        border: 1px solid var(--border);
-        cursor: not-allowed;
-        user-select: none;
-      }
+    /* ---------- Skeleton & states ---------- */
+    .skeleton-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 20px;
+      padding: 18px; display: flex; flex-direction: column; gap: 14px;
+    }
+    .sk { border-radius: 10px; background: linear-gradient(90deg, var(--surface-2) 25%, var(--surface-hover) 50%, var(--surface-2) 75%); background-size: 200% 100%; animation: shimmer 1.4s infinite linear; }
+    .sk-head { height: 44px; width: 62%; }
+    .sk-box { height: 122px; width: 100%; border-radius: 15px; }
+    @keyframes shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
 
-      /* ---------- Skeleton ---------- */
-      .skeleton-card {
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: 22px;
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        gap: 14px;
-      }
-      .sk {
-        border-radius: 10px;
-        background: linear-gradient(90deg, var(--surface-2) 25%, var(--surface-hover) 50%, var(--surface-2) 75%);
-        background-size: 200% 100%;
-        animation: shimmer 1.4s infinite linear;
-      }
-      .sk-title { height: 24px; width: 58%; }
-      .sk-box { height: 112px; width: 100%; border-radius: 16px; }
-      @keyframes shimmer {
-        from { background-position: 200% 0; }
-        to { background-position: -200% 0; }
-      }
+    .state-card {
+      text-align: center; background: var(--surface); border: 1px solid var(--border);
+      border-radius: 20px; padding: 44px 24px; box-shadow: var(--shadow);
+    }
+    .state-card.maintenance { max-width: 520px; margin: 28px auto 12px; padding: 48px 28px; }
+    .state-icon {
+      width: 56px; height: 56px; margin: 0 auto 16px; border-radius: 16px;
+      background: var(--accent-soft); color: var(--accent); border: 1px solid var(--accent-border);
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+    .state-card h3 { margin: 0 0 8px; font-size: 20px; font-weight: 800; letter-spacing: -0.025em; }
+    .state-card p { margin: 0 auto; max-width: 400px; font-size: 14px; line-height: 1.65; color: var(--muted); font-weight: 500; }
+    .state-btn {
+      margin-top: 20px; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      min-height: 44px; padding: 10px 20px; border-radius: 12px; border: 0;
+      background: var(--accent); color: var(--on-accent); font-size: 13.5px; font-weight: 700;
+      transition: background-color 0.18s var(--ease), transform 0.15s var(--ease);
+    }
+    .state-btn:hover { background: var(--accent-hover); }
+    .state-btn:active { transform: scale(0.97); }
+    .state-btn:disabled { opacity: 0.65; cursor: wait; }
+    .suggestions { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 18px; }
+    .hidden { display: none !important; }
 
-      /* ---------- Empty & Maintenance States ---------- */
-      .state-card {
-        text-align: center;
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: 22px;
-        padding: 44px 24px;
-        box-shadow: var(--shadow);
-      }
-      .state-card.maintenance {
-        max-width: 520px;
-        margin: 28px auto 12px;
-        padding: 48px 28px;
-      }
-      .state-icon {
-        width: 54px;
-        height: 54px;
-        margin: 0 auto 16px;
-        border-radius: 16px;
-        background: var(--accent-soft);
-        color: var(--accent);
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-      }
-      .state-card h3 {
-        margin: 0 0 8px;
-        font-size: 20px;
-        font-weight: 800;
-        letter-spacing: -0.02em;
-      }
-      .state-card p {
-        margin: 0 auto;
-        max-width: 380px;
-        font-size: 14.5px;
-        line-height: 1.6;
-        color: var(--muted);
-        font-weight: 500;
-      }
-      .state-btn {
-        margin-top: 20px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        min-height: 42px;
-        padding: 10px 20px;
-        border-radius: 999px;
-        border: 0;
-        background: var(--accent);
-        color: #ffffff;
-        font-size: 14px;
-        font-weight: 700;
-        cursor: pointer;
-        transition: background-color 0.18s var(--ease), transform 0.15s var(--ease);
-      }
-      .state-btn:hover { background: var(--accent-hover); }
-      .state-btn:active { transform: scale(0.97); }
-      .state-btn:disabled { opacity: 0.65; cursor: wait; }
+    /* ---------- Command palette ---------- */
+    .palette-overlay {
+      position: fixed; inset: 0; z-index: 80;
+      background: var(--overlay); backdrop-filter: blur(7px); -webkit-backdrop-filter: blur(7px);
+      display: flex; align-items: flex-start; justify-content: center; padding: 11vh 16px 16px;
+    }
+    .palette {
+      width: min(560px, 100%); background: var(--surface); border: 1px solid var(--border-strong);
+      border-radius: 18px; box-shadow: 0 32px 80px -24px rgba(0, 0, 0, 0.55); overflow: hidden;
+      animation: paletteIn 0.22s var(--ease);
+    }
+    @keyframes paletteIn { from { opacity: 0; transform: translateY(-10px) scale(0.98); } to { opacity: 1; transform: none; } }
+    .palette-input {
+      display: flex; align-items: center; gap: 11px; padding: 0 16px; min-height: 58px;
+      border-bottom: 1px solid var(--border); color: var(--muted);
+    }
+    .palette-input input {
+      flex: 1; min-width: 0; border: 0; outline: 0; background: transparent;
+      color: var(--text); font-size: 15px; font-weight: 500;
+    }
+    .palette-input input::placeholder { color: var(--muted); }
+    .palette-input kbd {
+      font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 10.5px;
+      border: 1px solid var(--border); background: var(--surface-2); color: var(--muted);
+      border-radius: 6px; padding: 4px 7px;
+    }
+    .palette-list { max-height: min(380px, 52vh); overflow-y: auto; padding: 8px; }
+    .palette-item {
+      display: flex; align-items: center; gap: 12px; width: 100%; padding: 11px 12px;
+      border: 1px solid transparent; border-radius: 11px; background: transparent;
+      color: var(--text); text-align: left;
+    }
+    .palette-item:hover, .palette-item.active { background: var(--accent-soft); border-color: var(--accent-border); }
+    .palette-brand {
+      flex: none; min-width: 46px; text-align: center; padding: 4px 7px; border-radius: 7px;
+      font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 9.5px; font-weight: 700;
+      letter-spacing: 0.05em; text-transform: uppercase;
+      background: var(--surface-2); border: 1px solid var(--border); color: var(--muted);
+    }
+    .palette-item.active .palette-brand { color: var(--accent); border-color: var(--accent-border); }
+    .palette-info { min-width: 0; flex: 1; }
+    .palette-info b { display: block; font-size: 13.5px; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .palette-info span { display: block; font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 11px; color: var(--muted); margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .palette-enter { flex: none; font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 10px; color: var(--muted); opacity: 0; }
+    .palette-item.active .palette-enter { opacity: 1; color: var(--accent); }
+    .palette-foot {
+      display: flex; align-items: center; gap: 14px; padding: 10px 16px;
+      border-top: 1px solid var(--border); background: var(--surface-2);
+      font-size: 11px; color: var(--muted);
+    }
+    .palette-foot kbd {
+      font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 10px;
+      border: 1px solid var(--border); border-radius: 5px; padding: 2px 5px; background: var(--surface); color: var(--text-2);
+    }
+    .palette-empty { padding: 34px 16px; text-align: center; color: var(--muted); font-size: 13px; }
 
-      .hidden { display: none !important; }
+    /* ---------- Toast / To top ---------- */
+    .toast {
+      position: fixed; left: 50%; bottom: 24px; z-index: 60;
+      transform: translate(-50%, 16px); opacity: 0; pointer-events: none;
+      padding: 11px 17px; border-radius: 12px; background: var(--text); color: var(--bg);
+      font-size: 12.5px; font-weight: 700; box-shadow: var(--shadow-hover);
+      transition: opacity 0.22s var(--ease), transform 0.22s var(--ease);
+    }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+    .to-top {
+      position: fixed; right: 18px; bottom: 20px; z-index: 40;
+      width: 44px; height: 44px; border-radius: 13px;
+      border: 1px solid var(--border); background: var(--surface); color: var(--text-2);
+      display: grid; place-items: center; box-shadow: var(--shadow);
+      opacity: 0; transform: translateY(10px); pointer-events: none;
+      transition: opacity 0.22s var(--ease), transform 0.22s var(--ease), color 0.18s var(--ease);
+    }
+    .to-top.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .to-top:hover { color: var(--accent); }
 
-      /* ---------- Toast ---------- */
-      .toast {
-        position: fixed;
-        left: 50%;
-        bottom: 24px;
-        z-index: 50;
-        transform: translate(-50%, 16px);
-        opacity: 0;
-        pointer-events: none;
-        padding: 10px 16px;
-        border-radius: 999px;
-        background: var(--text);
-        color: var(--bg);
-        font-size: 13px;
-        font-weight: 600;
-        box-shadow: var(--shadow-hover);
-        transition: opacity 0.22s var(--ease), transform 0.22s var(--ease);
-      }
-      .toast.show {
-        opacity: 1;
-        transform: translate(-50%, 0);
-      }
+    footer {
+      margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border);
+      text-align: center; font-size: 12.5px; line-height: 1.75; color: var(--muted); font-weight: 500;
+    }
+    footer .fbrand { font-size: 16px; font-weight: 900; color: var(--text); letter-spacing: -0.03em; }
+    footer .fbrand .os { color: var(--accent); }
+    .tg-link {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      margin-top: 12px; min-height: 40px; padding: 9px 17px; border-radius: 999px;
+      background: var(--accent-soft); border: 1px solid var(--accent-border);
+      color: var(--accent); font-size: 12.5px; font-weight: 700; text-decoration: none;
+      transition: background-color 0.18s var(--ease), color 0.18s var(--ease), transform 0.15s var(--ease);
+    }
+    .tg-link:hover { background: var(--accent); color: var(--on-accent); }
+    .tg-link:active { transform: scale(0.97); }
 
-      /* ---------- Footer ---------- */
-      footer {
-        margin-top: 48px;
-        padding-top: 24px;
-        border-top: 1px solid var(--border);
-        text-align: center;
-        font-size: 13px;
-        line-height: 1.7;
-        color: var(--muted);
-        font-weight: 500;
+    @media (max-width: 680px) {
+      .hero { padding-top: 28px; }
+      .steps { grid-template-columns: 1fr; gap: 8px; margin-top: 20px; }
+      .step { padding: 10px 11px; }
+      .spot-main, .spot-side { padding: 16px; }
+      .section-head { align-items: flex-start; flex-direction: column; }
+      .section-actions { width: 100%; justify-content: space-between; }
+      .card { padding: 15px; }
+      .old-row { flex-wrap: wrap; }
+      .old-actions { margin-left: auto; }
+      .toast { bottom: 16px; max-width: calc(100vw - 32px); text-align: center; }
+      .palette-overlay { padding-top: 7vh; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important; animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important; scroll-behavior: auto !important;
       }
-      footer .fbrand {
-        font-size: 15px;
-        font-weight: 900;
-        color: var(--text);
-        letter-spacing: -0.02em;
-      }
-      footer .fbrand .os { color: var(--accent); }
-
-      @media (prefers-reduced-motion: reduce) {
-        *, *::before, *::after {
-          animation-duration: 0.01ms !important;
-          animation-iteration-count: 1 !important;
-          transition-duration: 0.01ms !important;
-          scroll-behavior: auto !important;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="wrap">
-      <header class="hero">
-        <div class="hero-top">
-          <h1 class="brand">Bug<span class="os">OS</span></h1>
-          <button id="themeToggle" class="theme-btn" type="button" aria-label="Chuyển giao diện Sáng / Tối" title="Chuyển giao diện Sáng / Tối">
-            <svg class="icon-sun" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <circle cx="12" cy="12" r="4"></circle>
-              <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path>
-            </svg>
-            <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
-            </svg>
-          </button>
+    }
+  </style>
+</head>
+<body data-page-node-id="hxxBZL2L9Ev3X1tL5lWHp5">
+  <a class="skip-link" href="#romGrid" data-page-node-id="zEP3Pqet1ZApO8kstx9Ffs">Bỏ qua phần intro</a>
+  <div id="progress" class="progress" aria-hidden="true" data-page-node-id="gFXa13IjPCqAUi7wpIXnqe"></div>
+  <div class="wrap" data-page-node-id="OXQoX4xjs4U7qHCin57CVx">
+    <header class="hero" data-page-node-id="fLDdKwuZYAlLkSW9TPgxcO">
+      <div class="hero-top" data-page-node-id="kJd16Dho6RxL7D1aDc0xun">
+        <div data-page-node-id="vl2iksaFE7CocX5ojViFaC">
+          <p class="eyebrow" data-page-node-id="KGaNaAQ9IwL6xKJPa2RQoQ"><span class="live-dot" data-page-node-id="d3BWjMoRn0dSZVRGWqtFrZ"></span> Public ROM archive // build channel</p>
+          <h1 class="brand" data-page-node-id="tWl4SEwq6e3mA7kMguEua2">Bug<span class="os" data-page-node-id="sjwA9mPzCUHgjr78DhFBMO">OS</span></h1>
         </div>
-        <p class="tagline">ROM mod <strong>BugOS</strong> cho các thiết bị Xiaomi / Redmi. Chọn đúng tên máy của bạn rồi tải bản ROM tương ứng.</p>
-        <div id="statsBar" class="stats" aria-label="Tổng quan">
-          <div class="stat"><b id="statDevices">0</b><span>thiết bị</span></div>
-          <div class="stat"><b id="statRoms">0</b><span>bản ROM</span></div>
-        </div>
-      </header>
-
-      <div id="toolbar" class="toolbar">
-        <label id="searchBox" class="search">
-          <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
-            <circle cx="11" cy="11" r="7"></circle>
-            <path d="m20 20-3.8-3.8"></path>
+        <button id="themeToggle" class="theme-btn" type="button" aria-label="Chuyển giao diện Sáng / Tối" title="Chuyển giao diện Sáng / Tối" data-page-node-id="CylmyGMKiAIHZSrFqaJP9r">
+          <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-page-node-id="KHZaEVFXFsNvOqowStevgf">
+            <circle cx="12" cy="12" r="4" data-page-node-id="ACljcB41IVbErO3kYZVRbA"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" data-page-node-id="HZB5JoReIP0etrEo3nZCno"></path>
           </svg>
-          <input id="q" type="search" placeholder="Tìm theo tên máy Xiaomi / Redmi, codename hoặc phiên bản…" autocomplete="off" aria-label="Tìm ROM" />
-          <button id="clearBtn" class="clear-btn" type="button" aria-label="Xóa tìm kiếm">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true">
-              <path d="M18 6 6 18M6 6l12 12"></path>
-            </svg>
-          </button>
-          <kbd class="kbd-hint" aria-hidden="true">/</kbd>
-          <span id="resultCount" class="count-pill">0 ROM</span>
-        </label>
+          <svg class="icon-moon" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-page-node-id="QR1zmuih37sB4JAzQbCzuI">
+            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" data-page-node-id="No0LFyGevAe2AHbi7Trzdj"></path>
+          </svg>
+        </button>
       </div>
+      <p class="tagline" data-page-node-id="GrkNq0nCITyBE6COwtMLDk">ROM mod <strong data-page-node-id="9EZmZr6dY6vq3G099B6cpA">BugOS</strong> cho Xiaomi / Redmi / POCO. Tìm đúng tên máy hoặc codename, rồi tải bản dựng tương ứng — đơn giản, sạch, không đoán.</p>
+      <div id="statsBar" class="stats" aria-label="Tổng quan kho ROM" data-page-node-id="na8GlLzksOGsHBirBWbeHj">
+        <div class="stat" data-page-node-id="ByX6fHerFJhrRF233Ihl5I"><b id="statDevices" data-page-node-id="S1s5Kcnn3N0xaDLvZpJc7b">0</b><span data-page-node-id="1F5gPSfrcVNPnDDKHe6nvm">thiết bị</span></div>
+        <div class="stat" data-page-node-id="qDiaiyEiKFF10KANXD2dR8"><b id="statRoms" data-page-node-id="hC0fSbMLgoCQnd60seYv6e">0</b><span data-page-node-id="g4jq63mt3ZbpegNy3E8u6M">bản ROM</span></div>
+      </div>
+      <div class="steps" aria-label="Các bước sử dụng" data-page-node-id="Qu3U6Aft4jg7r39anYZYMK">
+        <div class="step" data-page-node-id="uOUELYXLwTq692mjoJDQb8"><span class="step-num" data-page-node-id="Do0o06rrn3EywUJ94c55tv">01</span><div class="step-text" data-page-node-id="QCmOvEFGjQqrnkbJecbE0l"><b data-page-node-id="G8x7yB1S6Gk9XqDLZdcE8z">Chọn đúng máy</b><span data-page-node-id="DplVqaE4L80DXeU23r6FDH">Tên máy hoặc codename</span></div></div>
+        <div class="step" data-page-node-id="nyYdfQB4Mj2hiAD8iuflLs"><span class="step-num" data-page-node-id="LAFkPLh82il4XMal1GIM78">02</span><div class="step-text" data-page-node-id="CxY572Qx0IrfPauXtTSHY5"><b data-page-node-id="WDLeG35ZNRDKsBrJgEqpxD">Tải bản mới nhất</b><span data-page-node-id="n5g4aGy4uDU1hUWaxhB4ql">Xem thêm nếu cần bản cũ</span></div></div>
+        <div class="step" data-page-node-id="GttEZedbridBVMQBNdUtHa"><span class="step-num" data-page-node-id="olsAKP81nWya0jEWB00jBh">03</span><div class="step-text" data-page-node-id="IJEeRE2ZoeLWivWN1LdFPF"><b data-page-node-id="3GnAPuTbFXe1iKC64AQJcj">Flash qua Recovery / Fastboot</b><span data-page-node-id="dJXn6E82Cs1LtWWVhVCw2C">Backup dữ liệu trước</span></div></div>
+      </div>
+      <div id="demoNote" class="demo-note hidden" data-page-node-id="A9MDig0iXsoco8FDlOlZQx">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-page-node-id="y2uaqwsB6LEdxNGc9HWZq1"><circle cx="12" cy="12" r="10" data-page-node-id="B8aK0dQjGIYfdseXe01GOC"></circle><path d="M12 16v-4M12 8h.01" data-page-node-id="NfiMepkDq4b4SGaNCanXLJ"></path></svg>
+        <span data-page-node-id="AlVucdcWgOY3r9kurRbFKe"><b data-page-node-id="t7BbXBEHbAlWIXZ1KJyOG7">Đang dùng dữ liệu minh họa.</b> Thay <code data-page-node-id="dLqAlp1Oe8Or6pwyK5xUOS">roms.json</code> bằng danh sách ROM thật của bạn để hiển thị bản phát hành chính thức.</span>
+        <button id="demoClose" type="button" aria-label="Đóng thông báo" data-page-node-id="azMGjSZU34KxnoN5Cpv4jO">×</button>
+      </div>
+    </header>
 
-      <main>
-        <div id="sectionHead" class="section-head">
-          <h2>Danh sách ROM</h2>
-        </div>
+    <section id="spotlight" class="spotlight hidden" aria-label="Bản dựng nổi bật" data-page-node-id="zT4zZD6DyVlrMYFNZ8tR9u"></section>
 
-        <div id="skeletonGrid" class="grid" aria-hidden="true">
-          <div class="skeleton-card">
-            <div class="sk sk-title"></div>
-            <div class="sk sk-box"></div>
-          </div>
-          <div class="skeleton-card">
-            <div class="sk sk-title"></div>
-            <div class="sk sk-box"></div>
-          </div>
-        </div>
-
-        <div id="grid" class="grid hidden"></div>
-
-        <div id="emptyState" class="state-card hidden">
-          <h3 id="emptyTitle">Không tìm thấy ROM</h3>
-          <p id="emptyText">Thử tìm bằng tên máy, codename hoặc phiên bản khác.</p>
-          <button id="resetSearchBtn" class="state-btn hidden" type="button">Xóa bộ lọc tìm kiếm</button>
-        </div>
-
-        <section id="maintenanceState" class="state-card maintenance hidden" aria-live="polite">
-          <div class="state-icon" aria-hidden="true">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
-            </svg>
-          </div>
-          <h3>Hệ thống đang bảo trì</h3>
-          <p>Danh sách ROM hiện tạm thời không thể truy cập. Vui lòng quay lại hoặc thử tải lại sau ít phút.</p>
-          <button id="retryBtn" class="state-btn" type="button">Thử tải lại</button>
-        </section>
-      </main>
-
-      <footer>
-        <div class="fbrand">Bug<span class="os">OS</span></div>
-        ROM mod cho Xiaomi / Redmi — chọn đúng máy trước khi tải.
-      </footer>
+    <div id="toolbar" class="toolbar" data-page-node-id="mY6SRNZA62GXVxkMJXs8zM">
+      <label class="search" data-page-node-id="NBbtrVB5rvwiVQx9KAH4eI">
+        <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" data-page-node-id="B7hARvo0MElgO0eRl7q1lC">
+          <circle cx="11" cy="11" r="7" data-page-node-id="1RpCWzvjpuqC0i9y6YZ5CN"></circle><path d="m20 20-3.8-3.8" data-page-node-id="jf47BfahV43zaHhZs9f6S5"></path>
+        </svg>
+        <input id="q" type="search" placeholder="Tìm tên máy, codename, phiên bản, dung lượng…" autocomplete="off" spellcheck="false" aria-label="Tìm ROM" data-page-node-id="sQ54kE6kRbjh4xUb9RysNg" />
+        <button id="clearBtn" class="clear-btn" type="button" aria-label="Xóa tìm kiếm" data-page-node-id="o2tMGID4nno9ZTar92HtJD">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" data-page-node-id="cT2g160pzJE2riRs7FGehr"><path d="M18 6 6 18M6 6l12 12" data-page-node-id="Kwan2uEeZxq6UOyPd4ffjP"></path></svg>
+        </button>
+        <button id="paletteBtn" class="kbd-btn" type="button" title="Tìm nhanh (Ctrl / Cmd + K)" aria-label="Mở tìm kiếm nhanh" data-page-node-id="0vjpW135pWvxC0ZhHPFb0J">⌘K</button>
+        <kbd class="kbd-hint" aria-hidden="true" data-page-node-id="1VSdSyzV5yrTZP0fph9Den">/</kbd>
+      </label>
+      <div id="brandFilters" class="filters" role="group" aria-label="Lọc theo hãng" data-page-node-id="cXxVYJUq1HxLkqWBQMHH9g"></div>
     </div>
 
-    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <main id="main" data-page-node-id="Fz7v6y3gKkTd6358oqxFyL">
+      <div id="sectionHead" class="section-head" data-page-node-id="CTzBS6UNX5DwWLoPGMrYEb">
+        <div data-page-node-id="IyF4I2I2KVNv7Jhje61IsF"><h2 data-page-node-id="4LQ14G5hQfC4zzCxnLEc9y">Thư viện ROM</h2><p data-page-node-id="8IAAKRFcK7cuTGslv1NSOH">Dữ liệu đọc trực tiếp từ <code data-page-node-id="FpmN2HrmmbgUappfMC7UIL">roms.json</code></p></div>
+        <div class="section-actions" data-page-node-id="i60XEUT45SErze5B2N4enD">
+          <label class="sort-wrap" data-page-node-id="A08f4siFryCmFhqaTMeWDJ"><span data-page-node-id="9F24gA1lL2obcTgDF2DQq9">Sắp xếp</span>
+            <select id="sortSelect" aria-label="Sắp xếp danh sách" data-page-node-id="ynG35AUSIfGbmBHVydo0nK">
+              <option value="recent" data-page-node-id="FZJ3hF3sBt3gmLlK5Dp5rw">Mới nhất</option>
+              <option value="date" data-page-node-id="DGoloew5c7BGmbUCznnLFm">Theo ngày</option>
+              <option value="name" data-page-node-id="dinb6PLIeaBSKK3A5PtdAZ">Tên máy A–Z</option>
+            </select>
+          </label>
+          <span id="resultCount" class="count-pill" aria-live="polite" data-page-node-id="BTeRx4HzZAVAAgYm1FSuyt">0 ROM</span>
+        </div>
+      </div>
 
-    <script>
-      (function () {
-        var themeToggle = document.getElementById('themeToggle');
-        var statsBar = document.getElementById('statsBar');
-        var statDevices = document.getElementById('statDevices');
-        var statRoms = document.getElementById('statRoms');
-        var toolbar = document.getElementById('toolbar');
-        var searchBox = document.getElementById('searchBox');
-        var input = document.getElementById('q');
-        var clearBtn = document.getElementById('clearBtn');
-        var resultCount = document.getElementById('resultCount');
-        var sectionHead = document.getElementById('sectionHead');
-        var skeletonGrid = document.getElementById('skeletonGrid');
-        var grid = document.getElementById('grid');
-        var emptyState = document.getElementById('emptyState');
-        var emptyTitle = document.getElementById('emptyTitle');
-        var emptyText = document.getElementById('emptyText');
-        var resetSearchBtn = document.getElementById('resetSearchBtn');
-        var maintenanceState = document.getElementById('maintenanceState');
-        var retryBtn = document.getElementById('retryBtn');
-        var toastEl = document.getElementById('toast');
+      <div id="skeletonGrid" class="grid" aria-hidden="true" data-page-node-id="rtovKTVDHoCAJf3f8V6nXo">
+        <div class="skeleton-card" data-page-node-id="C3uN5YTp2YCFdERUpTqueZ"><div class="sk sk-head" data-page-node-id="h49wb9Rs5Y8YVG3ErXrJtH"></div><div class="sk sk-box" data-page-node-id="BNS2UDtCJy19HEG7Oove5M"></div></div>
+        <div class="skeleton-card" data-page-node-id="pPlEkVO4iKej3EwDGdXnWO"><div class="sk sk-head" data-page-node-id="Z0mRjxc7FSV0H3niTpmW6e"></div><div class="sk sk-box" data-page-node-id="TfeMzA7lMZ0mnytRcphtHH"></div></div>
+      </div>
+      <div id="romGrid" class="grid hidden" aria-busy="false" data-page-node-id="TDcky3GK8Ia2egerh2B0Cb"></div>
 
-        var groups = [];
-        var manualOpen = {};
-        var toastTimer = null;
+      <div id="emptyState" class="state-card hidden" data-page-node-id="YAcxwRvRUxsvaWC7gdVwVH">
+        <h3 id="emptyTitle" data-page-node-id="7sLkv5W6m0IMFNbGndGk8g">Không tìm thấy ROM</h3>
+        <p id="emptyText" data-page-node-id="wbwCt7rzaqjsLBNbvTImpK">Thử tìm bằng tên máy, codename hoặc số phiên bản khác.</p>
+        <div id="suggestions" class="suggestions" data-page-node-id="O3DasrpJTIfFogf1Ghgp4s"></div>
+        <button id="resetSearchBtn" class="state-btn hidden" type="button" data-page-node-id="AwuG7DvyI01XFYYV4cjXXd">Xóa bộ lọc tìm kiếm</button>
+      </div>
 
-        var ICON_DL = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"></path><path d="m7 11 5 5 5-5"></path><path d="M5 20h14"></path></svg>';
-        var ICON_DL_SM = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"></path><path d="m7 11 5 5 5-5"></path></svg>';
-        var ICON_COPY = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
-        var ICON_CHECK = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>';
-        var ICON_CHEVRON = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg>';
+      <section id="maintenanceState" class="state-card maintenance hidden" aria-live="polite" data-page-node-id="0GZ0QXc7OWzNtd39lfELvs">
+        <div class="state-icon" aria-hidden="true" data-page-node-id="MUgdNHVprQ1yjFQs4ksGB8">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="EbyF3vUusigeilH6nzHPzx"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" data-page-node-id="ssydIQCZUlmVYAr9I7TypG"></path></svg>
+        </div>
+        <h3 data-page-node-id="CobFCNoAgJEYl1ldgdpShE">Hệ thống đang bảo trì</h3>
+        <p data-page-node-id="h84CsE74QmMjOTGiaw3PCl">Danh sách ROM hiện tạm thời không thể truy cập. Vui lòng thử lại sau ít phút.</p>
+        <button id="retryBtn" class="state-btn" type="button" data-page-node-id="ZlNXaHoRKZteA5YlpWNokx">Thử tải lại</button>
+      </section>
+    </main>
 
-        function cleanStr(v) {
-          return v == null ? '' : String(v).trim();
+    <footer data-page-node-id="CN4HDC0usbJT7YtPlSz1JF">
+      <div class="fbrand" data-page-node-id="JGj6LGdQs1JV31EkEKausu">Bug<span class="os" data-page-node-id="u6PjQrTTrWM7khpZhIjPrz">OS</span></div>
+      <a class="tg-link" href="https://t.me/bugos_rom_vn" target="_blank" rel="noopener noreferrer" data-page-node-id="VNMvcCplE57GnKGrFmWXMk">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-page-node-id="xCdx4hc0O0Yo6J8ocAk3DL"><path d="M22 2 11 13" data-page-node-id="Bbi9euBTLnNc3vGLLuaFkG"></path><path d="M22 2 15 22l-4-9-9-4Z" data-page-node-id="BjzsVVKWgXLpjftonrdkW8"></path></svg>
+        <span data-page-node-id="PiNInXJ8s3BKBWaXWnLjla">Kênh Telegram BugOS</span>
+      </a>
+    </footer>
+  </div>
+
+  <div id="paletteOverlay" class="palette-overlay hidden" role="dialog" aria-modal="true" aria-label="Tìm kiếm nhanh" data-page-node-id="qM3iyVxl2NjI9ptlC24qZe">
+    <div class="palette" data-page-node-id="e94j5cLUAZ7XT23J7zQnVh">
+      <div class="palette-input" data-page-node-id="hLK4Bo3JrOTlAIMuBWqy4w">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" data-page-node-id="PVRL6dKOBJjUZYMlPfkswb"><circle cx="11" cy="11" r="7" data-page-node-id="mUSGuSMAn9zDT4CNqhpl87"></circle><path d="m20 20-3.8-3.8" data-page-node-id="5gm3do2vOBmzqm0n3fCKEV"></path></svg>
+        <input id="paletteInput" type="text" placeholder="Nhập tên máy, codename hoặc phiên bản…" autocomplete="off" spellcheck="false" aria-label="Tìm nhanh" data-page-node-id="UmRh3bHdlW0fOj8dYoKYqP" />
+        <kbd data-page-node-id="tgGJgUTebKH7uUQMXt3BlB">Esc</kbd>
+      </div>
+      <div id="paletteList" class="palette-list" role="listbox" aria-label="Kết quả tìm kiếm" data-page-node-id="EUcWHYuT5Dsr7dUNek0BF4"></div>
+      <div class="palette-foot" data-page-node-id="aLEFLfcpm3wvHTn0op2YwE"><span data-page-node-id="wnz4WxcBXNSBDDBFqDjVkd"><kbd data-page-node-id="BxWogeos9RDn0Hl5zAAUzU">↑</kbd> <kbd data-page-node-id="fpCfLHPo8J0JfMs2k2sAZN">↓</kbd> di chuyển</span><span data-page-node-id="L0mF3esmP3Dm9wtM0U6vEm"><kbd data-page-node-id="E3aDtvFo7LDW2VXbusJjvj">↵</kbd> mở thiết bị</span><span data-page-node-id="QXBBVgRvLjnDzL4PlHGYGH"><kbd data-page-node-id="YWGHXC6PWWoVjs7rX6CSK1">Esc</kbd> đóng</span></div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" data-page-node-id="WcJobNzU4xcQNMPOJi2F4x"></div>
+  <button id="toTop" class="to-top" type="button" aria-label="Về đầu trang" data-page-node-id="gCrTyrLPu9G0SAYZ733Epz">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-page-node-id="RLqO4BOWrYq1M1AT7JEFXp"><path d="M12 19V5M5 12l7-7 7 7" data-page-node-id="yDDxv85VRK4gDi1NdkcJb9"></path></svg>
+  </button>
+
+  <script>
+  (function () {
+    "use strict";
+
+    var DEMO_ROMS = [
+      { device: "Xiaomi 14 Ultra", codename: "aurora", versions: [
+        { version: "BugOS 4.2.1 | HyperOS 2.0 | Android 15", size: "5.4 GB", date: "2026-11-18", note: "Stable", link: "https://example.com/bugos/aurora/bugos-4.2.1-aurora.zip" },
+        { version: "BugOS 4.2.0 | HyperOS 2.0 | Android 15", size: "5.3 GB", date: "2026-10-27", note: "Stable", link: "https://example.com/bugos/aurora/bugos-4.2.0-aurora.zip" }
+      ]},
+      { device: "Redmi Note 13 Pro+ 5G", codename: "zoroe", versions: [
+        { version: "BugOS 4.2.0 | HyperOS 2.0 | Android 15", size: "4.8 GB", date: "2026-11-09", note: "Stable", link: "https://example.com/bugos/zoroe/bugos-4.2.0-zoroe.zip" }
+      ]}
+    ];
+
+    var $ = function (id) { return document.getElementById(id); };
+    var themeToggle = $("themeToggle"), statsBar = $("statsBar");
+    var statDevices = $("statDevices"), statRoms = $("statRoms");
+    var toolbar = $("toolbar"), input = $("q"), clearBtn = $("clearBtn"), paletteBtn = $("paletteBtn");
+    var sectionHead = $("sectionHead"), skeletonGrid = $("skeletonGrid"), grid = $("romGrid");
+    var emptyState = $("emptyState"), emptyTitle = $("emptyTitle"), emptyText = $("emptyText");
+    var suggestions = $("suggestions"), resetSearchBtn = $("resetSearchBtn");
+    var maintenanceState = $("maintenanceState"), retryBtn = $("retryBtn");
+    var resultCount = $("resultCount"), sortSelect = $("sortSelect"), toastEl = $("toast");
+    var toTop = $("toTop"), progress = $("progress"), spotlight = $("spotlight");
+    var demoNote = $("demoNote"), demoClose = $("demoClose");
+    var brandFilters = $("brandFilters");
+    var paletteOverlay = $("paletteOverlay"), paletteInput = $("paletteInput"), paletteList = $("paletteList");
+
+    var ICON_DL = '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"></path><path d="m7 11 5 5 5-5"></path><path d="M5 20h14"></path></svg>';
+    var ICON_DL_SM = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"></path><path d="m7 11 5 5 5-5"></path></svg>';
+    var ICON_COPY = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
+    var ICON_CHECK = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>';
+    var ICON_LINK = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>';
+    var ICON_CHEVRON = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg>';
+    var ICON_PHONE = '<svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="3"></rect><path d="M11 18h2"></path></svg>';
+
+    var isMac = /Mac|iPhone|iPad|iPod/i.test(navigator.platform || navigator.userAgent || "");
+    paletteBtn.textContent = isMac ? "⌘K" : "Ctrl K";
+    paletteBtn.setAttribute("title", "Tìm nhanh (" + (isMac ? "⌘" : "Ctrl") + " + K)");
+    paletteBtn.setAttribute("aria-label", "Mở tìm kiếm nhanh " + (isMac ? "Command" : "Control") + " K");
+
+    var groups = [], manualOpen = {}, activeFilter = "all", activeBrand = "all";
+    var toastTimer = null, paletteResults = [], paletteIndex = 0;
+    var BRAND_LABEL = { xiaomi: "Xiaomi", redmi: "Redmi", poco: "POCO", other: "Khác" };
+
+    function clean(v) { return v == null ? "" : String(v).trim(); }
+    function esc(s) {
+      return clean(s).replace(/[&<>"']/g, function (c) {
+        return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+      });
+    }
+    function norm(s) {
+      return clean(s).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/g, "d");
+    }
+    function isHttp(url) { return /^https?:\/\//i.test(clean(url)); }
+    function brandOf(device) {
+      var d = norm(device);
+      if (d.indexOf("redmi") !== -1) return "redmi";
+      if (d.indexOf("poco") !== -1) return "poco";
+      if (d.indexOf("xiaomi") !== -1) return "xiaomi";
+      return "other";
+    }
+    function bestDate(g) {
+      var best = 0;
+      for (var i = 0; i < g.versions.length; i++) {
+        var t = Date.parse(g.versions[i].date);
+        if (!isNaN(t) && t > best) best = t;
+      }
+      return best;
+    }
+
+    function showToast(msg) {
+      toastEl.textContent = msg;
+      toastEl.classList.add("show");
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(function () { toastEl.classList.remove("show"); }, 1900);
+    }
+
+    function copyText(text, btn) {
+      if (!text) return;
+      function done() {
+        if (btn) {
+          var original = btn.innerHTML;
+          btn.classList.add("copied");
+          btn.innerHTML = ICON_CHECK;
+          setTimeout(function () { btn.classList.remove("copied"); btn.innerHTML = original; }, 1400);
         }
+        showToast("Đã sao chép: " + text);
+      }
+      function fallback() {
+        try {
+          var ta = document.createElement("textarea");
+          ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+          document.body.appendChild(ta); ta.select(); document.execCommand("copy"); document.body.removeChild(ta); done();
+        } catch (e) { showToast("Không thể sao chép trên trình duyệt này"); }
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done).catch(fallback);
+      else fallback();
+    }
 
-        function esc(s) {
-          return cleanStr(s).replace(/[&<>"']/g, function (c) {
-            return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
-          });
+    function normalizeData(raw) {
+      var map = {}, keys = [], seq = 0;
+      function add(key, device, codename, item) {
+        seq += 1;
+        if (!map[key]) {
+          map[key] = { key: key, device: device || codename || "Thiết bị", codename: codename, versions: [], lastOrder: seq };
+          keys.push(key);
         }
-
-        function norm(s) {
-          return cleanStr(s)
-            .toLowerCase()
-            .normalize('NFD')
-            .replace(/[\u0300-\u036f]/g, '')
-            .replace(/đ/g, 'd');
-        }
-
-        function isHttpUrl(url) {
-          return /^https?:\/\//i.test(cleanStr(url));
-        }
-
-        function showToast(msg) {
-          toastEl.textContent = msg;
-          toastEl.classList.add('show');
-          if (toastTimer) clearTimeout(toastTimer);
-          toastTimer = setTimeout(function () {
-            toastEl.classList.remove('show');
-          }, 1800);
-        }
-
-        function copyText(text, btn) {
-          function onDone() {
-            if (btn) {
-              btn.classList.add('copied');
-              btn.innerHTML = '<span>' + esc(text) + '</span>' + ICON_CHECK;
-              setTimeout(function () {
-                btn.classList.remove('copied');
-                btn.innerHTML = '<span>' + esc(text) + '</span>' + ICON_COPY;
-              }, 1400);
-            }
-            showToast('Đã sao chép: ' + text);
-          }
-          if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(text).then(onDone).catch(fallbackCopy);
-          } else {
-            fallbackCopy();
-          }
-          function fallbackCopy() {
-            try {
-              var ta = document.createElement('textarea');
-              ta.value = text;
-              ta.style.position = 'fixed';
-              ta.style.opacity = '0';
-              document.body.appendChild(ta);
-              ta.select();
-              document.execCommand('copy');
-              document.body.removeChild(ta);
-              onDone();
-            } catch (e) {}
-          }
-        }
-
-        function normalizeData(raw) {
-          var map = {};
-          var keys = [];
-          var seq = 0;
-
-          function addVersion(key, device, codename, item) {
-            seq += 1;
-            if (!map[key]) {
-              map[key] = {
-                key: key,
-                device: device || codename || 'Thiết bị',
-                codename: codename,
-                versions: [],
-                lastOrder: seq
-              };
-              keys.push(key);
-            }
-            var g = map[key];
-            if (device) g.device = device;
-            if (codename) g.codename = codename;
-            g.lastOrder = seq;
-            g.versions.push({
-              version: cleanStr(item.version),
-              size: cleanStr(item.size),
-              link: cleanStr(item.link),
-              date: cleanStr(item.date),
-              note: cleanStr(item.note || item.tag),
-              order: seq
-            });
-          }
-
-          for (var i = 0; i < raw.length; i++) {
-            var entry = raw[i];
-            if (!entry || typeof entry !== 'object') continue;
-            var device = cleanStr(entry.device);
-            var codename = cleanStr(entry.codename);
-            var key = norm(codename) || norm(device) || ('device_' + i);
-            var nested = Array.isArray(entry.versions)
-              ? entry.versions
-              : (Array.isArray(entry.roms) ? entry.roms : null);
-
-            if (nested) {
-              for (var j = 0; j < nested.length; j++) {
-                if (nested[j] && typeof nested[j] === 'object') {
-                  addVersion(key, device, codename, nested[j]);
-                }
-              }
-            } else {
-              addVersion(key, device, codename, entry);
-            }
-          }
-
-          var result = [];
-          for (var k = 0; k < keys.length; k++) {
-            var grp = map[keys[k]];
-            if (grp.versions.length > 0) {
-              grp.versions.sort(function (a, b) { return b.order - a.order; });
-              result.push(grp);
-            }
-          }
-          result.sort(function (a, b) { return b.lastOrder - a.lastOrder; });
-          return result;
-        }
-
-        function renderMeta(v, cls) {
-          var parts = [];
-          if (v.size) parts.push('<span>' + esc(v.size) + '</span>');
-          if (v.date) parts.push('<span>' + esc(v.date) + '</span>');
-          if (v.note) parts.push('<span class="ver-note">' + esc(v.note) + '</span>');
-          return parts.length ? '<div class="' + cls + '">' + parts.join('') + '</div>' : '';
-        }
-
-        function buildCard(g, index, qNorm) {
-          var latest = g.versions[0];
-          var older = g.versions.slice(1);
-          var hasMulti = older.length > 0;
-
-          var headerHay = norm([g.device, g.codename].join(' '));
-          var latestHay = norm([latest.version, latest.size, latest.date, latest.note].join(' '));
-
-          var matchedOlder = [];
-          for (var i = 0; i < older.length; i++) {
-            var v = older[i];
-            var vHay = norm([v.version, v.size, v.date, v.note].join(' '));
-            var hit = !!(qNorm && vHay.indexOf(qNorm) !== -1);
-            matchedOlder.push(hit);
-          }
-
-          var anyOlderHit = matchedOlder.indexOf(true) !== -1;
-          var headerOrLatestHit = !qNorm || headerHay.indexOf(qNorm) !== -1 || latestHay.indexOf(qNorm) !== -1;
-
-          if (qNorm && !headerOrLatestHit && !anyOlderHit) {
-            return null;
-          }
-
-          var isOpen = hasMulti && (Boolean(manualOpen[g.key]) || (Boolean(qNorm) && anyOlderHit));
-          var delay = Math.min(index * 40, 240);
-
-          var latestAction = isHttpUrl(latest.link)
-            ? '<a class="btn-download" href="' + esc(latest.link) + '" target="_blank" rel="noopener noreferrer">' + ICON_DL + '<span>Tải ROM</span></a>'
-            : '<span class="btn-disabled" aria-disabled="true">' + ICON_DL + '<span>Chưa có link tải</span></span>';
-
-          var olderHtml = '';
-          if (hasMulti) {
-            var rows = [];
-            for (var r = 0; r < older.length; r++) {
-              var ov = older[r];
-              var rowAction = isHttpUrl(ov.link)
-                ? '<a class="btn-mini" href="' + esc(ov.link) + '" target="_blank" rel="noopener noreferrer">' + ICON_DL_SM + '<span>Tải</span></a>'
-                : '<span class="btn-mini-disabled" aria-disabled="true">Chưa có link</span>';
-              rows.push(
-                '<div class="old-row' + (matchedOlder[r] ? ' is-match' : '') + '">' +
-                  '<div class="old-info">' +
-                    '<div class="old-ver">' + esc(ov.version || 'Chưa rõ phiên bản') + '</div>' +
-                    renderMeta(ov, 'old-meta') +
-                  '</div>' +
-                  rowAction +
-                '</div>'
-              );
-            }
-            var toggleLabel = (isOpen ? 'Thu gọn ' : 'Xem thêm ') + older.length + ' phiên bản khác';
-            olderHtml =
-              '<button class="acc-toggle" type="button" data-acc="' + esc(g.key) + '" data-count="' + older.length + '" aria-expanded="' + (isOpen ? 'true' : 'false') + '">' +
-                '<span class="acc-label">' + toggleLabel + '</span>' +
-                ICON_CHEVRON +
-              '</button>' +
-              '<div class="acc-panel"><div class="acc-inner"><div class="old-list">' + rows.join('') + '</div></div></div>';
-          }
-
-          return (
-            '<article class="card' + (isOpen ? ' open' : '') + '" data-key="' + esc(g.key) + '" style="animation-delay:' + delay + 'ms">' +
-              '<div class="card-head">' +
-                '<h3 class="device-name">' + esc(g.device) + '</h3>' +
-                '<div class="badges">' +
-                  (g.codename ? '<button class="badge-copy" type="button" data-copy="' + esc(g.codename) + '" title="Sao chép codename"><span>' + esc(g.codename) + '</span>' + ICON_COPY + '</button>' : '') +
-                  (hasMulti ? '<span class="badge-count">' + g.versions.length + ' bản</span>' : '') +
-                '</div>' +
-              '</div>' +
-              '<div class="latest-box">' +
-                '<div>' +
-                  '<span class="ver-label' + (hasMulti ? ' is-latest' : '') + '">' + (hasMulti ? 'Mới nhất' : 'Phiên bản') + '</span>' +
-                  '<p class="ver-code">' + esc(latest.version || 'Chưa rõ phiên bản') + '</p>' +
-                  renderMeta(latest, 'ver-meta') +
-                '</div>' +
-                latestAction +
-              '</div>' +
-              olderHtml +
-            '</article>'
-          );
-        }
-
-        function setMode(mode) {
-          var isMaint = mode === 'maintenance';
-          var isLoading = mode === 'loading';
-          statsBar.classList.toggle('hidden', isMaint);
-          toolbar.classList.toggle('hidden', isMaint);
-          sectionHead.classList.toggle('hidden', isMaint);
-          skeletonGrid.classList.toggle('hidden', !isLoading);
-          maintenanceState.classList.toggle('hidden', !isMaint);
-          if (isMaint || isLoading) {
-            grid.classList.add('hidden');
-            emptyState.classList.add('hidden');
-          }
-        }
-
-        function render() {
-          var rawQuery = input.value.trim();
-          var qNorm = norm(rawQuery);
-
-          searchBox.classList.toggle('has-value', rawQuery.length > 0);
-          clearBtn.classList.toggle('show', rawQuery.length > 0);
-
-          var html = [];
-          var visibleRoms = 0;
-
-          for (var i = 0; i < groups.length; i++) {
-            var card = buildCard(groups[i], html.length, qNorm);
-            if (card) {
-              html.push(card);
-              visibleRoms += groups[i].versions.length;
-            }
-          }
-
-          resultCount.textContent = visibleRoms + ' ROM';
-
-          if (html.length === 0) {
-            grid.innerHTML = '';
-            grid.classList.add('hidden');
-            emptyState.classList.remove('hidden');
-            if (groups.length === 0) {
-              emptyTitle.textContent = 'Chưa có bản ROM nào';
-              emptyText.textContent = 'Danh sách ROM đang trống, hãy quay lại sau khi có bản cập nhật mới.';
-              resetSearchBtn.classList.add('hidden');
-            } else {
-              emptyTitle.textContent = 'Không tìm thấy ROM phù hợp';
-              emptyText.textContent = 'Thử tìm bằng tên máy Xiaomi / Redmi, codename hoặc số phiên bản khác.';
-              resetSearchBtn.classList.remove('hidden');
-            }
-          } else {
-            emptyState.classList.add('hidden');
-            grid.innerHTML = html.join('');
-            grid.classList.remove('hidden');
-          }
-        }
-
-        function loadRoms() {
-          setMode('loading');
-          retryBtn.disabled = true;
-
-          fetch('./roms.json?v=' + Date.now(), { cache: 'no-store' })
-            .then(function (res) {
-              if (!res.ok) throw new Error('HTTP ' + res.status);
-              return res.text();
-            })
-            .then(function (text) {
-              var cleaned = text.replace(/^\uFEFF/, '').trim();
-              if (!cleaned) throw new Error('File roms.json rỗng');
-              var parsed = JSON.parse(cleaned);
-              var list = Array.isArray(parsed)
-                ? parsed
-                : (parsed && Array.isArray(parsed.roms) ? parsed.roms : null);
-              if (!list) throw new Error('Cấu trúc roms.json không phải mảng');
-
-              groups = normalizeData(list);
-              var totalRoms = 0;
-              for (var i = 0; i < groups.length; i++) totalRoms += groups[i].versions.length;
-              statDevices.textContent = groups.length;
-              statRoms.textContent = totalRoms;
-
-              setMode('ready');
-              render();
-            })
-            .catch(function (err) {
-              console.error('[BugOS] Không đọc được roms.json:', err);
-              setMode('maintenance');
-            })
-            .finally(function () {
-              retryBtn.disabled = false;
-            });
-        }
-
-        themeToggle.addEventListener('click', function () {
-          var next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
-          document.documentElement.dataset.theme = next;
-          try { localStorage.setItem('bugos-theme', next); } catch (e) {}
+        var g = map[key];
+        if (device) g.device = device;
+        if (codename) g.codename = codename;
+        g.lastOrder = seq;
+        var v = item || {};
+        g.versions.push({
+          version: clean(v.version || v.build || v.name || v.rom || v.filename),
+          size: clean(v.size),
+          link: clean(v.link || v.url || v.download || v.href),
+          date: clean(v.date || v.updated || v.time),
+          note: clean(v.note || v.tag || v.type || v.channel),
+          order: seq
         });
+      }
+      for (var i = 0; i < raw.length; i++) {
+        var e = raw[i];
+        if (!e || typeof e !== "object") continue;
+        var device = clean(e.device || e.name || e.model || e.title);
+        var codename = clean(e.codename || e.code);
+        var key = norm(codename) || norm(device) || ("device_" + i);
+        var nested = Array.isArray(e.versions) ? e.versions : (Array.isArray(e.roms) ? e.roms : null);
+        if (nested) {
+          for (var j = 0; j < nested.length; j++) if (nested[j] && typeof nested[j] === "object") add(key, device, codename, nested[j]);
+        } else { add(key, device, codename, e); }
+      }
+      var out = [];
+      for (var k = 0; k < keys.length; k++) {
+        var g = map[keys[k]];
+        if (g.versions.length) { g.versions.sort(function (a, b) { return b.order - a.order; }); out.push(g); }
+      }
+      return out;
+    }
 
-        input.addEventListener('input', render);
+    function isFresh(dateStr) {
+      if (!dateStr) return false;
+      var t = Date.parse(dateStr);
+      if (isNaN(t)) return false;
+      var days = (Date.now() - t) / 86400000;
+      return days >= -1 && days <= 90;
+    }
 
-        clearBtn.addEventListener('click', function () {
-          input.value = '';
-          render();
-          input.focus();
+    function renderMeta(v, cls) {
+      var parts = [];
+      if (v.size) parts.push("<span>" + esc(v.size) + "</span>");
+      if (v.date) parts.push("<span>" + esc(v.date) + "</span>");
+      if (v.note) parts.push('<span class="ver-note">' + esc(v.note) + "</span>");
+      return parts.length ? '<div class="' + cls + '">' + parts.join("") + "</div>" : "";
+    }
+
+    function passFilters(g) {
+      if (activeBrand !== "all" && brandOf(g.device) !== activeBrand) return false;
+      if (activeFilter === "link" && !g.versions.some(function (v) { return isHttp(v.link); })) return false;
+      if (activeFilter === "multi" && g.versions.length < 2) return false;
+      return true;
+    }
+
+    function buildCard(g, index, qNorm) {
+      var latest = g.versions[0], older = g.versions.slice(1), hasMulti = older.length > 0;
+      var headerHay = norm([g.device, g.codename].join(" "));
+      var latestHay = norm([latest.version, latest.size, latest.date, latest.note].join(" "));
+      var matchedOlder = older.map(function (v) {
+        return !!(qNorm && norm([v.version, v.size, v.date, v.note].join(" ")).indexOf(qNorm) !== -1);
+      });
+      var anyOlderHit = matchedOlder.indexOf(true) !== -1;
+      var directHit = !qNorm || headerHay.indexOf(qNorm) !== -1 || latestHay.indexOf(qNorm) !== -1;
+      if (qNorm && !directHit && !anyOlderHit) return null;
+      if (!passFilters(g)) return null;
+
+      var isOpen = hasMulti && (!!manualOpen[g.key] || (!!qNorm && anyOlderHit));
+      var delay = Math.min(index * 45, 270);
+      var latestAction = isHttp(latest.link)
+        ? '<a class="btn-download" href="' + esc(latest.link) + '" target="_blank" rel="noopener noreferrer">' + ICON_DL + "<span>Tải ROM</span></a>"
+        : '<span class="btn-disabled" aria-disabled="true">' + ICON_DL + "<span>Chưa có link tải</span></span>";
+      var copyLink = isHttp(latest.link)
+        ? '<button class="icon-copy-link" type="button" data-copy-link="' + esc(latest.link) + '" title="Sao chép link tải" aria-label="Sao chép link tải">' + ICON_LINK + "</button>"
+        : "";
+
+      var olderHtml = "";
+      if (hasMulti) {
+        var rows = older.map(function (v, r) {
+          var action = isHttp(v.link)
+            ? '<a class="btn-mini" href="' + esc(v.link) + '" target="_blank" rel="noopener noreferrer">' + ICON_DL_SM + "<span>Tải</span></a>" +
+              '<button class="btn-mini-icon" type="button" data-copy-link="' + esc(v.link) + '" title="Sao chép link" aria-label="Sao chép link">' + ICON_LINK + "</button>"
+            : '<span class="btn-mini-disabled" aria-disabled="true">Chưa có link</span>';
+          return '<div class="old-row' + (matchedOlder[r] ? " is-match" : "") + '">' +
+            '<div class="old-info"><div class="old-ver">' + esc(v.version || "Chưa rõ phiên bản") + "</div>" + renderMeta(v, "old-meta") + "</div>" +
+            '<div class="old-actions">' + action + "</div></div>";
         });
+        var label = (isOpen ? "Thu gọn " : "Xem thêm ") + older.length + " phiên bản khác";
+        olderHtml = '<button class="acc-toggle" type="button" data-acc="' + esc(g.key) + '" data-count="' + older.length + '" aria-expanded="' + (isOpen ? "true" : "false") + '">' +
+          '<span class="acc-label">' + label + "</span>" + ICON_CHEVRON + "</button>" +
+          '<div class="acc-panel"><div class="acc-inner"><div class="old-list">' + rows.join("") + "</div></div></div>";
+      }
 
-        resetSearchBtn.addEventListener('click', function () {
-          input.value = '';
-          render();
-          input.focus();
+      return '<article class="card' + (isOpen ? " open" : "") + '" data-key="' + esc(g.key) + '" style="animation-delay:' + delay + 'ms">' +
+        '<div class="card-head"><div class="device-wrap"><div class="device-icon">' + ICON_PHONE + '</div><div class="device-text">' +
+          '<h3 class="device-name">' + esc(g.device) + '</h3><p class="device-code">' + (g.codename ? esc(g.codename) : "—") + "</p></div></div>" +
+          '<div class="badges">' +
+            (g.codename ? '<button class="badge-copy" type="button" data-copy="' + esc(g.codename) + '" title="Sao chép codename" aria-label="Sao chép codename ' + esc(g.codename) + '"><span>' + esc(g.codename) + "</span>" + ICON_COPY + "</button>" : "") +
+            (hasMulti ? '<span class="badge-count">' + g.versions.length + " bản</span>" : "") +
+          "</div></div>" +
+        '<div class="latest"><div>' +
+          '<span class="ver-label' + (hasMulti ? " is-latest" : "") + '"><span class="live-dot"></span>' + (hasMulti ? "Phiên bản mới nhất" : "Phiên bản hiện có") + "</span>" +
+          '<p class="ver-code">' + esc(latest.version || "Chưa rõ phiên bản") + "</p>" + renderMeta(latest, "ver-meta") +
+          (isFresh(latest.date) ? '<div style="margin-top:9px"><span class="fresh-tag">Mới</span></div>' : "") +
+        '</div><div class="latest-actions">' + latestAction + copyLink + "</div></div>" + olderHtml + "</article>";
+    }
+
+    function buildSpotlight() {
+      if (!groups.length) { spotlight.classList.add("hidden"); return; }
+      var pick = groups[0], best = bestDate(groups[0]);
+      for (var i = 1; i < groups.length; i++) {
+        var d = bestDate(groups[i]);
+        if (d > best) { best = d; pick = groups[i]; }
+      }
+      var v = pick.versions[0];
+      var action = isHttp(v.link)
+        ? '<a class="btn-download" href="' + esc(v.link) + '" target="_blank" rel="noopener noreferrer">' + ICON_DL + "<span>Tải bản này</span></a>" +
+          '<button class="icon-copy-link" type="button" data-copy-link="' + esc(v.link) + '" title="Sao chép link" aria-label="Sao chép link">' + ICON_LINK + "</button>"
+        : '<span class="btn-disabled" aria-disabled="true">' + ICON_DL + "<span>Chưa có link tải</span></span>";
+      spotlight.innerHTML =
+        '<div class="spot-main">' +
+          '<span class="spot-eyebrow"><span class="live-dot"></span> Build mới nhất trong kho</span>' +
+          '<div class="spot-title-row"><h2 class="spot-title">' + esc(pick.device) + "</h2>" +
+          (pick.codename ? '<button class="badge-copy" type="button" data-copy="' + esc(pick.codename) + '" title="Sao chép codename" aria-label="Sao chép codename ' + esc(pick.codename) + '"><span>' + esc(pick.codename) + "</span>" + ICON_COPY + "</button>" : "") + "</div>" +
+          '<p class="spot-ver">' + esc(v.version || "Chưa rõ phiên bản") + "</p>" +
+          renderMeta(v, "ver-meta") +
+          '<div class="spot-actions">' + action + "</div>" +
+        "</div>" +
+        '<div class="spot-side">' +
+          '<div class="term-head"><span class="term-dot"></span><span class="term-dot"></span><span class="term-dot live"></span></div>' +
+          '<div class="term-row"><span>Thiết bị</span><b>' + esc(pick.device) + "</b></div>" +
+          '<div class="term-row"><span>Codename</span><b>' + esc(pick.codename || "—") + "</b></div>" +
+          '<div class="term-row"><span>Version</span><b>' + esc(v.version || "—") + "</b></div>" +
+          '<div class="term-row"><span>Dung lượng</span><b>' + esc(v.size || "—") + "</b></div>" +
+          (v.note ? '<div class="term-row"><span>Kênh</span><b>' + esc(v.note) + "</b></div>" : "") +
+        "</div>";
+      spotlight.classList.remove("hidden");
+    }
+
+    function renderBrandChips() {
+      var counts = {};
+      for (var i = 0; i < groups.length; i++) {
+        var b = brandOf(groups[i].device);
+        counts[b] = (counts[b] || 0) + 1;
+      }
+      var order = ["xiaomi", "redmi", "poco", "other"];
+      var html = '<button class="chip" type="button" data-brand="all" aria-pressed="true">Tất cả <small>' + groups.length + "</small></button>";
+      for (var j = 0; j < order.length; j++) {
+        if (!counts[order[j]]) continue;
+        html += '<button class="chip" type="button" data-brand="' + order[j] + '" aria-pressed="false">' + BRAND_LABEL[order[j]] + " <small>" + counts[order[j]] + "</small></button>";
+      }
+      brandFilters.innerHTML = html;
+      if (activeBrand !== "all" && !counts[activeBrand]) activeBrand = "all";
+      syncChips();
+    }
+
+    function syncChips() {
+      Array.prototype.forEach.call(document.querySelectorAll("[data-brand]"), function (c) {
+        c.setAttribute("aria-pressed", c.getAttribute("data-brand") === activeBrand ? "true" : "false");
+      });
+    }
+
+    function setMode(mode) {
+      var isMaint = mode === "maintenance", isLoading = mode === "loading";
+      statsBar.classList.toggle("hidden", isMaint);
+      toolbar.classList.toggle("hidden", isMaint);
+      sectionHead.classList.toggle("hidden", isMaint);
+      spotlight.classList.toggle("hidden", isMaint || isLoading);
+      skeletonGrid.classList.toggle("hidden", !isLoading);
+      maintenanceState.classList.toggle("hidden", !isMaint);
+      grid.setAttribute("aria-busy", isLoading ? "true" : "false");
+      if (isMaint || isLoading) { grid.classList.add("hidden"); emptyState.classList.add("hidden"); }
+    }
+
+    function buildSuggestions() {
+      var words = [];
+      for (var i = 0; i < groups.length && words.length < 6; i++) {
+        var parts = norm(groups[i].device).split(/\s+/);
+        var w = parts[parts.length - 1];
+        if (w && w.length > 2 && words.indexOf(w) === -1) words.push(w);
+      }
+      suggestions.innerHTML = words.slice(0, 4).map(function (w) {
+        return '<button class="chip" type="button" data-suggest="' + esc(w) + '">' + esc(w) + "</button>";
+      }).join("");
+    }
+
+    function render() {
+      var raw = input.value.trim(), q = norm(raw);
+      input.parentElement.classList.toggle("has-value", raw.length > 0);
+      clearBtn.classList.toggle("show", raw.length > 0);
+
+      var list = groups.slice();
+      if (sortSelect.value === "name") list.sort(function (a, b) { return a.device.localeCompare(b.device, "vi"); });
+      else if (sortSelect.value === "date") list.sort(function (a, b) { return bestDate(b) - bestDate(a) || b.lastOrder - a.lastOrder; });
+
+      var html = [], visibleRoms = 0;
+      for (var i = 0; i < list.length; i++) {
+        var card = buildCard(list[i], html.length, q);
+        if (card) { html.push(card); visibleRoms += list[i].versions.length; }
+      }
+      resultCount.textContent = html.length + " thiết bị · " + visibleRoms + " ROM";
+
+      if (!html.length) {
+        grid.innerHTML = ""; grid.classList.add("hidden"); emptyState.classList.remove("hidden");
+        if (!groups.length) {
+          emptyTitle.textContent = "Chưa có bản ROM nào";
+          emptyText.textContent = "Danh sách ROM đang trống. Hãy quay lại sau khi có bản cập nhật mới.";
+          resetSearchBtn.classList.add("hidden"); suggestions.innerHTML = "";
+        } else {
+          emptyTitle.textContent = "Không tìm thấy ROM phù hợp";
+          emptyText.textContent = raw ? 'Không có kết quả cho "' + raw + '". Thử tên máy, codename hoặc số phiên bản khác.' : "Không có ROM thỏa điều kiện lọc hiện tại.";
+          resetSearchBtn.classList.remove("hidden");
+        }
+      } else {
+        emptyState.classList.add("hidden"); grid.innerHTML = html.join(""); grid.classList.remove("hidden");
+      }
+    }
+
+    function applyData(list, isDemo) {
+      groups = normalizeData(list);
+      manualOpen = {};
+      var total = 0;
+      for (var i = 0; i < groups.length; i++) total += groups[i].versions.length;
+      statDevices.textContent = groups.length;
+      statRoms.textContent = total;
+      demoNote.classList.toggle("hidden", !isDemo);
+      renderBrandChips(); buildSuggestions(); buildSpotlight();
+      setMode("ready"); render();
+      if (isDemo) showToast("Đang hiển thị dữ liệu minh họa");
+    }
+
+    function loadRoms() {
+      setMode("loading"); retryBtn.disabled = true;
+      fetch("./roms.json?v=" + Date.now(), { cache: "no-store" })
+        .then(function (res) {
+          if (res.status === 404) return null;
+          if (!res.ok) throw new Error("HTTP " + res.status);
+          return res.text();
+        })
+        .then(function (text) {
+          if (text === null) throw new Error("__MISSING__");
+          var cleaned = text.replace(/^\uFEFF/, "").trim();
+          if (!cleaned) throw new Error("File roms.json rỗng");
+          var parsed = JSON.parse(cleaned);
+          var list = Array.isArray(parsed) ? parsed : (parsed && Array.isArray(parsed.roms) ? parsed.roms : null);
+          if (!list) throw new Error("Cấu trúc roms.json không phải mảng");
+          applyData(list, !!(parsed && parsed.__demo));
+        })
+        .catch(function (err) {
+          if ((err && err.message === "__MISSING__") || location.protocol === "file:") applyData(DEMO_ROMS, true);
+          else { console.error("[BugOS] Không đọc được roms.json:", err); setMode("maintenance"); }
+        })
+        .finally(function () { retryBtn.disabled = false; });
+    }
+
+    function renderPalette() {
+      var q = norm(paletteInput.value);
+      paletteResults = groups.filter(function (g) {
+        var hay = norm([g.device, g.codename].join(" "));
+        var versions = g.versions.map(function (v) { return norm(v.version); }).join(" ");
+        return !q || hay.indexOf(q) !== -1 || versions.indexOf(q) !== -1;
+      }).slice(0, 8);
+      paletteIndex = 0;
+      if (!paletteResults.length) {
+        paletteList.innerHTML = '<div class="palette-empty">Không có thiết bị nào khớp</div>';
+        return;
+      }
+      paletteList.innerHTML = paletteResults.map(function (g, i) {
+        var b = brandOf(g.device);
+        return '<button class="palette-item' + (i === 0 ? " active" : "") + '" type="button" role="option" aria-selected="' + (i === 0 ? "true" : "false") + '" data-goto="' + esc(g.key) + '">' +
+          '<span class="palette-brand">' + esc(BRAND_LABEL[b]) + "</span>" +
+          '<span class="palette-info"><b>' + esc(g.device) + "</b><span>" + esc(g.codename || "—") + " · " + esc(g.versions[0].version) + "</span></span>" +
+          '<span class="palette-enter">↵</span></button>';
+      }).join("");
+    }
+
+    function setPaletteIndex(next) {
+      if (!paletteResults.length) return;
+      paletteIndex = (next + paletteResults.length) % paletteResults.length;
+      var items = paletteList.querySelectorAll(".palette-item");
+      for (var i = 0; i < items.length; i++) {
+        var on = i === paletteIndex;
+        items[i].classList.toggle("active", on);
+        items[i].setAttribute("aria-selected", on ? "true" : "false");
+        if (on) items[i].scrollIntoView({ block: "nearest" });
+      }
+    }
+
+    function openPalette() {
+      if (toolbar.classList.contains("hidden")) return;
+      paletteInput.value = "";
+      renderPalette();
+      paletteOverlay.classList.remove("hidden");
+      requestAnimationFrame(function () { paletteInput.focus(); });
+    }
+    function closePalette() {
+      paletteOverlay.classList.add("hidden");
+      paletteBtn.focus();
+    }
+    function gotoDevice(key) {
+      closePalette();
+      var card = null;
+      Array.prototype.some.call(grid.querySelectorAll(".card"), function (c) {
+        if (c.getAttribute("data-key") === key) { card = c; return true; }
+        return false;
+      });
+      if (!card) {
+        input.value = ""; activeBrand = "all"; activeFilter = "all"; syncChips(); render();
+        Array.prototype.some.call(grid.querySelectorAll(".card"), function (c) {
+          if (c.getAttribute("data-key") === key) { card = c; return true; }
+          return false;
         });
+      }
+      if (card) {
+        card.scrollIntoView({ behavior: "smooth", block: "center" });
+        card.classList.remove("flash");
+        void card.offsetWidth;
+        card.classList.add("flash");
+        setTimeout(function () { card.classList.remove("flash"); }, 1300);
+      }
+    }
 
-        retryBtn.addEventListener('click', loadRoms);
+    themeToggle.addEventListener("click", function () {
+      var next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+      document.documentElement.dataset.theme = next;
+      try { localStorage.setItem("bugos-theme", next); } catch (e) {}
+    });
+    input.addEventListener("input", render);
+    clearBtn.addEventListener("click", function () { input.value = ""; render(); input.focus(); });
+    resetSearchBtn.addEventListener("click", function () {
+      input.value = ""; activeBrand = "all"; activeFilter = "all"; syncChips(); render(); input.focus();
+    });
+    retryBtn.addEventListener("click", loadRoms);
+    sortSelect.addEventListener("change", render);
+    demoClose.addEventListener("click", function () { demoNote.classList.add("hidden"); });
+    paletteBtn.addEventListener("click", openPalette);
 
-        grid.addEventListener('click', function (e) {
-          var copyBtn = e.target.closest('[data-copy]');
-          if (copyBtn) {
-            copyText(copyBtn.getAttribute('data-copy'), copyBtn);
-            return;
-          }
-          var accBtn = e.target.closest('[data-acc]');
-          if (accBtn) {
-            var card = accBtn.closest('.card');
-            var key = accBtn.getAttribute('data-acc');
-            var count = accBtn.getAttribute('data-count');
-            var nextOpen = !card.classList.contains('open');
-            card.classList.toggle('open', nextOpen);
-            accBtn.setAttribute('aria-expanded', nextOpen ? 'true' : 'false');
-            var labelEl = accBtn.querySelector('.acc-label');
-            if (labelEl) {
-              labelEl.textContent = (nextOpen ? 'Thu gọn ' : 'Xem thêm ') + count + ' phiên bản khác';
-            }
-            manualOpen[key] = nextOpen;
-          }
-        });
+    brandFilters.addEventListener("click", function (e) {
+      var chip = e.target.closest("[data-brand]");
+      if (!chip) return;
+      var b = chip.getAttribute("data-brand");
+      activeBrand = activeBrand === b && b !== "all" ? "all" : b;
+      syncChips(); render();
+    });
 
-        document.addEventListener('keydown', function (e) {
-          if (e.key === '/' && document.activeElement !== input && !toolbar.classList.contains('hidden')) {
-            e.preventDefault();
-            input.focus();
-          } else if (e.key === 'Escape' && document.activeElement === input) {
-            if (input.value) {
-              input.value = '';
-              render();
-            } else {
-              input.blur();
-            }
-          }
-        });
+    function handleCopyClick(e) {
+      var linkBtn = e.target.closest("[data-copy-link]");
+      if (linkBtn) { copyText(linkBtn.getAttribute("data-copy-link"), linkBtn); return true; }
+      var codeBtn = e.target.closest("[data-copy]");
+      if (codeBtn) { copyText(codeBtn.getAttribute("data-copy"), codeBtn); return true; }
+      return false;
+    }
+    grid.addEventListener("click", function (e) {
+      if (handleCopyClick(e)) return;
+      var accBtn = e.target.closest("[data-acc]");
+      if (accBtn) {
+        var card = accBtn.closest(".card"), next = !card.classList.contains("open");
+        card.classList.toggle("open", next);
+        accBtn.setAttribute("aria-expanded", next ? "true" : "false");
+        var label = accBtn.querySelector(".acc-label");
+        if (label) label.textContent = (next ? "Thu gọn " : "Xem thêm ") + accBtn.getAttribute("data-count") + " phiên bản khác";
+        manualOpen[accBtn.getAttribute("data-acc")] = next;
+      }
+    });
+    spotlight.addEventListener("click", handleCopyClick);
 
-        loadRoms();
-      })();
-    </script>
-  </body>
+    suggestions.addEventListener("click", function (e) {
+      var s = e.target.closest("[data-suggest]");
+      if (s) { input.value = s.getAttribute("data-suggest"); render(); input.focus(); }
+    });
+
+    paletteOverlay.addEventListener("click", function (e) {
+      if (e.target === paletteOverlay) { closePalette(); return; }
+      var item = e.target.closest("[data-goto]");
+      if (item) gotoDevice(item.getAttribute("data-goto"));
+    });
+    paletteInput.addEventListener("input", renderPalette);
+    paletteInput.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowDown") { e.preventDefault(); setPaletteIndex(paletteIndex + 1); }
+      else if (e.key === "ArrowUp") { e.preventDefault(); setPaletteIndex(paletteIndex - 1); }
+      else if (e.key === "Enter") {
+        e.preventDefault();
+        if (paletteResults[paletteIndex]) gotoDevice(paletteResults[paletteIndex].key);
+      } else if (e.key === "Escape") { e.preventDefault(); closePalette(); }
+    });
+
+    document.addEventListener("keydown", function (e) {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        if (paletteOverlay.classList.contains("hidden")) openPalette(); else closePalette();
+        return;
+      }
+      if (!paletteOverlay.classList.contains("hidden")) return;
+      if (e.key === "/" && document.activeElement !== input && !toolbar.classList.contains("hidden") && document.activeElement.tagName !== "SELECT") {
+        e.preventDefault(); input.focus();
+      } else if (e.key === "Escape" && document.activeElement === input) {
+        if (input.value) { input.value = ""; render(); } else { input.blur(); }
+      }
+    });
+
+    function onScroll() {
+      var max = document.documentElement.scrollHeight - window.innerHeight;
+      progress.style.width = (max > 0 ? Math.min(100, (window.scrollY / max) * 100) : 0) + "%";
+      toTop.classList.toggle("show", window.scrollY > 420);
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    toTop.addEventListener("click", function () { window.scrollTo({ top: 0, behavior: "smooth" }); });
+
+    loadRoms();
+  })();
+  </script>
+</body>
 </html>
